@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net10.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><IsTestProject>true</IsTestProject><IsPackable>false</IsPackable></PropertyGroup>
+  <ItemGroup><PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.3.0"/><PackageReference Include="MSTest.TestAdapter" Version="4.1.0"/><PackageReference Include="MSTest.TestFramework" Version="4.1.0"/><ProjectReference Include="../Herohold.Documents/Herohold.Documents.csproj"/><ProjectReference Include="../Herohold.PdfWorker/Herohold.PdfWorker.csproj" ReferenceOutputAssembly="false"/></ItemGroup>
+  <ItemGroup><Content Include="../../templates/pdf/5E_CharacterSheet_Fillable.pdf" Condition="Exists('../../templates/pdf/5E_CharacterSheet_Fillable.pdf')" Link="CharacterSheet.pdf" CopyToOutputDirectory="PreserveNewest"/></ItemGroup>
+  <Import Project="../Herohold.Documents/BundlePdfWorker.targets"/>
+</Project>

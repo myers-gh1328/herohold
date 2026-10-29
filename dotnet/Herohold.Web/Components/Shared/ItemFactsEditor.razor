@@ -1,0 +1,33 @@
+<details class="item-facts-editor"><summary>Defenses &amp; source-linked effects</summary>
+    <p class="small muted">Record confirmed item rules. Defenses and passive effects apply only while the item is present, equipped, and attuned when required. Using a consumable spends one item and activates its on-use effects. Damage, healing, and special restrictions remain table-managed.</p>
+    <div class="item-fact-list">@for(var i=0;i<Value.Defenses.Count;i++){var index=i;var d=Value.Defenses[i];<div class="item-fact-row"><span><strong>@DefensePresentation.Label(d.Kind): @d.Type</strong><small>@d.Source · @d.Note</small>@if(!KnownDefense(d)){<small>Imported / custom reference. Preserved unchanged unless you remove this source.</small>}</span><button type="button" class="text-link" disabled="@Busy" aria-label='@("Remove item defense "+d.Type)' @onclick="()=>RemoveDefense(index)">Remove</button></div>}
+        @foreach(var kind in new[]{"passive","use"}){var effects=kind=="passive"?Value.PassiveEffects:Value.UseEffects;@for(var i=0;i<effects.Count;i++){var index=i;var effect=effects[i];<div class="item-fact-row"><span><strong>@effect.Name</strong><small>@(kind=="passive"?"While active":"On use") · @effect.Note @(effect.RemainingRounds is int rounds?$"· {rounds} rounds":"· manual duration") @(effect.Concentration?"· Concentration":"")</small></span><button type="button" class="text-link" disabled="@Busy" aria-label='@("Remove item effect "+effect.Name)' @onclick="()=>RemoveEffect(kind,index)">Remove</button></div>}}</div>
+    <div class="field-grid"><label class="field">Defense kind<select id="item-fact-defense-kind" value="@DefenseKind" disabled="@Busy" @onchange="ChangeDefenseKind"><option value="resistance">Damage resistance</option><option value="immunity">Damage immunity</option><option value="vulnerability">Damage vulnerability</option><option value="conditionImmunity">Condition immunity</option></select></label><label class="field">Defense type<select id="item-fact-defense-type" required @bind="DefenseType" disabled="@Busy"><option value="">Choose @(DefenseKind=="conditionImmunity"?"a condition":"a damage type")</option>@foreach(var type in DefenseTypes){<option value="@type">@type</option>}</select></label></div>
+    <label class="field">Defense note<input maxlength="2000" @bind="DefenseNote" disabled="@Busy" /></label><button type="button" class="button" data-testid="stage-item-defense" disabled="@(Busy||Value.Defenses.Count>=30||!ValidDefenseChoice)" @onclick="AddDefense">Stage defense +</button>
+    <div class="item-effect-entry"><div class="field-grid"><label class="field">Effect name<input id="item-fact-effect-name" maxlength="200" value="@EffectName" disabled="@Busy" @oninput="e=>EffectName=e.Value?.ToString()??string.Empty" /></label><label class="field">When<select id="item-fact-effect-kind" @bind="EffectKind" disabled="@Busy"><option value="passive">While active</option><option value="use">On use</option></select></label></div>
+    <label class="field">Effect note<textarea rows="2" maxlength="2000" @bind="EffectNote" disabled="@Busy"></textarea></label><div class="field-grid"><label class="field">Rounds <span class="muted">(blank = manual)</span><input type="number" min="1" max="10000" value="@Rounds" disabled="@Busy" @oninput="e=>Rounds=int.TryParse(e.Value?.ToString(),out var n)?n:null" /></label><label class="inline-option"><input type="checkbox" @bind="Concentration" disabled="@(Busy||EffectKind!="use")" /> This character maintains Concentration</label></div><button type="button" class="button" data-testid="stage-item-effect" disabled="@(Busy||string.IsNullOrWhiteSpace(EffectName)||Rounds is <1 or >10000||(EffectKind=="passive"?Value.PassiveEffects.Count:Value.UseEffects.Count)>=20)" @onclick="AddEffect">Stage effect +</button></div>
+    <p class="small muted">Staged changes are saved only with Save item. Canceling this dialog changes nothing.</p>
+</details>
+@code {
+    [Parameter,EditorRequired]public EquipmentItem Value {get;set;}=default!;
+    [Parameter]public EventCallback<EquipmentItem> ValueChanged {get;set;}
+    [Parameter]public bool Busy {get;set;}
+    private string DefenseKind="resistance",DefenseType="",DefenseNote="",EffectName="",EffectNote="";
+    private string effectKind="passive";
+    private string EffectKind { get=>effectKind; set { effectKind=value; if(value!="use")Concentration=false; } }
+    private int? Rounds;
+    private bool Concentration;
+    private IReadOnlyList<string> DefenseTypes=>DefenseKind=="conditionImmunity"?SheetRules.ConditionTypes:SheetRules.DamageTypes;
+    private bool ValidDefenseChoice=>DefenseKind is "resistance" or "immunity" or "vulnerability" or "conditionImmunity" && DefenseTypes.Contains(DefenseType,StringComparer.Ordinal);
+    private static bool KnownDefense(DamageDefense defense)=>(defense.Kind=="conditionImmunity"?SheetRules.ConditionTypes:SheetRules.DamageTypes).Contains(defense.Type,StringComparer.OrdinalIgnoreCase);
+    private void ChangeDefenseKind(ChangeEventArgs e){DefenseKind=e.Value?.ToString()??"";DefenseType="";}
+    private async Task AddDefense(){if(Busy||Value.Defenses.Count>=30||!ValidDefenseChoice)return;await ValueChanged.InvokeAsync(Value with{Defenses=[..Value.Defenses,new(){Kind=DefenseKind,Type=DefenseType,Note=DefenseNote}]});DefenseNote="";}
+    private Task RemoveDefense(int index)=>Busy?Task.CompletedTask:ValueChanged.InvokeAsync(Value with{Defenses=Value.Defenses.Where((_,i)=>i!=index).ToList()});
+    private async Task AddEffect()
+    {
+        if(Busy||string.IsNullOrWhiteSpace(EffectName)||Rounds is <1 or >10000||(EffectKind=="passive"?Value.PassiveEffects.Count:Value.UseEffects.Count)>=20)return;
+        var effect=new ActiveEffect{Id=Guid.NewGuid().ToString("N"),Name=EffectName.Trim(),Note=EffectNote,RemainingRounds=Rounds,Concentration=EffectKind=="use"&&Concentration};
+        await ValueChanged.InvokeAsync(EffectKind=="passive"?Value with{PassiveEffects=[..Value.PassiveEffects,effect]}:Value with{UseEffects=[..Value.UseEffects,effect]});EffectName="";EffectNote="";Rounds=null;Concentration=false;
+    }
+    private Task RemoveEffect(string kind,int index)=>Busy?Task.CompletedTask:ValueChanged.InvokeAsync(kind=="passive"?Value with{PassiveEffects=Value.PassiveEffects.Where((_,i)=>i!=index).ToList()}:Value with{UseEffects=Value.UseEffects.Where((_,i)=>i!=index).ToList()});
+}

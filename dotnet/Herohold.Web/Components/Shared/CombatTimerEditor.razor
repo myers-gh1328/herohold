@@ -1,0 +1,27 @@
+<details class="combat-timer-editor"><summary>Effect timers &amp; game time</summary>
+    <p class="small">Timers advance from confirmed game events. Old effects stay table-managed until you choose an explicit duration and actor.</p>
+    <div class="field-grid"><label class="field">Effect<select data-testid="combat-timer-effect" @bind="ExistingId"><option value="">New tracked effect</option>@foreach(var e in Character.Effects){<option value="@e.Id">@e.Name · @e.Source</option>}</select></label>
+    @if(ExistingId.Length==0){<label class="field">Effect name<input maxlength="120" data-testid="combat-effect-name" @bind="Name" /></label>}
+    <label class="field">Duration<select data-testid="combat-duration" @bind="Duration">@foreach(var d in Enum.GetValues<CombatDuration>()){<option value="@d">@Label(d)</option>}</select></label>
+    @if(Duration is CombatDuration.Rounds or CombatDuration.GameSeconds){<label class="field">Amount<input type="number" min="1" max="100000" @bind="Amount" /></label>}
+    @if(Duration==CombatDuration.GameSeconds){<label class="field">Original unit<select @bind="Unit"><option value="second">Seconds</option><option value="minute">Minutes</option><option value="hour">Hours</option></select></label>}
+    @if(Duration is CombatDuration.CreatorNextStart or CombatDuration.CreatorNextEnd){<label class="field">Creator identifier<input maxlength="80" @bind="Creator" placeholder="Character or creature identifier" /></label><button class="text-link" @onclick="()=>Creator=Character.Id">Use my character</button>}
+    @if(Duration is CombatDuration.TargetNextStart or CombatDuration.TargetNextEnd or CombatDuration.RepeatedSave){<label class="field">Target identifier<input maxlength="80" @bind="Target" placeholder="Character or creature identifier" /></label><button class="text-link" @onclick="()=>Target=Character.Id">Use my character</button>}
+    @if(Duration==CombatDuration.RepeatedSave){<label class="field">Save prompt<input maxlength="160" @bind="SavePrompt" placeholder="For example: DC 14 Constitution at end of target turn" /></label>}
+    </div>
+    <button class="button" data-testid="combat-save-timer" disabled="@(Busy||ExistingId.Length==0&&string.IsNullOrWhiteSpace(Name)||NeedsCreator&&string.IsNullOrWhiteSpace(Creator)||NeedsTarget&&string.IsNullOrWhiteSpace(Target)||Duration==CombatDuration.RepeatedSave&&string.IsNullOrWhiteSpace(SavePrompt)||Amount<1||Amount>100000)" @onclick="SaveTimer">Save tracked duration</button>
+    <div class="field-grid section-gap"><label class="field">Game seconds elapsed<input data-testid="combat-game-seconds" type="number" min="1" max="86400" @bind="GameSeconds" /></label><button class="button" data-testid="combat-advance-game-time" disabled="@(Busy||GameSeconds<1||GameSeconds>86400)" @onclick="AdvanceTime">Confirm elapsed game time</button></div><p class="small">This never restores turn allowances. Counted rounds tick on round changes; minute/hour durations use six seconds per round or explicit elapsed time.</p>
+</details>
+@code {
+    [Parameter,EditorRequired]public CharacterState Character {get;set;}=default!;
+    [Parameter]public bool Busy {get;set;}
+    [Parameter]public EventCallback<CombatTransitionRequest> OnTransition {get;set;}
+    private string ExistingId="",Name="",Creator="",Target="",SavePrompt="",Unit="second";
+    private CombatDuration Duration=CombatDuration.Manual;
+    private int Amount=1,GameSeconds=6;
+    private bool NeedsCreator=>Duration is CombatDuration.CreatorNextStart or CombatDuration.CreatorNextEnd;
+    private bool NeedsTarget=>Duration is CombatDuration.TargetNextStart or CombatDuration.TargetNextEnd or CombatDuration.RepeatedSave;
+    private static string Label(CombatDuration d)=>d switch{CombatDuration.Manual=>"Table-managed (no automatic expiry)",CombatDuration.Rounds=>"Counted rounds",CombatDuration.GameSeconds=>"Seconds / minutes / hours",CombatDuration.CreatorNextStart=>"Start of creator’s next turn",CombatDuration.CreatorNextEnd=>"End of creator’s next turn",CombatDuration.TargetNextStart=>"Start of target’s next turn",CombatDuration.TargetNextEnd=>"End of target’s next turn",_=>"Repeated save at end of target’s turn"};
+    private async Task SaveTimer(){var effect=ExistingId.Length>0?Character.Effects.FirstOrDefault(e=>e.Id==ExistingId):new ActiveEffect{Id=Guid.NewGuid().ToString("N"),Name=Name.Trim(),Source="Table"};if(effect is null)return;var amount=Duration==CombatDuration.GameSeconds?checked(Amount*(Unit=="hour"?3600:Unit=="minute"?60:1)):Amount;await OnTransition.InvokeAsync(new(){Kind=CombatTransitionKind.AddEffect,Effect=effect,Timer=new(){EffectId=effect.Id,Duration=Duration,CreatorId=Creator.Trim(),TargetId=Target.Trim(),OriginalUnit=Duration==CombatDuration.Rounds?"round":Duration==CombatDuration.GameSeconds?Unit:"manual",OriginalAmount=Amount,Remaining=amount,SavePrompt=SavePrompt.Trim()}});}
+    private Task AdvanceTime()=>OnTransition.InvokeAsync(new(){Kind=CombatTransitionKind.AdvanceGameTime,Amount=GameSeconds,AdvanceConfirmed=true});
+}

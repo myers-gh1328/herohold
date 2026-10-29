@@ -1,0 +1,129 @@
+@using System.Text
+@implements IDisposable
+@{ var ownerId=Session.Character?.Id??""; var entries=Entries; var visible=Filter(entries).ToArray(); var archived=ArchivedIds; var active=entries.Where(e=>!archived.Contains(e.Note.Id)).ToArray(); }
+<section data-testid="journal-panel" aria-label="Campaign journal">
+    <div class="journal-tools"><label class="journal-search"><span class="sr-only">Search journal titles and notes</span><input data-testid="journal-search" type="search" maxlength="200" placeholder="Search journal…" @bind="Search" @bind:event="oninput" /></label><button class="button" data-testid="journal-add" disabled="@Session.IsBusy" @onclick="AddEntry">Add @Singular(SelectedCategory??"Notes") +</button></div>
+    <div class="journal-layout"><aside class="journal-sidebar"><label class="journal-mobile-category"><span class="sr-only">Journal category</span><select aria-label="Journal category" data-testid="journal-category-picker" value="@(ShowArchive?"archive":SelectedCategory is null?"all":"category:"+SelectedCategory)" @onchange="PickCategory"><option value="all">All entries · @active.Length</option>@foreach(var category in DisplayCategories){<option value="@("category:"+category)">@category · @active.Count(e=>e.Category==category)</option>}<option value="archive">Archive · @archived.Count</option></select></label><nav class="journal-categories" aria-label="Journal categories"><button aria-pressed="@(SelectedCategory is null&&!ShowArchive?"true":"false")" data-testid="journal-all" @onclick="()=>SelectCategory(null)">All <span class="count">@active.Length</span></button>@foreach(var category in DisplayCategories) { <button data-journal-category="@category" aria-pressed="@(SelectedCategory==category&&!ShowArchive?"true":"false")" @onclick="()=>SelectCategory(category)">@category <span class="count">@active.Count(e=>e.Category==category)</span></button> }<button data-testid="journal-archive" aria-pressed="@(ShowArchive?"true":"false")" @onclick="SelectArchive">Archive <span class="count">@archived.Count</span></button></nav>
+    <details class="journal-category-creator"><summary>New category +</summary><div class="journal-category-form"><label class="field">Category name<input data-testid="journal-new-category" maxlength="48" placeholder="Treasure, factions, sessions…" @bind="NewCategory" @bind:event="oninput" disabled="@Session.IsBusy" /></label><button class="button" data-testid="journal-create-category" disabled="@(Session.IsBusy||string.IsNullOrWhiteSpace(NewCategory))" @onclick="()=>CreateCategory(ownerId)">Create category</button></div><p class="small muted">Organize your notes your way.</p></details>
+    </aside><div class="journal-main">
+    @if(Session.Error is not null){<p class="journal-feedback" role="alert">@Session.Error</p>}
+    @if(Notice is not null) { <p class="journal-feedback" role="status">@Notice</p> }
+    @if(visible.Length==0)
+    {
+        <div class="journal-empty">@if(!string.IsNullOrWhiteSpace(Search)) { <h2>No matching entries.</h2><p>Try another name or phrase, or clear the search.</p><button class="button" data-testid="clear-journal-search" @onclick='()=>Search=""'>Clear search</button> } else if(ShowArchive){<h2>No archived entries.</h2><p>Archive older notes from the entry editor. You can restore them here.</p>} else { <h2>@(SelectedCategory is null?"Start your campaign journal.":$"No entries in {SelectedCategory}.")</h2><p>@EmptyHelp</p><button class="button" disabled="@Session.IsBusy" @onclick="AddEntry">Add @Singular(SelectedCategory??"Notes") +</button> }</div>
+    }
+    else
+    {
+        <div class="journal-groups">@foreach(var group in visible.GroupBy(e=>e.Category).OrderBy(g=>Array.IndexOf(DisplayCategories.ToArray(),g.Key)))
+        {
+            <section class="journal-group" aria-label="@group.Key"><h2>@group.Key <span>@group.Count()</span></h2>@foreach(var entry in group)
+            {
+                var note=entry.Note;
+                <article class="journal-entry" data-note-id="@note.Id" @key="note.Id">
+                    @if(EditingId==note.Id)
+                    {
+                        <div class="journal-editor"><h3>Edit entry</h3><time datetime='@note.CreatedAt.ToString("O")'>Added @note.CreatedAt.ToLocalTime().ToString("d MMM yyyy")</time><label class="field">Title<input data-testid="journal-edit-title" maxlength="200" @bind="EditTitle" @bind:event="oninput" disabled="@Session.IsBusy" /></label><label class="field">Category<select data-testid="journal-edit-category" @bind="EditCategory" disabled="@Session.IsBusy">@foreach(var category in DisplayCategories) { <option value="@category">@category</option> }</select></label><label class="field">Note<textarea data-testid="journal-edit-text" rows="5" maxlength="12000" @bind="EditText" @bind:event="oninput" disabled="@Session.IsBusy"></textarea></label>@if(Session.Error is not null) { <p class="dialog-save-error" role="alert">@Session.Error</p> }<div class="form-footer"><button class="button" disabled="@Session.IsBusy" @onclick="CancelEdit">Cancel</button><button class="text-link" data-testid="journal-archive-entry" title="Save or cancel your edits before archiving" disabled="@(Session.IsBusy||HasUnsavedEdits)" @onclick="()=>ArchiveEntry(note.Id,ownerId,true)">Archive entry</button><button class="button primary" data-testid="journal-save-edit" disabled="@(Session.IsBusy||string.IsNullOrWhiteSpace(EditTitle)||string.IsNullOrWhiteSpace(EditText))" @onclick="SaveEdit">Save entry</button></div></div>
+                    }
+                    else
+                    {
+                        <div class="journal-entry-heading"><h3>@note.Title</h3><button class="text-link" data-testid="@($"edit-note-{note.Id}")" disabled="@Session.IsBusy" @onclick="()=>BeginEdit(entry,ownerId)">Edit</button></div>
+                        <p class="journal-entry-text">@(ExpandedId==note.Id||note.Text.Length<=280?note.Text:Excerpt(note.Text))</p>
+                        @if(note.Text.Length>280){<button type="button" class="text-link journal-read-more" data-testid="@($"expand-note-{note.Id}")" aria-expanded="@(ExpandedId==note.Id?"true":"false")" @onclick="()=>ExpandedId=ExpandedId==note.Id?null:note.Id">@(ExpandedId==note.Id?"Show less":"Read entry")</button>}
+                        @if(ShowArchive){<button class="text-link" data-testid="@($"restore-note-{note.Id}")" disabled="@Session.IsBusy" @onclick="()=>ArchiveEntry(note.Id,ownerId,false)">Restore entry</button>}
+                    }
+                </article>
+            }</section>
+        }</div>
+    }
+</div></div></section>
+
+@code {
+    [Parameter,EditorRequired] public WorkspaceSession Session {get;set;}=default!;
+    [Parameter] public EventCallback<JournalCategory> OnAdd {get;set;}
+    [Parameter] public EventCallback<string> OnAddCategory {get;set;}
+    private string? SelectedCategory,ExpandedId;
+    private bool ShowArchive;
+    private IReadOnlySet<string> CachedArchived=new HashSet<string>();
+    private IReadOnlySet<string> ArchivedIds{get{_ = Entries;return CachedArchived;}}
+    private string Search="";
+    private string? Notice,EditingId;
+    private string EditTitle="",EditText="",EditingOwner="",BoundOwner="";
+    private string EditCategory="Notes",NewCategory="";
+    private WorkspaceSession? Subscribed;
+    private bool Disposed;
+    private long CachedRevision=-1;
+    private string CachedOwner="";
+    private IReadOnlyList<NamedJournalEntry> CachedEntries=[];
+    private IReadOnlyList<string> CachedCategories=[];
+    private IReadOnlyList<string> DisplayCategories {get{if(Session.Character is null)return [];_ = Entries;return CachedCategories;}}
+    private IReadOnlyList<NamedJournalEntry> Entries
+    {
+        get
+        {
+            if(Session.Character is null)return [];
+            if(CachedRevision!=Session.Snapshot!.Revision||CachedOwner!=Session.Character.Id)
+            {CachedArchived=JournalRules.ArchivedNoteIds(Session.Character);CachedEntries=JournalRules.NamedEntries(Session.Character).OrderByDescending(e=>e.Note.CreatedAt).ToArray();CachedCategories=JournalRules.CategoryNames(Session.Character);CachedRevision=Session.Snapshot.Revision;CachedOwner=Session.Character.Id;}
+            return CachedEntries;
+        }
+    }
+    protected override void OnParametersSet()
+    {
+        if(Subscribed!=Session){if(Subscribed is not null)Subscribed.Changed-=Changed;Subscribed=Session;Subscribed.Changed+=Changed;}
+        ResetForOwner();
+    }
+    private void ResetForOwner()
+    {
+        var owner=Session.Character?.Id??"";if(BoundOwner==owner)return;
+        BoundOwner=owner;SelectedCategory=null;ShowArchive=false;ExpandedId=null;Search="";NewCategory="";Notice=null;CancelEdit();
+    }
+    private void Changed(){if(!Disposed)_=InvokeAsync(()=>{ResetForOwner();StateHasChanged();});}
+    private IEnumerable<NamedJournalEntry> Filter(IEnumerable<NamedJournalEntry> entries)=>entries.Where(e=>ArchivedIds.Contains(e.Note.Id)==ShowArchive&&(SelectedCategory is null||e.Category==SelectedCategory)&&(string.IsNullOrWhiteSpace(Search)||e.Note.Title.Contains(Search,StringComparison.OrdinalIgnoreCase)||e.Note.Text.Contains(Search,StringComparison.OrdinalIgnoreCase)||e.Category.ToString().Contains(Search,StringComparison.OrdinalIgnoreCase)));
+    private void SelectCategory(string? category){SelectedCategory=category;ShowArchive=false;ExpandedId=null;CancelEdit();Notice=null;}
+private void PickCategory(ChangeEventArgs args)
+    {
+        var value=args.Value?.ToString()??"all";
+        if(value=="archive")SelectArchive();else SelectCategory(value.StartsWith("category:",StringComparison.Ordinal)?value[9..]:null);
+    }
+    private void SelectArchive(){SelectedCategory=null;ShowArchive=true;ExpandedId=null;CancelEdit();Notice=null;}
+    private async Task ArchiveEntry(string noteId,string owner,bool archived)
+    {
+        if(EditingId==noteId&&HasUnsavedEdits){Notice="Save or cancel your edits before archiving.";return;}
+        await Session.ArchiveJournalNoteAsync(noteId,archived,owner);
+        if(Session.Error is null){CancelEdit();Notice=archived?"Entry archived. Find it in Archive.":"Entry restored to the journal.";}
+    }
+    private bool HasUnsavedEdits
+    {
+        get{var entry=Entries.FirstOrDefault(e=>e.Note.Id==EditingId);return EditingId is not null&&(entry is null||entry.Note.Title!=EditTitle||entry.Note.Text!=EditText||entry.Category!=EditCategory);}
+    }
+    private Task AddEntry()
+    {
+        if(ShowArchive){ShowArchive=false;SelectedCategory="Notes";Search="";Notice=null;}
+        return OnAddCategory.HasDelegate?OnAddCategory.InvokeAsync(SelectedCategory??"Notes"):OnAdd.InvokeAsync(Enum.TryParse<JournalCategory>(SelectedCategory,out var category)&&Enum.IsDefined(category)?category:JournalCategory.Notes);
+    }
+    private async Task CreateCategory(string owner)
+    {
+        if(Session.IsBusy)return;await Session.CreateJournalCategoryAsync(NewCategory,owner);
+        if(Session.Error is null){ShowArchive=false;SelectedCategory=NewCategory.Trim();NewCategory="";Search="";Notice=$"Category {SelectedCategory} created.";CancelEdit();}
+    }
+    private void BeginEdit(NamedJournalEntry entry,string owner)
+    {
+        if(owner!=Session.Character?.Id){Notice="This entry belongs to another character. Reopen the journal.";return;}
+        EditingId=entry.Note.Id;EditingOwner=owner;EditTitle=entry.Note.Title;EditText=entry.Note.Text;EditCategory=entry.Category;Notice=null;
+    }
+    private void CancelEdit(){EditingId=null;EditingOwner="";EditTitle="";EditText="";}
+    private async Task SaveEdit()
+    {
+        if(Session.IsBusy||EditingId is null)return;
+        await Session.EditJournalNoteAsync(EditingId,EditTitle,EditText,EditCategory,EditingOwner);
+        if(Session.Error is null){Notice=$"Entry saved in {EditCategory}.";CancelEdit();}
+    }
+    private async Task MoveEntry(string noteId,string owner,ChangeEventArgs args)
+    {
+        if(Session.IsBusy||args.Value is not string category)return;
+        await Session.MoveJournalNoteAsync(noteId,category,owner);if(Session.Error is null)Notice=$"Entry moved to {category}.";
+    }
+    private static string Excerpt(string text)=>string.Concat(string.Join(" ",text.Split((char[]?)null,StringSplitOptions.RemoveEmptyEntries)).EnumerateRunes().Take(240).Select(r=>r.ToString()))+"…";
+    private static string Singular(string category)=>category switch{"Quests"=>"quest","Friends"=>"friend","Foes"=>"foe","Locations"=>"location","Lore"=>"lore entry","Notes"=>"note",_=>"entry"};
+    private string EmptyHelp=>SelectedCategory switch{"Quests"=>"Keep objectives, leads and unfinished business together.","Friends"=>"Remember allies, contacts and what they told you.","Foes"=>"Record threats, rivals and what you know about them.","Locations"=>"Keep routes, landmarks and places worth returning to.","Lore"=>"Collect discoveries, clues and campaign history.",_=>"Group quests, people, places and discoveries so you can find them during play."};
+    public void Dispose(){Disposed=true;if(Subscribed is not null)Subscribed.Changed-=Changed;}
+}

@@ -1,0 +1,4899 @@
+{
+  "description": "All41 trusted weapon profiles under base and Archery style using fictional fixed native modifiers. Notes omitted; explicit2024 Monk/Dueling differences have independent focused regression tests.",
+  "cases": [
+    {
+      "id": "Battleaxe:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Battleaxe"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:battleaxe",
+          "name": "Battleaxe",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 2,
+          "damageType": "Slashing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Battleaxe:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Battleaxe"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:battleaxe",
+          "name": "Battleaxe",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 2,
+          "damageType": "Slashing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Blowgun:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Blowgun"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": []
+    },
+    {
+      "id": "Blowgun:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Blowgun"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": []
+    },
+    {
+      "id": "Club:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Club"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:club",
+          "name": "Club",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 4
+          },
+          "damageModifier": 2,
+          "damageType": "Bludgeoning",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Club:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Club"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:club",
+          "name": "Club",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 4
+          },
+          "damageModifier": 2,
+          "damageType": "Bludgeoning",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Dagger:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Dagger"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:dagger",
+          "name": "Dagger",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 4
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 6,
+          "abilityCandidates": [
+            "Strength",
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Dagger:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Dagger"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:dagger",
+          "name": "Dagger",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 4
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 6,
+          "abilityCandidates": [
+            "Strength",
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Dart:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Dart"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:dart",
+          "name": "Dart",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 4
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Ranged weapon",
+          "kind": "weapon",
+          "attackBonus": 6,
+          "abilityCandidates": [
+            "Strength",
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Dart:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Dart"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:dart",
+          "name": "Dart",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 2,
+          "damageDice": {
+            "count": 1,
+            "sides": 4
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Ranged weapon",
+          "kind": "weapon",
+          "attackBonus": 8,
+          "abilityCandidates": [
+            "Strength",
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Flail:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Flail"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:flail",
+          "name": "Flail",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 2,
+          "damageType": "Bludgeoning",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Flail:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Flail"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:flail",
+          "name": "Flail",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 2,
+          "damageType": "Bludgeoning",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Glaive:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Glaive"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:glaive",
+          "name": "Glaive",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 10
+          },
+          "damageModifier": 2,
+          "damageType": "Slashing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Glaive:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Glaive"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:glaive",
+          "name": "Glaive",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 10
+          },
+          "damageModifier": 2,
+          "damageType": "Slashing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Greataxe:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Greataxe"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:greataxe",
+          "name": "Greataxe",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 12
+          },
+          "damageModifier": 2,
+          "damageType": "Slashing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Greataxe:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Greataxe"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:greataxe",
+          "name": "Greataxe",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 12
+          },
+          "damageModifier": 2,
+          "damageType": "Slashing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Greatclub:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Greatclub"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:greatclub",
+          "name": "Greatclub",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 2,
+          "damageType": "Bludgeoning",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Greatclub:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Greatclub"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:greatclub",
+          "name": "Greatclub",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 2,
+          "damageType": "Bludgeoning",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Greatsword:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Greatsword"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:greatsword",
+          "name": "Greatsword",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 2,
+            "sides": 6
+          },
+          "damageModifier": 2,
+          "damageType": "Slashing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Greatsword:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Greatsword"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:greatsword",
+          "name": "Greatsword",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 2,
+            "sides": 6
+          },
+          "damageModifier": 2,
+          "damageType": "Slashing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Halberd:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Halberd"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:halberd",
+          "name": "Halberd",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 10
+          },
+          "damageModifier": 2,
+          "damageType": "Slashing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Halberd:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Halberd"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:halberd",
+          "name": "Halberd",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 10
+          },
+          "damageModifier": 2,
+          "damageType": "Slashing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Hand Crossbow:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Hand Crossbow"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:hand-crossbow",
+          "name": "Hand Crossbow",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Ranged weapon",
+          "kind": "weapon",
+          "attackBonus": 6,
+          "abilityCandidates": [
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Hand Crossbow:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Hand Crossbow"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:hand-crossbow",
+          "name": "Hand Crossbow",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 2,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Ranged weapon",
+          "kind": "weapon",
+          "attackBonus": 8,
+          "abilityCandidates": [
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Handaxe:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Handaxe"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:handaxe",
+          "name": "Handaxe",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 2,
+          "damageType": "Slashing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Handaxe:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Handaxe"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:handaxe",
+          "name": "Handaxe",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 2,
+          "damageType": "Slashing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Heavy Crossbow:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Heavy Crossbow"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:heavy-crossbow",
+          "name": "Heavy Crossbow",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 10
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Ranged weapon",
+          "kind": "weapon",
+          "attackBonus": 6,
+          "abilityCandidates": [
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Heavy Crossbow:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Heavy Crossbow"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:heavy-crossbow",
+          "name": "Heavy Crossbow",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 2,
+          "damageDice": {
+            "count": 1,
+            "sides": 10
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Ranged weapon",
+          "kind": "weapon",
+          "attackBonus": 8,
+          "abilityCandidates": [
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Javelin:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Javelin"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:javelin",
+          "name": "Javelin",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 2,
+          "damageType": "Piercing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Javelin:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Javelin"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:javelin",
+          "name": "Javelin",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 2,
+          "damageType": "Piercing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Lance:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Lance"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:lance",
+          "name": "Lance",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 10
+          },
+          "damageModifier": 2,
+          "damageType": "Piercing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Lance:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Lance"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:lance",
+          "name": "Lance",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 10
+          },
+          "damageModifier": 2,
+          "damageType": "Piercing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Light Crossbow:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Light Crossbow"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:light-crossbow",
+          "name": "Light Crossbow",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Ranged weapon",
+          "kind": "weapon",
+          "attackBonus": 6,
+          "abilityCandidates": [
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Light Crossbow:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Light Crossbow"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:light-crossbow",
+          "name": "Light Crossbow",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 2,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Ranged weapon",
+          "kind": "weapon",
+          "attackBonus": 8,
+          "abilityCandidates": [
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Light Hammer:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Light Hammer"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:light-hammer",
+          "name": "Light Hammer",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 4
+          },
+          "damageModifier": 2,
+          "damageType": "Bludgeoning",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Light Hammer:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Light Hammer"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:light-hammer",
+          "name": "Light Hammer",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 4
+          },
+          "damageModifier": 2,
+          "damageType": "Bludgeoning",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Longbow:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Longbow"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:longbow",
+          "name": "Longbow",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Ranged weapon",
+          "kind": "weapon",
+          "attackBonus": 6,
+          "abilityCandidates": [
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Longbow:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Longbow"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:longbow",
+          "name": "Longbow",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 2,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Ranged weapon",
+          "kind": "weapon",
+          "attackBonus": 8,
+          "abilityCandidates": [
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Longsword:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Longsword"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:longsword",
+          "name": "Longsword",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 2,
+          "damageType": "Slashing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Longsword:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Longsword"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:longsword",
+          "name": "Longsword",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 2,
+          "damageType": "Slashing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Mace:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Mace"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:mace",
+          "name": "Mace",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 2,
+          "damageType": "Bludgeoning",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Mace:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Mace"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:mace",
+          "name": "Mace",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 2,
+          "damageType": "Bludgeoning",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Maul:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Maul"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:maul",
+          "name": "Maul",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 2,
+            "sides": 6
+          },
+          "damageModifier": 2,
+          "damageType": "Bludgeoning",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Maul:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Maul"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:maul",
+          "name": "Maul",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 2,
+            "sides": 6
+          },
+          "damageModifier": 2,
+          "damageType": "Bludgeoning",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Morningstar:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Morningstar"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:morningstar",
+          "name": "Morningstar",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 2,
+          "damageType": "Piercing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Morningstar:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Morningstar"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:morningstar",
+          "name": "Morningstar",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 2,
+          "damageType": "Piercing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Musket:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Musket"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:musket",
+          "name": "Musket",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 12
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Ranged weapon",
+          "kind": "weapon",
+          "attackBonus": 6,
+          "abilityCandidates": [
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Musket:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Musket"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:musket",
+          "name": "Musket",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 2,
+          "damageDice": {
+            "count": 1,
+            "sides": 12
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Ranged weapon",
+          "kind": "weapon",
+          "attackBonus": 8,
+          "abilityCandidates": [
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Pike:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Pike"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:pike",
+          "name": "Pike",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 10
+          },
+          "damageModifier": 2,
+          "damageType": "Piercing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Pike:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Pike"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:pike",
+          "name": "Pike",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 10
+          },
+          "damageModifier": 2,
+          "damageType": "Piercing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Pistol:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Pistol"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:pistol",
+          "name": "Pistol",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 10
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Ranged weapon",
+          "kind": "weapon",
+          "attackBonus": 6,
+          "abilityCandidates": [
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Pistol:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Pistol"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:pistol",
+          "name": "Pistol",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 2,
+          "damageDice": {
+            "count": 1,
+            "sides": 10
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Ranged weapon",
+          "kind": "weapon",
+          "attackBonus": 8,
+          "abilityCandidates": [
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Psychic Blade:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Psychic Blade"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:psychic-blade",
+          "name": "Psychic Blade",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 3,
+          "damageType": "Psychic",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 6,
+          "abilityCandidates": [
+            "Strength",
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Psychic Blade:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Psychic Blade"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:psychic-blade",
+          "name": "Psychic Blade",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 3,
+          "damageType": "Psychic",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 6,
+          "abilityCandidates": [
+            "Strength",
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Quarterstaff:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Quarterstaff"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:quarterstaff",
+          "name": "Quarterstaff",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 2,
+          "damageType": "Bludgeoning",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Quarterstaff:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Quarterstaff"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:quarterstaff",
+          "name": "Quarterstaff",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 2,
+          "damageType": "Bludgeoning",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Rapier:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Rapier"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:rapier",
+          "name": "Rapier",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 6,
+          "abilityCandidates": [
+            "Strength",
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Rapier:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Rapier"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:rapier",
+          "name": "Rapier",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 6,
+          "abilityCandidates": [
+            "Strength",
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Scimitar:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Scimitar"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:scimitar",
+          "name": "Scimitar",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 3,
+          "damageType": "Slashing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 6,
+          "abilityCandidates": [
+            "Strength",
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Scimitar:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Scimitar"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:scimitar",
+          "name": "Scimitar",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 3,
+          "damageType": "Slashing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 6,
+          "abilityCandidates": [
+            "Strength",
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Shortbow:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Shortbow"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:shortbow",
+          "name": "Shortbow",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Ranged weapon",
+          "kind": "weapon",
+          "attackBonus": 6,
+          "abilityCandidates": [
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Shortbow:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Shortbow"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:shortbow",
+          "name": "Shortbow",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 2,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Ranged weapon",
+          "kind": "weapon",
+          "attackBonus": 8,
+          "abilityCandidates": [
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Shortsword:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Shortsword"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:shortsword",
+          "name": "Shortsword",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 6,
+          "abilityCandidates": [
+            "Strength",
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Shortsword:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Shortsword"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:shortsword",
+          "name": "Shortsword",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 3,
+          "damageType": "Piercing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 6,
+          "abilityCandidates": [
+            "Strength",
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Sickle:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Sickle"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:sickle",
+          "name": "Sickle",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 4
+          },
+          "damageModifier": 2,
+          "damageType": "Slashing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Sickle:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Sickle"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:sickle",
+          "name": "Sickle",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 4
+          },
+          "damageModifier": 2,
+          "damageType": "Slashing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Sling:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Sling"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:sling",
+          "name": "Sling",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 4
+          },
+          "damageModifier": 3,
+          "damageType": "Bludgeoning",
+          "range": "Ranged weapon",
+          "kind": "weapon",
+          "attackBonus": 6,
+          "abilityCandidates": [
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Sling:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Sling"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:sling",
+          "name": "Sling",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 2,
+          "damageDice": {
+            "count": 1,
+            "sides": 4
+          },
+          "damageModifier": 3,
+          "damageType": "Bludgeoning",
+          "range": "Ranged weapon",
+          "kind": "weapon",
+          "attackBonus": 8,
+          "abilityCandidates": [
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Spear:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Spear"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:spear",
+          "name": "Spear",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 2,
+          "damageType": "Piercing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Spear:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Spear"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:spear",
+          "name": "Spear",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 2,
+          "damageType": "Piercing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Staff:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Staff"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:staff",
+          "name": "Staff",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 2,
+          "damageType": "Bludgeoning",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Staff:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Staff"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:staff",
+          "name": "Staff",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 2,
+          "damageType": "Bludgeoning",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Trident:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Trident"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:trident",
+          "name": "Trident",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 2,
+          "damageType": "Piercing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Trident:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Trident"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:trident",
+          "name": "Trident",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 2,
+          "damageType": "Piercing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "War Pick:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "War Pick"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:war-pick",
+          "name": "War Pick",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 2,
+          "damageType": "Piercing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "War Pick:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "War Pick"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:war-pick",
+          "name": "War Pick",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 2,
+          "damageType": "Piercing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Warhammer:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Warhammer"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:warhammer",
+          "name": "Warhammer",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 2,
+          "damageType": "Bludgeoning",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Warhammer:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Warhammer"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:warhammer",
+          "name": "Warhammer",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 8
+          },
+          "damageModifier": 2,
+          "damageType": "Bludgeoning",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Whip:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Whip"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:whip",
+          "name": "Whip",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 4
+          },
+          "damageModifier": 3,
+          "damageType": "Slashing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 6,
+          "abilityCandidates": [
+            "Strength",
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Whip:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Whip"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:whip",
+          "name": "Whip",
+          "ability": "Dexterity",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 4
+          },
+          "damageModifier": 3,
+          "damageType": "Slashing",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 6,
+          "abilityCandidates": [
+            "Strength",
+            "Dexterity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Wooden Staff:base",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": ""
+        },
+        "equipment": [
+          "Wooden Staff"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:wooden-staff",
+          "name": "Wooden Staff",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 2,
+          "damageType": "Bludgeoning",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Wooden Staff:Archery",
+      "canonical": {
+        "level": 5,
+        "species": "Orc",
+        "background": "Soldier",
+        "class": "Fighter",
+        "ability_scores": {
+          "Strength": 14,
+          "Dexterity": 16,
+          "Constitution": 12,
+          "Intelligence": 18,
+          "Wisdom": 20,
+          "Charisma": 14
+        },
+        "ability_modifiers": {
+          "Strength": 2,
+          "Dexterity": 3,
+          "Constitution": 1,
+          "Intelligence": 4,
+          "Wisdom": 5,
+          "Charisma": 2
+        },
+        "proficiency_bonus": 3,
+        "saving_throw_bonuses": {},
+        "skill_bonuses": {},
+        "weapon_proficiencies": [
+          "Simple Weapons",
+          "Martial Weapons"
+        ],
+        "class_options": {
+          "fighting_style": "Archery"
+        },
+        "equipment": [
+          "Wooden Staff"
+        ],
+        "initiative": 3
+      },
+      "expectedAttacks": [
+        {
+          "id": "weapon:wooden-staff",
+          "name": "Wooden Staff",
+          "ability": "Strength",
+          "proficient": true,
+          "flatBonus": 0,
+          "damageDice": {
+            "count": 1,
+            "sides": 6
+          },
+          "damageModifier": 2,
+          "damageType": "Bludgeoning",
+          "range": "Melee reach",
+          "kind": "weapon",
+          "attackBonus": 5,
+          "abilityCandidates": [
+            "Strength"
+          ]
+        }
+      ]
+    }
+  ]
+}

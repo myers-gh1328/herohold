@@ -1,0 +1,129 @@
+@using System.Text.Json
+
+<div class="choice-editor" data-choice-id="@Choice.Id" data-choice-value='@JsonSerializer.Serialize(Choice.Value)' data-choice-status="@Choice.Status">
+    <div class="choice-heading"><h3>@Choice.Label</h3>@if(Choice.Status=="resolved") { <span class="tag source">Selected</span> }@if(Choice.Required) { <span class="tag">Required</span> }</div>
+    @if(Choice.Type is "single")
+    {
+        <label class="field"><span class="sr-only">@Choice.Label</span><select value="@SelectedIndex" disabled="@Busy" @onchange="SelectSingle"><option value="-1">Choose an option</option>@for(var i=0;i<Options.Count;i++) { var option=Options[i];<option value="@i" disabled="@option.Disabled">@option.Label@(string.IsNullOrWhiteSpace(option.Reason)?"":" · "+option.Reason)</option> }</select></label>
+        @if(SelectedIndex>=0 && SelectedIndex<Options.Count) { <p class="choice-description">@Options[SelectedIndex].Description</p><p class="small muted">@Options[SelectedIndex].Source</p> }
+    }
+    else if(Choice.Type is "multi")
+    {
+        <p class="small muted">@(Choice.Required?"Choose":"Select up to") @Choice.Choose. @(Choice.Value.Items?.Count??0) selected.</p>@if(Options.Count>12) { <label class="journal-search choice-search"><span class="sr-only">Search @Choice.Label</span><input type="search" placeholder="Search available options…" @bind="OptionSearch" @bind:event="oninput" /></label> }<div class="choice-options">@foreach(var option in VisibleOptions) { var selected=IsSelected(option);<label @key='Key(option.Value)' class='choice-option @(selected?"selected":"")'><input type="checkbox" checked="@selected" disabled="@(Busy || option.Disabled)" @onchange="e=>SelectMultiple(option,e)" /><span><strong>@option.Label</strong><small>@option.Description</small>@if(!string.IsNullOrWhiteSpace(option.Reason)) { <small>@option.Reason</small> }<small>@option.Source</small></span></label> }</div>@if(Options.Count>60 && !ShowAllOptions) { <button class="text-link section-gap" @onclick="()=>ShowAllOptions=true">Show all matching choices →</button><p class="small muted">The first 60 matching options are shown. Searching preserves your selections.</p> }
+    }
+    else if(Choice.Type is "text")
+    {
+        <label class="field"><span class="sr-only">@Choice.Label</span><input maxlength="500" value="@Key(Choice.Value)" disabled="@Busy" @onchange='e=>ValueChanged.InvokeAsync(ChoiceValue.Of(e.Value?.ToString()??""))' /></label>
+    }
+    else if(Choice.Type is "boolean")
+    {
+        <label class="inline-option"><input type="checkbox" checked="@(Choice.Value.Flag is true)" disabled="@Busy" @onchange="e=>ValueChanged.InvokeAsync(ChoiceValue.Of(e.Value is true))" /> @Choice.Label</label>
+    }
+    else if(Choice.Type is "number")
+    {
+        <label class="field"><span class="sr-only">@Choice.Label</span><input type="number" value="@Key(Choice.Value)" disabled="@Busy" @onchange="NumberChanged" /></label>
+    }
+    else if(Choice.Type is "ability_scores")
+    {
+        <p class="small muted">@(Choice.Path.LastOrDefault()=="ability_scores"?"Enter the final scores shown on the source. This review reconstructs the baseline; item modifier bonuses remain separate.":"Enter the base scores before background increases and item bonuses.")</p><div class="ability-editor-grid">@foreach(var ability in Abilities) { <label class="field">@ability<input type="number" min="@(Choice.Minimum??1)" max="@(Choice.Maximum??20)" value="@Score(ability)" disabled="@Busy" @onchange="e=>ScoreChanged(ability,e)" /></label> }</div>
+    }
+    else if(Choice.Type is "asi_or_feat" or "feat_selection")
+    {
+        @if(Choice.Type=="asi_or_feat") { <div class="roll-mode"><button class='button @(CompositeMode=="asi"?"primary":"")' disabled="@Busy" @onclick='()=>CompositeMode="asi"'>Ability score increase</button><button class='button @(CompositeMode=="feat"?"primary":"")' disabled="@Busy" @onclick='()=>CompositeMode="feat"'>Choose a feat</button></div> }
+        @if(CompositeMode=="asi")
+        {
+            <label class="field">Increase style<select disabled="@Busy" @bind="SplitAsi"><option value="false">+2 to one ability</option><option value="true">+1 to two abilities</option></select></label><div class="field-grid"><label class="field">First ability<select disabled="@Busy" @bind="FirstAbility"><option value="">Choose an ability</option>@foreach(var ability in Abilities) { <option value="@ability">@ability</option> }</select></label>@if(SplitAsi) { <label class="field">Second ability<select disabled="@Busy" @bind="SecondAbility"><option value="">Choose a different ability</option>@foreach(var ability in Abilities) { <option value="@ability">@ability</option> }</select></label> }</div><p class="small muted">The rules engine validates the total increase and the character’s ability caps.</p>
+        }
+        else
+        {
+            @if(FixedFeat) { <div class="field"><span>Feat</span><strong data-testid="fixed-feat-name">@(SelectedFeat is { } selected ? selected.Label : FeatId)</strong></div><p class="small muted">Update its choices below.</p> }
+            else { <label class="field">Feat<select value="@FeatId" disabled="@Busy" @onchange="FeatChanged"><option value="">Choose an eligible feat</option>@foreach(var option in FeatOptions) { <option value="@Key(option.Value)" disabled="@option.Disabled">@option.Label</option> }</select></label> }
+            @if(SelectedFeat is { } feat) { <p class="choice-description">@feat.Description</p> }
+            @if(CompositeChildren.Count>0) { @foreach(var child in CompositeChildren) { <ChoiceEditor @key='child.Id' Choice="ChildWithValue(child)" Busy="Busy" ValueChanged="value=>ChildChanged(child,value)" /> } }
+        }
+        <button class="button primary section-gap" disabled="@(Busy || CompositeMode=="asi" && (string.IsNullOrWhiteSpace(FirstAbility)||SplitAsi && (string.IsNullOrWhiteSpace(SecondAbility)||FirstAbility==SecondAbility)) || CompositeMode=="feat" && string.IsNullOrWhiteSpace(FeatId))" @onclick="ApplyComposite">Apply this choice</button>
+    }
+    else if(CompositeChildren.Count>0)
+    {
+        @foreach(var child in CompositeChildren) { <ChoiceEditor @key='child.Id' Choice="ChildWithValue(child)" Busy="Busy" ValueChanged="value=>ChildChanged(child,value)" /> }
+        <button class="button primary section-gap" disabled="@Busy" @onclick="()=>ValueChanged.InvokeAsync(CompositeValue)">Apply choices</button>
+    }
+    else
+    {
+        <p class="dialog-save-error" role="alert">This choice needs a supported structured editor before it can be completed: @Choice.Type. Your draft is retained.</p>
+    }
+</div>
+
+@code {
+    [Parameter,EditorRequired] public BuilderChoice Choice {get;set;}=new();
+    [Parameter] public bool Busy {get;set;}
+    [Parameter] public EventCallback<ChoiceValue> ValueChanged {get;set;}
+    private static readonly string[] Abilities=["Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"];
+    private string CurrentId="";
+    private string ServerValueStamp="";
+    private string OptionSearch="";
+    private bool ShowAllOptions;
+    private bool IsSelected(BuilderOption option)=>Choice.Value.Items?.Any(x=>ChoiceValue.Same(x,option.Value)) is true;
+    private IEnumerable<BuilderOption> VisibleOptions=>Options.OrderByDescending(IsSelected).Where(o=>string.IsNullOrWhiteSpace(OptionSearch)||(o.Label+" "+o.Description+" "+o.Source).Contains(OptionSearch,StringComparison.OrdinalIgnoreCase)).Take(ShowAllOptions?int.MaxValue:60);
+    private string CompositeMode="asi";
+    private bool FixedFeat=>Choice.Id.StartsWith("existing_feat:",StringComparison.Ordinal);
+    private bool SplitAsi;
+    private string FirstAbility="",SecondAbility="",FeatId="";
+    private ChoiceValue CompositeValue=ChoiceValue.Record([]);
+    private List<BuilderOption> Options
+    {
+        get
+        {
+            var items=Choice.Options.ToList();
+            var selected=Choice.Value.Items??[Choice.Value];
+            // A saved selection the rules no longer offer stays visible as the current selection.
+            foreach(var value in selected)
+                if(!value.IsNull&&value.Fields is null&&!items.Any(o=>ChoiceValue.Same(o.Value,value)))
+                    items.Add(new(){Value=value,Label=Key(value),Description="Current selection"});
+            return items.DistinctBy(o=>Key(o.Value)).ToList();
+        }
+    }
+    private int SelectedIndex=>Options.FindIndex(o=>ChoiceValue.Same(o.Value,Choice.Value));
+    private List<BuilderOption> FeatOptions=>Choice.FeatOptions;
+    private BuilderOption? SelectedFeat=>FeatOptions.FirstOrDefault(o=>Key(o.Value)==FeatId);
+    private List<BuilderChoice> CompositeChildren=>SelectedFeat is {Children.Count:>0} feat?feat.Children:Choice.Children;
+    /// <summary>A value as the editors key and display it: its name, or its JSON form.</summary>
+    private static string Key(ChoiceValue value)=>value.Text??JsonSerializer.Serialize(value);
+    protected override void OnParametersSet()
+    {
+        var stamp=JsonSerializer.Serialize(Choice.Value);if(CurrentId==Choice.Id&&ServerValueStamp==stamp)return;CurrentId=Choice.Id;ServerValueStamp=stamp;
+        CompositeValue=Choice.Value.Fields is not null?Choice.Value:ChoiceValue.Record([]);CompositeMode=Choice.Type=="feat_selection"?"feat":CompositeValue.At(["mode"])?.Text is {Length:>0} mode?mode:"asi";
+        FeatId=CompositeValue.At(["feat_id"])?.Text??"";
+        if(CompositeValue.At(["ability_increases"])?.Fields is {} increases){var raised=increases.Where(p=>p.Value.Number>0).ToList();SplitAsi=raised.Count>1;FirstAbility=raised.FirstOrDefault().Key??"";SecondAbility=raised.Skip(1).FirstOrDefault().Key??"";}
+    }
+    private Task SelectSingle(ChangeEventArgs e)=>int.TryParse(e.Value?.ToString(),out var i)&&i>=0&&i<Options.Count?ValueChanged.InvokeAsync(Options[i].Value):Task.CompletedTask;
+    private Task SelectMultiple(BuilderOption option,ChangeEventArgs e)
+    {
+        var values=(Choice.Value.Items??[]).Where(v=>!ChoiceValue.Same(v,option.Value)).ToList();
+        if(e.Value is true)values.Add(option.Value);return ValueChanged.InvokeAsync(ChoiceValue.ListOf(values));
+    }
+    private Task NumberChanged(ChangeEventArgs e)=>int.TryParse(e.Value?.ToString(),out var n)?ValueChanged.InvokeAsync(ChoiceValue.Of(n)):Task.CompletedTask;
+    private int Score(string ability)=>Choice.Value.At([ability])?.Number??10;
+    private Task ScoreChanged(string ability,ChangeEventArgs e)
+        =>int.TryParse(e.Value?.ToString(),out var n)?ValueChanged.InvokeAsync((Choice.Value.Fields is not null?Choice.Value:ChoiceValue.Record([])).With([ability],ChoiceValue.Of(n))):Task.CompletedTask;
+    private async Task FeatChanged(ChangeEventArgs e)
+    {
+        FeatId=e.Value?.ToString()??"";
+        CompositeValue=ChoiceValue.Record([new("mode",ChoiceValue.Of("feat")),new("feat_id",ChoiceValue.Of(FeatId)),new("feat_choices",ChoiceValue.Record([]))]);
+        await ValueChanged.InvokeAsync(CompositeValue);
+    }
+    private BuilderChoice ChildWithValue(BuilderChoice child)=>CompositeValue.At(child.Path) is {} value?child with{Value=value}:child;
+    private Task ChildChanged(BuilderChoice child,ChoiceValue value)
+    {
+        CompositeValue=CompositeValue.With(child.Path.Count>0?child.Path:[child.Id],value);return ValueChanged.InvokeAsync(CompositeValue);
+    }
+    private Task ApplyComposite()
+    {
+        if(CompositeMode=="asi")
+        {
+            var increases=new List<KeyValuePair<string,ChoiceValue>>{new(FirstAbility,ChoiceValue.Of(SplitAsi?1:2))};if(SplitAsi)increases.Add(new(SecondAbility,ChoiceValue.Of(1)));
+            return ValueChanged.InvokeAsync(ChoiceValue.Record([new("mode",ChoiceValue.Of("asi")),new("ability_increases",ChoiceValue.Record(increases))]));
+        }
+        return ValueChanged.InvokeAsync(CompositeValue.With(["mode"],ChoiceValue.Of("feat")).With(["feat_id"],ChoiceValue.Of(FeatId)));
+    }
+}

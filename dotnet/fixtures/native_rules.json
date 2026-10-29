@@ -1,0 +1,2865 @@
+{
+  "schemaVersion": 1,
+  "hitPoints": [
+    {
+      "id": "hp-barbarian-1",
+      "input": {
+        "className": "Barbarian",
+        "level": 1,
+        "hitDie": 12,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 14,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 14,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-barbarian-3",
+      "input": {
+        "className": "Barbarian",
+        "level": 3,
+        "hitDie": 12,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 32,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 32,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-barbarian-5",
+      "input": {
+        "className": "Barbarian",
+        "level": 5,
+        "hitDie": 12,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 50,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 50,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-barbarian-11",
+      "input": {
+        "className": "Barbarian",
+        "level": 11,
+        "hitDie": 12,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 104,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 104,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-barbarian-20",
+      "input": {
+        "className": "Barbarian",
+        "level": 20,
+        "hitDie": 12,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 185,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 185,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-bard-1",
+      "input": {
+        "className": "Bard",
+        "level": 1,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 10,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 10,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-bard-3",
+      "input": {
+        "className": "Bard",
+        "level": 3,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 24,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 24,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-bard-5",
+      "input": {
+        "className": "Bard",
+        "level": 5,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 38,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 38,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-bard-11",
+      "input": {
+        "className": "Bard",
+        "level": 11,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 80,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 80,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-bard-20",
+      "input": {
+        "className": "Bard",
+        "level": 20,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 143,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 143,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-cleric-1",
+      "input": {
+        "className": "Cleric",
+        "level": 1,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 10,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 10,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-cleric-3",
+      "input": {
+        "className": "Cleric",
+        "level": 3,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 24,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 24,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-cleric-5",
+      "input": {
+        "className": "Cleric",
+        "level": 5,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 38,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 38,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-cleric-11",
+      "input": {
+        "className": "Cleric",
+        "level": 11,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 80,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 80,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-cleric-20",
+      "input": {
+        "className": "Cleric",
+        "level": 20,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 143,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 143,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-druid-1",
+      "input": {
+        "className": "Druid",
+        "level": 1,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 10,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 10,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-druid-3",
+      "input": {
+        "className": "Druid",
+        "level": 3,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 24,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 24,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-druid-5",
+      "input": {
+        "className": "Druid",
+        "level": 5,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 38,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 38,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-druid-11",
+      "input": {
+        "className": "Druid",
+        "level": 11,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 80,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 80,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-druid-20",
+      "input": {
+        "className": "Druid",
+        "level": 20,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 143,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 143,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-fighter-1",
+      "input": {
+        "className": "Fighter",
+        "level": 1,
+        "hitDie": 10,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 12,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 12,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-fighter-3",
+      "input": {
+        "className": "Fighter",
+        "level": 3,
+        "hitDie": 10,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 28,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 28,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-fighter-5",
+      "input": {
+        "className": "Fighter",
+        "level": 5,
+        "hitDie": 10,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 44,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 44,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-fighter-11",
+      "input": {
+        "className": "Fighter",
+        "level": 11,
+        "hitDie": 10,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 92,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 92,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-fighter-20",
+      "input": {
+        "className": "Fighter",
+        "level": 20,
+        "hitDie": 10,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 164,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 164,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-monk-1",
+      "input": {
+        "className": "Monk",
+        "level": 1,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 10,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 10,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-monk-3",
+      "input": {
+        "className": "Monk",
+        "level": 3,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 24,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 24,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-monk-5",
+      "input": {
+        "className": "Monk",
+        "level": 5,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 38,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 38,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-monk-11",
+      "input": {
+        "className": "Monk",
+        "level": 11,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 80,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 80,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-monk-20",
+      "input": {
+        "className": "Monk",
+        "level": 20,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 143,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 143,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-paladin-1",
+      "input": {
+        "className": "Paladin",
+        "level": 1,
+        "hitDie": 10,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 12,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 12,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-paladin-3",
+      "input": {
+        "className": "Paladin",
+        "level": 3,
+        "hitDie": 10,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 28,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 28,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-paladin-5",
+      "input": {
+        "className": "Paladin",
+        "level": 5,
+        "hitDie": 10,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 44,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 44,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-paladin-11",
+      "input": {
+        "className": "Paladin",
+        "level": 11,
+        "hitDie": 10,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 92,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 92,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-paladin-20",
+      "input": {
+        "className": "Paladin",
+        "level": 20,
+        "hitDie": 10,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 164,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 164,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-ranger-1",
+      "input": {
+        "className": "Ranger",
+        "level": 1,
+        "hitDie": 10,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 12,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 12,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-ranger-3",
+      "input": {
+        "className": "Ranger",
+        "level": 3,
+        "hitDie": 10,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 28,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 28,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-ranger-5",
+      "input": {
+        "className": "Ranger",
+        "level": 5,
+        "hitDie": 10,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 44,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 44,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-ranger-11",
+      "input": {
+        "className": "Ranger",
+        "level": 11,
+        "hitDie": 10,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 92,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 92,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-ranger-20",
+      "input": {
+        "className": "Ranger",
+        "level": 20,
+        "hitDie": 10,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 164,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 164,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-rogue-1",
+      "input": {
+        "className": "Rogue",
+        "level": 1,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 10,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 10,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-rogue-3",
+      "input": {
+        "className": "Rogue",
+        "level": 3,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 24,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 24,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-rogue-5",
+      "input": {
+        "className": "Rogue",
+        "level": 5,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 38,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 38,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-rogue-11",
+      "input": {
+        "className": "Rogue",
+        "level": 11,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 80,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 80,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-rogue-20",
+      "input": {
+        "className": "Rogue",
+        "level": 20,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 143,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 143,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-sorcerer-1",
+      "input": {
+        "className": "Sorcerer",
+        "level": 1,
+        "hitDie": 6,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 8,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 8,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-sorcerer-3",
+      "input": {
+        "className": "Sorcerer",
+        "level": 3,
+        "hitDie": 6,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 20,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 20,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-sorcerer-5",
+      "input": {
+        "className": "Sorcerer",
+        "level": 5,
+        "hitDie": 6,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 32,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 32,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-sorcerer-11",
+      "input": {
+        "className": "Sorcerer",
+        "level": 11,
+        "hitDie": 6,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 68,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 68,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-sorcerer-20",
+      "input": {
+        "className": "Sorcerer",
+        "level": 20,
+        "hitDie": 6,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 122,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 122,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-warlock-1",
+      "input": {
+        "className": "Warlock",
+        "level": 1,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 10,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 10,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-warlock-3",
+      "input": {
+        "className": "Warlock",
+        "level": 3,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 24,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 24,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-warlock-5",
+      "input": {
+        "className": "Warlock",
+        "level": 5,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 38,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 38,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-warlock-11",
+      "input": {
+        "className": "Warlock",
+        "level": 11,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 80,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 80,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-warlock-20",
+      "input": {
+        "className": "Warlock",
+        "level": 20,
+        "hitDie": 8,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 143,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 143,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-wizard-1",
+      "input": {
+        "className": "Wizard",
+        "level": 1,
+        "hitDie": 6,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 8,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 8,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-wizard-3",
+      "input": {
+        "className": "Wizard",
+        "level": 3,
+        "hitDie": 6,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 20,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 20,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-wizard-5",
+      "input": {
+        "className": "Wizard",
+        "level": 5,
+        "hitDie": 6,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 32,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 32,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-wizard-11",
+      "input": {
+        "className": "Wizard",
+        "level": 11,
+        "hitDie": 6,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 68,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 68,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-wizard-20",
+      "input": {
+        "className": "Wizard",
+        "level": 20,
+        "hitDie": 6,
+        "constitutionModifier": 2,
+        "currentHp": 3,
+        "temporaryHp": 5
+      },
+      "expected": {
+        "maximum": 122,
+        "currentHp": 3,
+        "temporaryHp": 5,
+        "calculatedBeforeImportAdjustment": 122,
+        "importAdjustment": 0
+      }
+    },
+    {
+      "id": "hp-rolled-retroactive-con-tough-dwarf-import",
+      "input": {
+        "className": "Fighter",
+        "level": 3,
+        "hitDie": 10,
+        "constitutionModifier": 3,
+        "tough": true,
+        "dwarvenToughness": true,
+        "importedMaximumAdjustment": 4,
+        "currentHp": 6,
+        "temporaryHp": 7,
+        "history": [
+          {
+            "characterLevel": 1,
+            "className": "Fighter",
+            "method": "Maximum",
+            "baseGain": 10
+          },
+          {
+            "characterLevel": 2,
+            "className": "Fighter",
+            "method": "Rolled",
+            "baseGain": 2
+          },
+          {
+            "characterLevel": 3,
+            "className": "Fighter",
+            "method": "Rolled",
+            "baseGain": 8
+          }
+        ]
+      },
+      "expected": {
+        "maximum": 42,
+        "currentHp": 6,
+        "temporaryHp": 7,
+        "calculatedBeforeImportAdjustment": 38,
+        "importAdjustment": 4
+      }
+    },
+    {
+      "id": "hp-minimum-applies-per-level",
+      "input": {
+        "className": "Wizard",
+        "level": 3,
+        "hitDie": 6,
+        "constitutionModifier": -5,
+        "currentHp": 6,
+        "history": [
+          {
+            "characterLevel": 1,
+            "className": "Wizard",
+            "method": "Maximum",
+            "baseGain": 6
+          },
+          {
+            "characterLevel": 2,
+            "className": "Wizard",
+            "method": "Rolled",
+            "baseGain": 1
+          },
+          {
+            "characterLevel": 3,
+            "className": "Wizard",
+            "method": "Rolled",
+            "baseGain": 1
+          }
+        ]
+      },
+      "expected": {
+        "maximum": 3,
+        "currentHp": 3,
+        "temporaryHp": 0,
+        "calculatedBeforeImportAdjustment": 3,
+        "importAdjustment": 0
+      },
+      "legacyExpectedMaximum": 1
+    },
+    {
+      "id": "hp-additional-bonus-negative-import-clamp",
+      "input": {
+        "className": "Sorcerer",
+        "level": 1,
+        "hitDie": 6,
+        "constitutionModifier": 1,
+        "additionalMaximumBonus": 1,
+        "importedMaximumAdjustment": -20,
+        "currentHp": 5,
+        "temporaryHp": 2
+      },
+      "expected": {
+        "maximum": 1,
+        "currentHp": 1,
+        "temporaryHp": 2,
+        "calculatedBeforeImportAdjustment": 8,
+        "importAdjustment": -20
+      }
+    },
+    {
+      "id": "reject-first-level-fixed",
+      "input": {
+        "className": "Fighter",
+        "level": 1,
+        "hitDie": 10,
+        "constitutionModifier": 2,
+        "history": [
+          {
+            "characterLevel": 1,
+            "className": "Fighter",
+            "method": "Fixed",
+            "baseGain": 6
+          }
+        ]
+      },
+      "reject": true,
+      "legacyExpectedMaximum": 8,
+      "expected": {
+        "rejected": true
+      }
+    },
+    {
+      "id": "reject-first-level-rolled",
+      "input": {
+        "className": "Fighter",
+        "level": 1,
+        "hitDie": 10,
+        "constitutionModifier": 2,
+        "history": [
+          {
+            "characterLevel": 1,
+            "className": "Fighter",
+            "method": "Rolled",
+            "baseGain": 1
+          }
+        ]
+      },
+      "reject": true,
+      "legacyExpectedMaximum": 3,
+      "expected": {
+        "rejected": true
+      }
+    }
+  ],
+  "classProgression": [
+    {
+      "id": "class-barbarian-1",
+      "input": {
+        "className": "Barbarian",
+        "level": 1
+      },
+      "expected": {
+        "hitDie": 12,
+        "slots": {},
+        "hasSpellcasting": false
+      }
+    },
+    {
+      "id": "class-barbarian-3",
+      "input": {
+        "className": "Barbarian",
+        "level": 3
+      },
+      "expected": {
+        "hitDie": 12,
+        "slots": {},
+        "hasSpellcasting": false
+      }
+    },
+    {
+      "id": "class-barbarian-5",
+      "input": {
+        "className": "Barbarian",
+        "level": 5
+      },
+      "expected": {
+        "hitDie": 12,
+        "slots": {},
+        "hasSpellcasting": false
+      }
+    },
+    {
+      "id": "class-barbarian-11",
+      "input": {
+        "className": "Barbarian",
+        "level": 11
+      },
+      "expected": {
+        "hitDie": 12,
+        "slots": {},
+        "hasSpellcasting": false
+      }
+    },
+    {
+      "id": "class-barbarian-20",
+      "input": {
+        "className": "Barbarian",
+        "level": 20
+      },
+      "expected": {
+        "hitDie": 12,
+        "slots": {},
+        "hasSpellcasting": false
+      }
+    },
+    {
+      "id": "class-bard-1",
+      "input": {
+        "className": "Bard",
+        "level": 1
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-bard-3",
+      "input": {
+        "className": "Bard",
+        "level": 3
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 4,
+          "2": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-bard-5",
+      "input": {
+        "className": "Bard",
+        "level": 5
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-bard-11",
+      "input": {
+        "className": "Bard",
+        "level": 11
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 2,
+          "6": 1
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-bard-20",
+      "input": {
+        "className": "Bard",
+        "level": 20
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 3,
+          "6": 2,
+          "7": 2,
+          "8": 1,
+          "9": 1
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-cleric-1",
+      "input": {
+        "className": "Cleric",
+        "level": 1
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-cleric-3",
+      "input": {
+        "className": "Cleric",
+        "level": 3
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 4,
+          "2": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-cleric-5",
+      "input": {
+        "className": "Cleric",
+        "level": 5
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-cleric-11",
+      "input": {
+        "className": "Cleric",
+        "level": 11
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 2,
+          "6": 1
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-cleric-20",
+      "input": {
+        "className": "Cleric",
+        "level": 20
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 3,
+          "6": 2,
+          "7": 2,
+          "8": 1,
+          "9": 1
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-druid-1",
+      "input": {
+        "className": "Druid",
+        "level": 1
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-druid-3",
+      "input": {
+        "className": "Druid",
+        "level": 3
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 4,
+          "2": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-druid-5",
+      "input": {
+        "className": "Druid",
+        "level": 5
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-druid-11",
+      "input": {
+        "className": "Druid",
+        "level": 11
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 2,
+          "6": 1
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-druid-20",
+      "input": {
+        "className": "Druid",
+        "level": 20
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 3,
+          "6": 2,
+          "7": 2,
+          "8": 1,
+          "9": 1
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-fighter-1",
+      "input": {
+        "className": "Fighter",
+        "level": 1
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {},
+        "hasSpellcasting": false
+      }
+    },
+    {
+      "id": "class-fighter-3",
+      "input": {
+        "className": "Fighter",
+        "level": 3
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {},
+        "hasSpellcasting": false
+      }
+    },
+    {
+      "id": "class-fighter-5",
+      "input": {
+        "className": "Fighter",
+        "level": 5
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {},
+        "hasSpellcasting": false
+      }
+    },
+    {
+      "id": "class-fighter-11",
+      "input": {
+        "className": "Fighter",
+        "level": 11
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {},
+        "hasSpellcasting": false
+      }
+    },
+    {
+      "id": "class-fighter-20",
+      "input": {
+        "className": "Fighter",
+        "level": 20
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {},
+        "hasSpellcasting": false
+      }
+    },
+    {
+      "id": "class-monk-1",
+      "input": {
+        "className": "Monk",
+        "level": 1
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {},
+        "hasSpellcasting": false
+      }
+    },
+    {
+      "id": "class-monk-3",
+      "input": {
+        "className": "Monk",
+        "level": 3
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {},
+        "hasSpellcasting": false
+      }
+    },
+    {
+      "id": "class-monk-5",
+      "input": {
+        "className": "Monk",
+        "level": 5
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {},
+        "hasSpellcasting": false
+      }
+    },
+    {
+      "id": "class-monk-11",
+      "input": {
+        "className": "Monk",
+        "level": 11
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {},
+        "hasSpellcasting": false
+      }
+    },
+    {
+      "id": "class-monk-20",
+      "input": {
+        "className": "Monk",
+        "level": 20
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {},
+        "hasSpellcasting": false
+      }
+    },
+    {
+      "id": "class-paladin-1",
+      "input": {
+        "className": "Paladin",
+        "level": 1
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-paladin-3",
+      "input": {
+        "className": "Paladin",
+        "level": 3
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 3
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-paladin-5",
+      "input": {
+        "className": "Paladin",
+        "level": 5
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 4,
+          "2": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-paladin-11",
+      "input": {
+        "className": "Paladin",
+        "level": 11
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-paladin-20",
+      "input": {
+        "className": "Paladin",
+        "level": 20
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-ranger-1",
+      "input": {
+        "className": "Ranger",
+        "level": 1
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-ranger-3",
+      "input": {
+        "className": "Ranger",
+        "level": 3
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 3
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-ranger-5",
+      "input": {
+        "className": "Ranger",
+        "level": 5
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 4,
+          "2": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-ranger-11",
+      "input": {
+        "className": "Ranger",
+        "level": 11
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-ranger-20",
+      "input": {
+        "className": "Ranger",
+        "level": 20
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-rogue-1",
+      "input": {
+        "className": "Rogue",
+        "level": 1
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {},
+        "hasSpellcasting": false
+      }
+    },
+    {
+      "id": "class-rogue-3",
+      "input": {
+        "className": "Rogue",
+        "level": 3
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {},
+        "hasSpellcasting": false
+      }
+    },
+    {
+      "id": "class-rogue-5",
+      "input": {
+        "className": "Rogue",
+        "level": 5
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {},
+        "hasSpellcasting": false
+      }
+    },
+    {
+      "id": "class-rogue-11",
+      "input": {
+        "className": "Rogue",
+        "level": 11
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {},
+        "hasSpellcasting": false
+      }
+    },
+    {
+      "id": "class-rogue-20",
+      "input": {
+        "className": "Rogue",
+        "level": 20
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {},
+        "hasSpellcasting": false
+      }
+    },
+    {
+      "id": "class-sorcerer-1",
+      "input": {
+        "className": "Sorcerer",
+        "level": 1
+      },
+      "expected": {
+        "hitDie": 6,
+        "slots": {
+          "1": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-sorcerer-3",
+      "input": {
+        "className": "Sorcerer",
+        "level": 3
+      },
+      "expected": {
+        "hitDie": 6,
+        "slots": {
+          "1": 4,
+          "2": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-sorcerer-5",
+      "input": {
+        "className": "Sorcerer",
+        "level": 5
+      },
+      "expected": {
+        "hitDie": 6,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-sorcerer-11",
+      "input": {
+        "className": "Sorcerer",
+        "level": 11
+      },
+      "expected": {
+        "hitDie": 6,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 2,
+          "6": 1
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-sorcerer-20",
+      "input": {
+        "className": "Sorcerer",
+        "level": 20
+      },
+      "expected": {
+        "hitDie": 6,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 3,
+          "6": 2,
+          "7": 2,
+          "8": 1,
+          "9": 1
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-warlock-1",
+      "input": {
+        "className": "Warlock",
+        "level": 1
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 1
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-warlock-3",
+      "input": {
+        "className": "Warlock",
+        "level": 3
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "2": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-warlock-5",
+      "input": {
+        "className": "Warlock",
+        "level": 5
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "3": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-warlock-11",
+      "input": {
+        "className": "Warlock",
+        "level": 11
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "5": 3
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-warlock-20",
+      "input": {
+        "className": "Warlock",
+        "level": 20
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "5": 4
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-wizard-1",
+      "input": {
+        "className": "Wizard",
+        "level": 1
+      },
+      "expected": {
+        "hitDie": 6,
+        "slots": {
+          "1": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-wizard-3",
+      "input": {
+        "className": "Wizard",
+        "level": 3
+      },
+      "expected": {
+        "hitDie": 6,
+        "slots": {
+          "1": 4,
+          "2": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-wizard-5",
+      "input": {
+        "className": "Wizard",
+        "level": 5
+      },
+      "expected": {
+        "hitDie": 6,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 2
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-wizard-11",
+      "input": {
+        "className": "Wizard",
+        "level": 11
+      },
+      "expected": {
+        "hitDie": 6,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 2,
+          "6": 1
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "class-wizard-20",
+      "input": {
+        "className": "Wizard",
+        "level": 20
+      },
+      "expected": {
+        "hitDie": 6,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 3,
+          "6": 2,
+          "7": 2,
+          "8": 1,
+          "9": 1
+        },
+        "hasSpellcasting": true
+      }
+    },
+    {
+      "id": "third-fighter-1",
+      "input": {
+        "className": "Fighter",
+        "subclassName": "Eldritch Knight",
+        "level": 1
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {},
+        "hasSpellcasting": false
+      },
+      "legacyEarlyCasterBug": true
+    },
+    {
+      "id": "third-fighter-2",
+      "input": {
+        "className": "Fighter",
+        "subclassName": "Eldritch Knight",
+        "level": 2
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {},
+        "hasSpellcasting": false
+      },
+      "legacyEarlyCasterBug": true
+    },
+    {
+      "id": "third-fighter-3",
+      "input": {
+        "className": "Fighter",
+        "subclassName": "Eldritch Knight",
+        "level": 3
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 2
+        },
+        "hasSpellcasting": true
+      },
+      "legacyEarlyCasterBug": false
+    },
+    {
+      "id": "third-fighter-5",
+      "input": {
+        "className": "Fighter",
+        "subclassName": "Eldritch Knight",
+        "level": 5
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 3
+        },
+        "hasSpellcasting": true
+      },
+      "legacyEarlyCasterBug": false
+    },
+    {
+      "id": "third-fighter-11",
+      "input": {
+        "className": "Fighter",
+        "subclassName": "Eldritch Knight",
+        "level": 11
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 4,
+          "2": 3
+        },
+        "hasSpellcasting": true
+      },
+      "legacyEarlyCasterBug": false
+    },
+    {
+      "id": "third-fighter-20",
+      "input": {
+        "className": "Fighter",
+        "subclassName": "Eldritch Knight",
+        "level": 20
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3,
+          "4": 1
+        },
+        "hasSpellcasting": true
+      },
+      "legacyEarlyCasterBug": false
+    },
+    {
+      "id": "third-rogue-1",
+      "input": {
+        "className": "Rogue",
+        "subclassName": "Arcane Trickster",
+        "level": 1
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {},
+        "hasSpellcasting": false
+      },
+      "legacyEarlyCasterBug": true
+    },
+    {
+      "id": "third-rogue-2",
+      "input": {
+        "className": "Rogue",
+        "subclassName": "Arcane Trickster",
+        "level": 2
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {},
+        "hasSpellcasting": false
+      },
+      "legacyEarlyCasterBug": true
+    },
+    {
+      "id": "third-rogue-3",
+      "input": {
+        "className": "Rogue",
+        "subclassName": "Arcane Trickster",
+        "level": 3
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 2
+        },
+        "hasSpellcasting": true
+      },
+      "legacyEarlyCasterBug": false
+    },
+    {
+      "id": "third-rogue-5",
+      "input": {
+        "className": "Rogue",
+        "subclassName": "Arcane Trickster",
+        "level": 5
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 3
+        },
+        "hasSpellcasting": true
+      },
+      "legacyEarlyCasterBug": false
+    },
+    {
+      "id": "third-rogue-11",
+      "input": {
+        "className": "Rogue",
+        "subclassName": "Arcane Trickster",
+        "level": 11
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 4,
+          "2": 3
+        },
+        "hasSpellcasting": true
+      },
+      "legacyEarlyCasterBug": false
+    },
+    {
+      "id": "third-rogue-20",
+      "input": {
+        "className": "Rogue",
+        "subclassName": "Arcane Trickster",
+        "level": 20
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3,
+          "4": 1
+        },
+        "hasSpellcasting": true
+      },
+      "legacyEarlyCasterBug": false
+    },
+    {
+      "id": "subclass-life-domain-3",
+      "input": {
+        "className": "Cleric",
+        "level": 3,
+        "subclassName": "Life Domain"
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 4,
+          "2": 2
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [
+          "Aid",
+          "Bless",
+          "Cure Wounds",
+          "Lesser Restoration"
+        ],
+        "grantedCantrips": []
+      }
+    },
+    {
+      "id": "subclass-life-domain-5",
+      "input": {
+        "className": "Cleric",
+        "level": 5,
+        "subclassName": "Life Domain"
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 2
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [
+          "Aid",
+          "Bless",
+          "Cure Wounds",
+          "Lesser Restoration",
+          "Mass Healing Word",
+          "Revivify"
+        ],
+        "grantedCantrips": []
+      }
+    },
+    {
+      "id": "subclass-life-domain-11",
+      "input": {
+        "className": "Cleric",
+        "level": 11,
+        "subclassName": "Life Domain"
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 2,
+          "6": 1
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [
+          "Aid",
+          "Bless",
+          "Cure Wounds",
+          "Lesser Restoration",
+          "Mass Healing Word",
+          "Revivify",
+          "Aura of Life",
+          "Death Ward",
+          "Greater Restoration",
+          "Mass Cure Wounds"
+        ],
+        "grantedCantrips": []
+      }
+    },
+    {
+      "id": "subclass-life-domain-20",
+      "input": {
+        "className": "Cleric",
+        "level": 20,
+        "subclassName": "Life Domain"
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 3,
+          "6": 2,
+          "7": 2,
+          "8": 1,
+          "9": 1
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [
+          "Aid",
+          "Bless",
+          "Cure Wounds",
+          "Lesser Restoration",
+          "Mass Healing Word",
+          "Revivify",
+          "Aura of Life",
+          "Death Ward",
+          "Greater Restoration",
+          "Mass Cure Wounds"
+        ],
+        "grantedCantrips": []
+      }
+    },
+    {
+      "id": "subclass-oath-of-devotion-3",
+      "input": {
+        "className": "Paladin",
+        "level": 3,
+        "subclassName": "Oath of Devotion"
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 3
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [
+          "Protection from Evil and Good",
+          "Shield of Faith"
+        ],
+        "grantedCantrips": []
+      }
+    },
+    {
+      "id": "subclass-oath-of-devotion-5",
+      "input": {
+        "className": "Paladin",
+        "level": 5,
+        "subclassName": "Oath of Devotion"
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 4,
+          "2": 2
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [
+          "Protection from Evil and Good",
+          "Shield of Faith",
+          "Aid",
+          "Zone of Truth"
+        ],
+        "grantedCantrips": []
+      }
+    },
+    {
+      "id": "subclass-oath-of-devotion-11",
+      "input": {
+        "className": "Paladin",
+        "level": 11,
+        "subclassName": "Oath of Devotion"
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [
+          "Protection from Evil and Good",
+          "Shield of Faith",
+          "Aid",
+          "Zone of Truth",
+          "Beacon of Hope",
+          "Dispel Magic"
+        ],
+        "grantedCantrips": []
+      }
+    },
+    {
+      "id": "subclass-oath-of-devotion-20",
+      "input": {
+        "className": "Paladin",
+        "level": 20,
+        "subclassName": "Oath of Devotion"
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 2
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [
+          "Protection from Evil and Good",
+          "Shield of Faith",
+          "Aid",
+          "Zone of Truth",
+          "Beacon of Hope",
+          "Dispel Magic",
+          "Freedom of Movement",
+          "Guardian of Faith",
+          "Commune",
+          "Flame Strike"
+        ],
+        "grantedCantrips": []
+      }
+    },
+    {
+      "id": "subclass-gloom-stalker-3",
+      "input": {
+        "className": "Ranger",
+        "level": 3,
+        "subclassName": "Gloom Stalker"
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 3
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [
+          "Disguise Self"
+        ],
+        "grantedCantrips": []
+      }
+    },
+    {
+      "id": "subclass-gloom-stalker-5",
+      "input": {
+        "className": "Ranger",
+        "level": 5,
+        "subclassName": "Gloom Stalker"
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 4,
+          "2": 2
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [
+          "Disguise Self",
+          "Rope Trick"
+        ],
+        "grantedCantrips": []
+      }
+    },
+    {
+      "id": "subclass-gloom-stalker-11",
+      "input": {
+        "className": "Ranger",
+        "level": 11,
+        "subclassName": "Gloom Stalker"
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [
+          "Disguise Self",
+          "Rope Trick",
+          "Fear"
+        ],
+        "grantedCantrips": []
+      }
+    },
+    {
+      "id": "subclass-gloom-stalker-20",
+      "input": {
+        "className": "Ranger",
+        "level": 20,
+        "subclassName": "Gloom Stalker"
+      },
+      "expected": {
+        "hitDie": 10,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 2
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [
+          "Disguise Self",
+          "Rope Trick",
+          "Fear",
+          "Greater Invisibility",
+          "Seeming"
+        ],
+        "grantedCantrips": []
+      }
+    },
+    {
+      "id": "subclass-celestial-patron-3",
+      "input": {
+        "className": "Warlock",
+        "level": 3,
+        "subclassName": "Celestial Patron"
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "2": 2
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [
+          "Aid",
+          "Cure Wounds",
+          "Guiding Bolt",
+          "Lesser Restoration"
+        ],
+        "grantedCantrips": [
+          "Light",
+          "Sacred Flame"
+        ]
+      }
+    },
+    {
+      "id": "subclass-celestial-patron-5",
+      "input": {
+        "className": "Warlock",
+        "level": 5,
+        "subclassName": "Celestial Patron"
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "3": 2
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [
+          "Aid",
+          "Cure Wounds",
+          "Guiding Bolt",
+          "Lesser Restoration",
+          "Daylight",
+          "Revivify"
+        ],
+        "grantedCantrips": [
+          "Light",
+          "Sacred Flame"
+        ]
+      }
+    },
+    {
+      "id": "subclass-celestial-patron-11",
+      "input": {
+        "className": "Warlock",
+        "level": 11,
+        "subclassName": "Celestial Patron"
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "5": 3
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [
+          "Aid",
+          "Cure Wounds",
+          "Guiding Bolt",
+          "Lesser Restoration",
+          "Daylight",
+          "Revivify",
+          "Guardian of Faith",
+          "Wall of Fire",
+          "Greater Restoration",
+          "Summon Celestial"
+        ],
+        "grantedCantrips": [
+          "Light",
+          "Sacred Flame"
+        ]
+      }
+    },
+    {
+      "id": "subclass-celestial-patron-20",
+      "input": {
+        "className": "Warlock",
+        "level": 20,
+        "subclassName": "Celestial Patron"
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "5": 4
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [
+          "Aid",
+          "Cure Wounds",
+          "Guiding Bolt",
+          "Lesser Restoration",
+          "Daylight",
+          "Revivify",
+          "Guardian of Faith",
+          "Wall of Fire",
+          "Greater Restoration",
+          "Summon Celestial"
+        ],
+        "grantedCantrips": [
+          "Light",
+          "Sacred Flame"
+        ]
+      }
+    },
+    {
+      "id": "subclass-abjurer-3",
+      "input": {
+        "className": "Wizard",
+        "level": 3,
+        "subclassName": "Abjurer"
+      },
+      "expected": {
+        "hitDie": 6,
+        "slots": {
+          "1": 4,
+          "2": 2
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [],
+        "grantedCantrips": []
+      }
+    },
+    {
+      "id": "subclass-abjurer-5",
+      "input": {
+        "className": "Wizard",
+        "level": 5,
+        "subclassName": "Abjurer"
+      },
+      "expected": {
+        "hitDie": 6,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 2
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [],
+        "grantedCantrips": []
+      }
+    },
+    {
+      "id": "subclass-abjurer-11",
+      "input": {
+        "className": "Wizard",
+        "level": 11,
+        "subclassName": "Abjurer"
+      },
+      "expected": {
+        "hitDie": 6,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 2,
+          "6": 1
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [
+          "Counterspell",
+          "Dispel Magic"
+        ],
+        "grantedCantrips": []
+      }
+    },
+    {
+      "id": "subclass-abjurer-20",
+      "input": {
+        "className": "Wizard",
+        "level": 20,
+        "subclassName": "Abjurer"
+      },
+      "expected": {
+        "hitDie": 6,
+        "slots": {
+          "1": 4,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 3,
+          "6": 2,
+          "7": 2,
+          "8": 1,
+          "9": 1
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [
+          "Counterspell",
+          "Dispel Magic"
+        ],
+        "grantedCantrips": []
+      }
+    },
+    {
+      "id": "inactive-celestial-1",
+      "input": {
+        "className": "Warlock",
+        "subclassName": "Celestial Patron",
+        "level": 1
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 1
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [],
+        "grantedCantrips": []
+      },
+      "legacyEarlySubclassGrants": true
+    },
+    {
+      "id": "inactive-celestial-2",
+      "input": {
+        "className": "Warlock",
+        "subclassName": "Celestial Patron",
+        "level": 2
+      },
+      "expected": {
+        "hitDie": 8,
+        "slots": {
+          "1": 2
+        },
+        "hasSpellcasting": true,
+        "alwaysPreparedSpells": [],
+        "grantedCantrips": []
+      },
+      "legacyEarlySubclassGrants": true
+    }
+  ]
+}

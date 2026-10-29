@@ -1,0 +1,41 @@
+@using System.Security.Cryptography
+@inject IJSRuntime JS
+<dialog id="survival-dialog" class="dialog sheet-survival-dialog" aria-labelledby="survival-title"><div class="dialog-inner">
+    <div class="dialog-heading"><h2 id="survival-title">Survival &amp; inspiration</h2><button type="button" class="icon-button" aria-label="Close survival" @onclick="Close">×</button></div>
+    @if(Opened&&Session.Character is { } c)
+    {
+        var death=c.Sheet.DeathSaves;
+        <div class="survival-vitals"><span><strong>@c.CurrentHp / @c.MaximumHp</strong> HP</span><span><strong>@c.TemporaryHp</strong> temporary HP <button class="text-link" type="button" @onclick="TemporaryHp">Change</button></span></div>
+        <label class="inline-option inspiration-option"><input id="heroic-inspiration" type="checkbox" checked="@SheetRules.HasHeroicInspiration(c)" disabled="@(Saving||Session.IsBusy)" @onchange="Inspiration" /> I have Heroic Inspiration</label>
+        <p class="small muted">Heroic Inspiration is separate from Luck points. Spend it to reroll a die through the unresolved roll controls; record a gain or table correction here.</p>
+        <section class="survival-death"><h3>Death saving throws</h3><p class="survival-state">@(death.Dead?"Dead":c.CurrentHp>0?"Conscious / above zero HP":death.Stable?"Stable at zero HP":"Unconscious and unstable at zero HP")</p><p>Successes <strong data-testid="death-success-count">@death.Successes / 3</strong> · Failures <strong data-testid="death-failure-count">@death.Failures / 3</strong></p>
+            @if(Mode==DiceMode.Physical){<label class="field">Unmodified D20<input id="death-save-d20" type="number" min="1" max="20" value="@DeathDie" @oninput="e=>DeathDie=Number(e)" /></label>}
+            <div class="survival-actions"><button type="button" class="button primary" data-testid="record-death-save" disabled="@(Saving||Session.IsBusy||!DeathSaveAvailable||c.CurrentHp!=0||death.Stable||death.Dead||Mode==DiceMode.Physical&&DeathDie is null or <1 or >20)" @onclick="Record">@(Mode==DiceMode.Physical?"Record death save":"Roll death save")</button><button type="button" class="button" disabled="@(Saving||Session.IsBusy||c.CurrentHp!=0||death.Dead||death.Stable)" @onclick="Stabilize">Record stabilization</button></div>
+            @if(!DeathSaveAvailable){<p class="small muted">A death save is available once at the start of your active turn.</p>}
+            <p class="small muted">10 or higher succeeds. A natural 1 adds two failures; a natural 20 restores 1 HP. Three successes stabilize, three failures mark death. Healing above zero clears death saves.</p>
+        </section>
+        <details class="survival-correction"><summary>Manual correction / revival at the table</summary><p class="small muted">Use only for an adjudicated correction. Clear Dead before applying healing after revival. These controls do not cast a revival spell.</p><div class="field-grid"><label class="field">Successes<input id="death-successes" type="number" min="0" max="3" value="@Successes" @oninput="e=>Successes=Number(e)" /></label><label class="field">Failures<input id="death-failures" type="number" min="0" max="3" value="@Failures" @oninput="e=>Failures=Number(e)" /></label></div><label class="inline-option"><input id="death-stable" type="checkbox" @bind="Stable" /> Stable</label><label class="inline-option"><input id="death-dead" type="checkbox" @bind="Dead" /> Dead</label><button type="button" class="button" data-testid="correct-death-saves" disabled="@(Saving||Session.IsBusy||Successes is null or <0 or >3||Failures is null or <0 or >3||Stable&&Dead)" @onclick="Correct">Apply correction</button></details>
+        @if(Session.Error is { } error){<p class="dialog-save-error" role="alert">@error</p>}
+        <div class="form-footer"><span class="small muted">Changes save when confirmed.</span><button type="button" class="button" @onclick="Close">Done</button></div>
+    }
+</div></dialog>
+@code {
+    [Parameter,EditorRequired]public WorkspaceSession Session {get;set;}=default!;
+    [Parameter]public DiceMode PreferredDiceMode {get;set;}
+    [Parameter]public EventCallback OnTemporaryHp {get;set;}
+    private string SourceId="";
+    private bool Opened,Saving,Stable,Dead;
+    private int? Successes,Failures,DeathDie;
+    private DiceMode Mode;
+    private static int? Number(ChangeEventArgs e)=>int.TryParse(e.Value?.ToString(),out var n)?n:null;
+    public async Task OpenAsync(){SourceId=Session.Character!.Id;Opened=true;Mode=PreferredDiceMode;DeathDie=null;Sync();await InvokeAsync(StateHasChanged);await JS.InvokeVoidAsync("heroholdUi.openDialog","survival-dialog");}
+    private void Sync(){var state=Session.Character!.Sheet.DeathSaves;Successes=state.Successes;Failures=state.Failures;Stable=state.Stable;Dead=state.Dead;}
+    private Task Close()=>JS.InvokeVoidAsync("heroholdUi.closeDialog","survival-dialog").AsTask();
+    private async Task TemporaryHp(){await Close();await OnTemporaryHp.InvokeAsync();}
+    private async Task Run(Func<Task> change){if(Saving||Session.IsBusy)return;Saving=true;try{await change();if(Session.Error is null)Sync();}finally{Saving=false;}}
+    private Task Inspiration(ChangeEventArgs e)=>Run(()=>Session.SetHeroicInspirationAsync(e.Value is true,SourceId));
+    private bool DeathSaveAvailable {get{try{CombatRules.PrepareDeathSave(Session.Character!);return true;}catch(ArgumentException){return false;}}}
+    private Task Record()=>Run(async()=>{var c=Session.Character!;if(!DeathSaveAvailable)return;if(c.CurrentHp!=0||c.Sheet.DeathSaves.Dead||c.Sheet.DeathSaves.Stable)return;var die=Mode==DiceMode.Physical?DeathDie:RandomNumberGenerator.GetInt32(1,21);if(die is null or <1 or >20)return;await Session.RecordDeathSaveAsync(die.Value,SourceId);DeathDie=null;});
+    private Task Stabilize()=>Run(()=>Session.StabilizeAsync(SourceId));
+    private Task Correct()=>Successes is >=0 and <=3&&Failures is >=0 and <=3?Run(()=>Session.SetDeathSavesAsync(new(){Successes=Successes.Value,Failures=Failures.Value,Stable=Stable,Dead=Dead},SourceId)):Task.CompletedTask;
+}

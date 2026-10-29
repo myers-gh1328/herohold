@@ -1,0 +1,25 @@
+@{ var sourceCharacterId=Character.Id; }
+<div class='@("resource-strip"+(Layout=="vertical"?" resource-strip--vertical":""))' role="region" aria-label="Resource counters">
+    @foreach(var pool in Character.Play.HitDiePools)
+    {
+        var name=$"d{pool.Sides} Hit Dice";
+        <div class="resource-counter" role="group" aria-label="@name"><div class="resource-info"><span class="resource-name">@name</span><span class="resource-value"><strong data-testid='@($"resource-{pool.Id}")'>@pool.Remaining</strong><span> / @pool.Maximum</span></span></div><div class="counter-buttons"><button type="button" disabled="@(Busy||!OnAdjustHitDiePool.HasDelegate||pool.Remaining==0)" aria-label="@($"Use one {name}")" title="@($"Use one {name}")" @onclick="()=>OnAdjustHitDiePool.InvokeAsync((pool.Id,-1,sourceCharacterId))">−</button><button type="button" disabled="@(Busy||!OnAdjustHitDiePool.HasDelegate||pool.Remaining==pool.Maximum)" aria-label="@($"Restore one {name}")" title="@($"Restore one {name}")" @onclick="()=>OnAdjustHitDiePool.InvokeAsync((pool.Id,1,sourceCharacterId))">+</button></div></div>
+    }
+    @foreach(var resource in Character.Resources.Where(r=>(r.Id!="hitdice"||Character.Play.HitDiePools.Count==0)&&!(ExcludeSpellSlots&&MagicPanel.SlotLevel(r) is >=1 and <=9)))
+    {
+        <div class="resource-counter" role="group" aria-label="@resource.Name">
+            <div class="resource-info"><span class="resource-name" title="@resource.Name">@resource.Name</span><span class="resource-value"><strong data-testid='@($"resource-{resource.Id}")'>@resource.Remaining</strong><span> / @resource.Maximum</span></span></div>
+            <div class="counter-buttons"><button type="button" disabled="@(Busy||resource.Remaining==0)" aria-label="@($"Use one {resource.Name}")" title="@($"Use one {resource.Name}")" @onclick="()=>OnAdjust.InvokeAsync((resource.Id,-1,sourceCharacterId))">−</button><button type="button" disabled="@(Busy||resource.Remaining==resource.Maximum)" aria-label="@($"Restore one {resource.Name}")" title="@($"Restore one {resource.Name}")" @onclick="()=>OnAdjust.InvokeAsync((resource.Id,1,sourceCharacterId))">+</button></div>
+        </div>
+    }
+    @if(Character.Resources.Count==0&&Character.Play.HitDiePools.Count==0){<span class="resource-empty">No limited-use resources to track.</span>}
+</div>
+@code {
+    [Parameter,EditorRequired] public CharacterState Character {get;set;}=default!;
+    [Parameter] public bool Busy {get;set;}
+    [Parameter] public string Layout {get;set;}="horizontal";
+    /// <summary>Leave spell slots to the Magic ledger when it is on screen.</summary>
+    [Parameter] public bool ExcludeSpellSlots {get;set;}
+    [Parameter] public EventCallback<(string Id,int Delta,string SourceId)> OnAdjust {get;set;}
+    [Parameter] public EventCallback<(string Id,int Delta,string SourceId)> OnAdjustHitDiePool {get;set;}
+}

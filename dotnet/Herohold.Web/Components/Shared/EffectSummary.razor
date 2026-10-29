@@ -1,0 +1,18 @@
+@if(Character.Exhaustion>0) { <p><span class="context-chip">Exhaustion @Character.Exhaustion / 6</span></p> }
+@if (SheetRules.EffectiveEffects(Character).Count == 0)
+{
+    <p class="small muted">@(Character.Exhaustion>0?"No other conditions":"No conditions")</p>
+}
+else if(Character.Effects.Count>0)
+{
+    <div class="effect-list">
+        @foreach (var effect in Character.Effects)
+        {
+            <div class="tracked-effect"><div><strong class="context-chip">@effect.Name</strong>@if(effect.Concentration) { <span class="tag source">Concentration</span> }<p class="small muted">@effect.Source @if(effect.RemainingRounds is int rounds) { <span>· @rounds round@(rounds == 1 ? "" : "s") remaining</span> } else { <span>· Until ended</span> }</p>@if(!string.IsNullOrWhiteSpace(effect.Note)) { <p class="small muted">@effect.Note</p> }</div><button class="text-link" aria-label="@($"End {effect.Name}")" @onclick="() => OnRemove.InvokeAsync(effect.Id)">End</button></div>
+        }
+    </div>
+}
+@code {
+    [Parameter, EditorRequired] public CharacterState Character { get; set; } = default!;
+    [Parameter] public EventCallback<string> OnRemove { get; set; }
+}

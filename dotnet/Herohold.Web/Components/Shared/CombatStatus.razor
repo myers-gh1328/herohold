@@ -1,0 +1,15 @@
+<section class="combat-status" aria-label="Health, defenses and own turn">
+    <div class="combat-health"><div><span class="status-label">Hit points</span><strong class="health-total">@Character.CurrentHp <span>/ @Character.MaximumHp</span></strong><small>@Character.TemporaryHp temporary HP</small></div><div class="health-actions"><button type="button" class="button damage-action" data-testid="combat-damage" disabled="@Busy" @onclick="()=>OnDamage.InvokeAsync()">Damage</button><button type="button" class="button" data-testid="combat-heal" disabled="@(Busy||Character.CurrentHp==Character.MaximumHp)" title="@(Character.CurrentHp==Character.MaximumHp?"Already at maximum HP":null)" @onclick="()=>OnHeal.InvokeAsync()">Heal</button><button type="button" class="text-link" data-testid="combat-temp" disabled="@Busy" @onclick="()=>OnTemporaryHp.InvokeAsync()">Temporary HP</button></div></div>
+    <div class="combat-reference"><div><span class="status-label">Armor class</span><strong>@Character.ArmorClass</strong></div><div><span class="status-label">Initiative</span><CalculationValue Value="CharacterCalculations.Initiative(Character)" Label="Initiative" /><button type="button" class="text-link" data-testid="combat-initiative" disabled="@Busy" @onclick="()=>OnInitiative.InvokeAsync()">Roll initiative</button></div></div>
+    <div class="own-turn"><div class="own-turn-heading"><span class="status-label">My turn @Character.Turn</span><button type="button" class="button" data-testid="next-turn" disabled="@Busy" @onclick="()=>OnAdvanceTurn.InvokeAsync()">Advance my turn →</button></div><p>Refreshes once-per-turn abilities and reduces manually tracked durations by one. Other creatures and initiative order stay at the table.</p>@if(Expiring.Length>0){<p class="turn-expiry">Will end: @string.Join(", ",Expiring)</p>}</div>
+</section>
+@code {
+ [Parameter,EditorRequired] public CharacterState Character {get;set;}=default!;
+ [Parameter] public bool Busy {get;set;}
+ [Parameter] public EventCallback OnDamage {get;set;}
+ [Parameter] public EventCallback OnHeal {get;set;}
+ [Parameter] public EventCallback OnTemporaryHp {get;set;}
+ [Parameter] public EventCallback OnInitiative {get;set;}
+ [Parameter] public EventCallback OnAdvanceTurn {get;set;}
+ private string[] Expiring=>Character.Effects.Where(e=>e.RemainingRounds==1).Select(e=>e.Name).ToArray();
+}

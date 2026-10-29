@@ -1,0 +1,35 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.log
+.streamlit/
+.pytest_cache/
+.pytest-tmp/
+.ruff_cache/
+.agents/
+.codex/
+.tmp/
+.work/
+outputs/
+tmp/
+output/pdf/*
+!output/pdf/.gitkeep
+output/packages/*
+!output/packages/.gitkeep
+output/saved_characters/*
+!output/saved_characters/.gitkeep
+*.zip
+
+# .NET build and local tool outputs
+**/bin/
+**/obj/
+**/TestResults/
+.vs/
+
+# Wizards of the Coast rules content (5etools imports, official sheet). Kept on disk, never published.
+/data/
+/templates/pdf/
+
+# The original Python app (upstream code, no licence). Kept locally for reference only.
+/legacy-python/

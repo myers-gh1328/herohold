@@ -1,0 +1,33 @@
+<section class="magic-casting-summary" data-testid="magic-casting-summary" aria-label="Spellcasting by source">
+@foreach(var source in Sources)
+{
+    var modifier=CharacterCalculations.Ability(Character,source.Ability);
+    var pb=CharacterCalculations.ProficiencyBonus(Character.Level);
+    var attack=CharacterCalculations.SpellAttack(Character,source.Ability);
+    var dc=new Calculation(8+modifier.Total+pb,[new("Base spell save DC",8),..modifier.Terms,new("Proficiency bonus",pb)]);
+    <details class="casting-source" data-casting-source="@source.Name" open>
+        <summary>@source.Name · @source.Ability</summary>
+        <div class="casting-source-values"><span>Casting modifier <CalculationValue Value="modifier" Label="@(source.Name+" casting modifier")" /></span><span>Spell save DC <CalculationValue Value="dc" Label="@(source.Name+" spell save DC")" Unsigned="true" /></span><span>Spell attack <CalculationValue Value="attack" Label="@(source.Name+" spell attack")" /></span></div>
+        @if(OnAttack.HasDelegate){<button type="button" class="text-link" data-testid="roll-source-spell-attack" @onclick="()=>OnAttack.InvokeAsync(new SpellAttackChoice(source.Name,source.Ability))">Roll spell attack</button>}
+    </details>
+}
+</section>
+@code {
+    [Parameter]public EventCallback<SpellAttackChoice> OnAttack {get;set;}
+    [Parameter,EditorRequired]public CharacterState Character {get;set;}=default!;
+    private IEnumerable<(string Name,Ability Ability)> Sources
+    {
+        get
+        {
+            var sources=new List<(string Name,Ability Ability)>();
+            sources.AddRange(Character.Derived.SpellcastingSources.Select(s=>(s.SourceName,s.Ability)));
+            if(sources.Count==0)
+            {
+                var owned=Character.Play.PreparedSpellIds.Concat(Character.Play.KnownSpellIds).Concat(Character.Play.GrantedSpellIds).ToHashSet(StringComparer.Ordinal);
+                foreach(var spell in Character.Play.Spells.Where(s=>owned.Contains(s.Id)))
+                    sources.Add((!string.IsNullOrWhiteSpace(spell.CastingSource)?spell.CastingSource:spell.CastingAbility is not null?spell.Source:Character.ClassName,spell.CastingAbility??Character.Play.SpellcastingAbility));
+            }
+            return sources.Distinct();
+        }
+    }
+}

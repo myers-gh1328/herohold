@@ -1,0 +1,17 @@
+<Solution>
+  <Project Path="Herohold.Components.Tests/Herohold.Components.Tests.csproj" />
+  <Project Path="Herohold.Core.Tests/Herohold.Core.Tests.csproj" />
+  <Project Path="Herohold.Browser.Tests/Herohold.Browser.Tests.csproj" />
+  <Project Path="Herohold.Core/Herohold.Core.csproj" />
+  <Project Path="Herohold.Documents/Herohold.Documents.csproj" />
+  <Project Path="Herohold.Documents.Tests/Herohold.Documents.Tests.csproj" />
+  <Project Path="Herohold.Integration.Tests/Herohold.Integration.Tests.csproj" />
+  <Project Path="Herohold.Http.Tests/Herohold.Http.Tests.csproj" />
+  <Project Path="Herohold.Parity/Herohold.Parity.csproj" />
+  <Project Path="Herohold.Parity.Tests/Herohold.Parity.Tests.csproj" />
+  <Project Path="Herohold.PdfWorker/Herohold.PdfWorker.csproj" />
+  <Project Path="Herohold.Rules/Herohold.Rules.csproj" />
+  <Project Path="Herohold.Rules.Tests/Herohold.Rules.Tests.csproj" />
+  <Project Path="Herohold.Storage/Herohold.Storage.csproj" />
+  <Project Path="Herohold.Web/Herohold.Web.csproj" />
+</Solution>

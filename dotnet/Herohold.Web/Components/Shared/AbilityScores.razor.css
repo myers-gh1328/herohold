@@ -1,0 +1,15 @@
+.ability-scores{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.ability-card{display:grid;grid-template-rows:auto 1fr auto;justify-items:center;gap:2px;padding:10px 8px 8px;border:1px solid var(--line);border-radius:8px;background:var(--white);min-width:0}
+.ability-check{display:inline-flex;align-items:center;gap:6px;padding:2px 4px;border:0;border-radius:4px;background:transparent;color:var(--muted);font:600 11px var(--sans);letter-spacing:.1em;cursor:pointer}
+.ability-check:hover:not(:disabled){color:var(--ink)}
+.ability-check ::deep .ability-icon{color:var(--gold)}
+.ability-modifier{font:500 26px/1.2 var(--serif);color:var(--ink)}
+.ability-foot{display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;padding-top:6px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}
+.sheet-ability-score{display:grid;place-items:center;min-width:26px;height:20px;padding:0 5px;border:1px solid var(--line);border-radius:10px;font-size:11px;font-variant-numeric:tabular-nums}
+.ability-save{display:flex;align-items:center;gap:4px;font-size:12px}
+.ability-save .text-link{font-size:11px;color:var(--muted)}
+.save-proficient{font-size:7px;color:var(--gold)}
+@media(max-width:850px){.ability-scores{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){.ability-scores{gap:6px}.ability-card{padding:8px 6px 6px}.ability-modifier{font-size:22px}}
+.ability-modifier ::deep .calculation-trigger{font:inherit;color:inherit}
+.ability-save ::deep .calculation-trigger{font-size:12px;font-weight:600}

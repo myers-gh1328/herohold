@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.3.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="4.1.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="4.1.0" />
+    <ProjectReference Include="../Herohold.Core/Herohold.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="../fixtures/proficiency_matrix.json" Link="proficiency_matrix.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,47 @@
+name: Verify Herohold
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+concurrency:
+  group: verify-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+env:
+  DOTNET_NOLOGO: 'true'
+  DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
+jobs:
+  dotnet:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet restore dotnet/Herohold.slnx --disable-parallel
+      - run: dotnet build dotnet/Herohold.slnx --configuration Release --no-restore --disable-build-servers -m:1 /p:UseSharedCompilation=false
+      - name: Install Playwright Chromium for browser tests
+        run: pwsh dotnet/Herohold.Browser.Tests/bin/Release/net10.0/playwright.ps1 install --with-deps chromium
+      - name: Tests that do not need the local rules data (the full suite runs locally)
+        run: dotnet test dotnet/Herohold.slnx --configuration Release --no-build --no-restore --disable-build-servers -m:1 --filter "TestCategory!=RulesData" --logger trx --results-directory "$RUNNER_TEMP/herohold-test-results" --blame-hang-timeout 5m
+      - name: Publish and check native PDF bundle
+        shell: bash
+        run: |
+          out="$RUNNER_TEMP/herohold-published"
+          dotnet publish dotnet/Herohold.Web/Herohold.Web.csproj --configuration Release --no-build --no-restore --output "$out"
+          for f in Herohold.Web.dll Herohold.Web.deps.json Herohold.Web.runtimeconfig.json \
+                   pdf-worker/Herohold.PdfWorker.dll pdf-worker/Herohold.PdfWorker.deps.json pdf-worker/Herohold.PdfWorker.runtimeconfig.json \
+                   pdf-worker/Herohold.Documents.dll pdf-worker/Aspose.Pdf.Foss.dll \
+                   pdf-worker/licenses/Aspose-PDF-FOSS-MIT.txt pdf-worker/licenses/NotoSans-OFL.txt; do
+            test -f "$out/$f" || { echo "Published bundle is missing $f"; exit 1; }
+          done
+      - name: Retain test results
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: herohold-test-results
+          path: |
+            ${{ runner.temp }}/herohold-test-results/
+          if-no-files-found: warn
+          retention-days: 7

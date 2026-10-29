@@ -1,0 +1,29 @@
+@inject IJSRuntime JS
+
+<button type="button" id="@anchorId" class="calculation-trigger @CssClass"
+        aria-label="@($"Explain {Label}: {Signed(Value.Total)}")" aria-haspopup="dialog"
+        @onclick="Show" @onmouseenter="Show" @onfocus="ShowOnFocus">
+    @(Unsigned ? Value.Total.ToString() : Signed(Value.Total))
+</button>
+<div id="@popupId" popover="auto" class="calculation-popover" role="dialog" aria-label="@($"{Label} calculation")">
+    <div class="calculation-heading"><strong>@Label</strong><button type="button" class="icon-button" aria-label="Close calculation" @onclick="Hide">×</button></div>
+    @foreach (var term in Value.Terms)
+    {
+        <div class="calculation-row"><span>@term.Label</span><strong>@Signed(term.Value)</strong></div>
+    }
+    <div class="calculation-total"><span>Total</span><strong>@(Unsigned ? Value.Total.ToString() : Signed(Value.Total))</strong></div>
+    <small>Sources are added once. Reading this does not roll dice.</small>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public Calculation Value { get; set; } = default!;
+    [Parameter, EditorRequired] public string Label { get; set; } = "Calculation";
+    [Parameter] public bool Unsigned { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    private readonly string anchorId = "calc-anchor-" + Guid.NewGuid().ToString("N");
+    private readonly string popupId = "calc-popup-" + Guid.NewGuid().ToString("N");
+    private static string Signed(int value) => value >= 0 ? "+" + value : value.ToString();
+    private async Task Show() => await JS.InvokeVoidAsync("heroholdUi.showCalculation", anchorId, popupId, "pointer");
+    private async Task ShowOnFocus() => await JS.InvokeVoidAsync("heroholdUi.showCalculation", anchorId, popupId, "focus");
+    private async Task Hide() => await JS.InvokeVoidAsync("heroholdUi.hideCalculation", popupId);
+}

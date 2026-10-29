@@ -1,0 +1,11 @@
+<div class="status-cards">
+    <section class="panel status-card" data-testid="conditions-panel"><div class="panel-heading"><h2>Conditions</h2><button class="text-link" @onclick="()=>OnConditions.InvokeAsync()">Edit</button></div><EffectSummary Character="Character" OnRemove="OnRemoveEffect" />@foreach(var effect in DerivedEffects){<div class="tracked-effect derived-effect"><div><strong class="context-chip">@effect.Name</strong><p class="small muted">@effect.Source</p>@if(!string.IsNullOrWhiteSpace(effect.Note)){<p class="small muted">@effect.Note</p>}<small class="muted">Remove the item or effect to end this condition.</small></div></div>}</section>
+    <section class="panel status-card" data-testid="defenses-panel"><div class="panel-heading"><h2>Defenses</h2><button class="text-link" @onclick="()=>OnDefenses.InvokeAsync()">Edit</button></div><DefenseSummary Defenses="SheetRules.EffectiveDefenses(Character)" /></section>
+</div>
+@code {
+    [Parameter,EditorRequired]public CharacterState Character {get;set;}=default!;
+    [Parameter]public EventCallback OnConditions {get;set;}
+    [Parameter]public EventCallback OnDefenses {get;set;}
+    [Parameter]public EventCallback<string> OnRemoveEffect {get;set;}
+    private IEnumerable<ActiveEffect> DerivedEffects=>SheetRules.EffectiveEffects(Character).Where(effect=>!Character.Effects.Any(saved=>saved.Id==effect.Id));
+}

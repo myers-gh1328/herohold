@@ -1,0 +1,8 @@
+<details class="appearance-menu">
+    <summary>Appearance</summary>
+    <label>Color theme<select aria-label="Color theme" data-testid="theme" value="@Theme" @onchange="e=>OnThemeChange.InvokeAsync(e)"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+</details>
+@code {
+    [Parameter]public string Theme {get;set;}="system";
+    [Parameter]public EventCallback<ChangeEventArgs> OnThemeChange {get;set;}
+}

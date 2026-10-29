@@ -1,0 +1,65 @@
+@inject IJSRuntime JS
+<dialog id="profile-dialog" class="dialog sheet-profile-dialog" aria-labelledby="profile-title"><div class="dialog-inner">
+    <div class="dialog-heading"><h2 id="profile-title">Character profile</h2><button type="button" class="icon-button" aria-label="Close profile" @onclick="Close">×</button></div>
+    <p class="small muted">Build and imported values stay linked to their sources until you edit a field. Class, species, and level choices stay in the character builder.</p>
+    @if(SourceId.Length>0&&Session.Character is { } owner&&SheetRules.ImportWarnings(owner) is {Count:>0} warnings){<aside class="sheet-import-warning" data-testid="profile-import-warnings"><strong>Imported values to review</strong><ul>@foreach(var warning in warnings){<li>@warning</li>}</ul><p>Unedited imported values remain preserved.</p></aside>}
+    @foreach(var group in Groups)
+    {
+        <details class="profile-group" open="@(group.Title=="Identity")"><summary>@group.Title</summary><div class="profile-fields">
+            @foreach(var field in group.Fields)
+            {
+                <label class='@("field"+(field.Multiline?" profile-wide":""))'>@field.Label
+                    @if(field.Multiline){<textarea id='@("profile-"+field.Name.ToLowerInvariant())' rows="3" maxlength="12000" value="@Values.GetValueOrDefault(field.Name)" @oninput="e=>Changed(field.Name,e)">@Values.GetValueOrDefault(field.Name)</textarea>}
+                    else{<input id='@("profile-"+field.Name.ToLowerInvariant())' maxlength="4000" value="@Values.GetValueOrDefault(field.Name)" @oninput="e=>Changed(field.Name,e)" />}
+                    <small class="muted">@(Edited.Contains(field.Name)||HasOverride(field.Name)?"Manual override":"Build / imported source")</small>
+                </label>
+            }
+            @if(group.Title=="Identity"){<label class="field">Experience points<input id="profile-xp" type="number" min="0" max="1000000000" value="@Experience" @oninput="ChangeExperience" /><small class="muted">XP does not automatically change your level.</small></label>}
+            @if(group.Title=="Languages & training"){<p class="small muted profile-wide">Separate entries with commas. These are recorded manual overrides; changing them does not grant class or feat choices.</p>}
+        </div></details>
+    }
+    @if(Session.Error is { } error){<p class="dialog-save-error" role="alert">@error</p>}
+    <div class="form-footer"><button type="button" class="button" @onclick="Close">Cancel</button><button type="button" class="button primary" data-testid="save-profile" disabled="@(Saving||Session.IsBusy||Experience is null or <0 or >1000000000)" @onclick="Save">Save profile</button></div>
+</div></dialog>
+@code {
+    [Parameter,EditorRequired]public WorkspaceSession Session {get;set;}=default!;
+    private sealed record ProfileField(string Name,string Label,bool Multiline=false);
+    private sealed record ProfileGroup(string Title,ProfileField[] Fields);
+    private static readonly ProfileGroup[] Groups=[
+        new("Identity",[new("Background","Background"),new("Alignment","Alignment"),new("Size","Size"),new("PlayerName","Player name")]),
+        new("Appearance & personal details",[new("Age","Age"),new("Height","Height"),new("Weight","Weight"),new("Eyes","Eyes"),new("Skin","Skin"),new("Hair","Hair"),new("Appearance","Appearance",true)]),
+        new("Story & personality",[new("Backstory","Backstory",true),new("Personality","Personality",true),new("Ideals","Ideals",true),new("Bonds","Bonds",true),new("Flaws","Flaws",true)]),
+        new("Allies & possessions",[new("Allies","Allies",true),new("Organizations","Organizations",true),new("Treasure","Treasure",true)]),
+        new("Languages & training",[new("Languages","Languages"),new("ArmorTraining","Armor training"),new("WeaponProficiencies","Weapon proficiencies"),new("ToolProficiencies","Tool proficiencies")])];
+    private CharacterProfile Original=new();
+    private Dictionary<string,string> Values=[];
+    private HashSet<string> Edited=[];
+    private string SourceId="";
+    private int? Experience;
+    private bool Saving;
+    private bool ExperienceEdited;
+    public async Task OpenAsync()
+    {
+        var c=Session.Character!;SourceId=c.Id;Original=c.Sheet.Profile;var resolved=SheetRules.Profile(c);Edited=[];
+        Values=Groups.SelectMany(g=>g.Fields).ToDictionary(f=>f.Name,f=>typeof(CharacterProfile).GetProperty(f.Name)!.GetValue(resolved) switch{IEnumerable<string> list=>string.Join(", ",list),string text=>text,_=>""});
+        Experience=SheetRules.ExperiencePoints(c);ExperienceEdited=false;await InvokeAsync(StateHasChanged);await JS.InvokeVoidAsync("heroholdUi.openDialog","profile-dialog");
+    }
+    private bool HasOverride(string field)=>typeof(CharacterProfile).GetProperty(field)!.GetValue(Original) is not null;
+    private void Changed(string field,ChangeEventArgs e){Values[field]=e.Value?.ToString()??"";Edited.Add(field);}
+    private void ChangeExperience(ChangeEventArgs e){ExperienceEdited=true;Experience=int.TryParse(e.Value?.ToString(),out var n)?n:null;}
+    private Task Close()=>JS.InvokeVoidAsync("heroholdUi.closeDialog","profile-dialog").AsTask();
+    private static List<string> Entries(string value)=>value.Split([',','\n'],StringSplitOptions.TrimEntries|StringSplitOptions.RemoveEmptyEntries).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+    private CharacterProfile Apply(CharacterProfile profile,string field)=>field switch
+    {
+        "Background"=>profile with{Background=Values[field]},"Alignment"=>profile with{Alignment=Values[field]},"Size"=>profile with{Size=Values[field]},"PlayerName"=>profile with{PlayerName=Values[field]},
+        "Age"=>profile with{Age=Values[field]},"Height"=>profile with{Height=Values[field]},"Weight"=>profile with{Weight=Values[field]},"Eyes"=>profile with{Eyes=Values[field]},"Skin"=>profile with{Skin=Values[field]},"Hair"=>profile with{Hair=Values[field]},
+        "Appearance"=>profile with{Appearance=Values[field]},"Backstory"=>profile with{Backstory=Values[field]},"Personality"=>profile with{Personality=Values[field]},"Ideals"=>profile with{Ideals=Values[field]},"Bonds"=>profile with{Bonds=Values[field]},"Flaws"=>profile with{Flaws=Values[field]},
+        "Allies"=>profile with{Allies=Values[field]},"Organizations"=>profile with{Organizations=Values[field]},"Treasure"=>profile with{Treasure=Values[field]},
+        "Languages"=>profile with{Languages=Entries(Values[field])},"ArmorTraining"=>profile with{ArmorTraining=Entries(Values[field])},"WeaponProficiencies"=>profile with{WeaponProficiencies=Entries(Values[field])},"ToolProficiencies"=>profile with{ToolProficiencies=Entries(Values[field])},_=>profile
+    };
+    private async Task Save()
+    {
+        if(Saving||Session.IsBusy||Experience is null or <0 or >1000000000)return;Saving=true;
+        try{var profile=Edited.Aggregate(Original,Apply);await Session.UpdateProfileAsync(profile,ExperienceEdited?Experience.Value:null,SourceId);if(Session.Error is null)await Close();}finally{Saving=false;}
+    }
+}

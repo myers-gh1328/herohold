@@ -1,0 +1,46 @@
+<section class="import-review" aria-label="Upload review">
+    <div class="import-review-status"><span class="tag source">@SourceLabel</span><strong>@(CanAdopt ? "Ready for your confirmation" : "Review required")</strong></div>
+    <p class="small muted">Review recovered values before adding a separate character. Your existing character stays saved.</p>
+    <div data-testid="import-issues" class="import-issues">
+        @foreach(var issue in Issues)
+        {
+            <div class='import-issue @(issue.Blocks ? "import-blocker" : "import-warning")'>
+                <div class="import-issue-heading"><span class="tag">@(issue.Blocks ? "Required" : "Review")</span><strong>@issue.Label</strong></div>
+                @if(issue.Observed is { } observed) { <p><span class="muted">PDF:</span> @observed</p> }
+                @if(issue.Expected is { } expected) { <p><span class="muted">Calculated / expected:</span> @expected</p> }
+                @if(issue.Remedy is {Length:>0} remedy) { <p class="small muted">@remedy</p> }
+            </div>
+        }
+        @if(Issues.Count==0 && CanAdopt) { <p class="small muted">No import issues remain.</p> }
+        @if(Dropped.Count>0) { <p class="small muted" data-testid="import-dropped-fields">Not kept: Herohold does not use @(Dropped.Count==1 ? "this field" : "these fields") from your file, so @(Dropped.Count==1 ? "it is" : "they are") left out: @string.Join(", ",Dropped).</p> }
+    </div>
+    @if(Comparisons.Count>0)
+    {
+        <details class="context-collapsible import-evidence" data-testid="import-comparisons">
+            <summary>Compare PDF values · @DifferenceCount @(DifferenceCount==1 ? "difference" : "differences")</summary>
+            <div class="import-table-scroll" tabindex="0" role="region" aria-label="Scrollable PDF value comparisons"><table><caption class="sr-only">PDF values and current calculations</caption><thead><tr><th scope="col">Value</th><th scope="col">PDF</th><th scope="col">Calculated</th></tr></thead><tbody>
+                @foreach(var row in Comparisons) { <tr class='@(row.Status=="conflict" ? "import-conflict" : "")'><th scope="row">@row.Label</th><td>@row.Observed</td><td>@row.Calculated</td></tr> }
+            </tbody></table></div>
+        </details>
+    }
+    @if(Fields.Count>0)
+    {
+        <details class="context-collapsible import-evidence" data-testid="import-evidence">
+            <summary>Original PDF fields · @Fields.Count</summary><p class="small muted">These are values recovered from your upload. Character choices and calculations are reviewed above.</p>
+            <div class="import-table-scroll" tabindex="0" role="region" aria-label="Scrollable original PDF fields"><table><caption class="sr-only">Original recovered PDF fields</caption><thead><tr><th scope="col">Field</th><th scope="col">Uploaded value</th></tr></thead><tbody>
+                @foreach(var field in Fields) { <tr><th scope="row">@field.Key</th><td>@field.Value</td></tr> }
+            </tbody></table></div>
+        </details>
+    }
+</section>
+
+@code {
+    [Parameter,EditorRequired] public ImportReviewView Review {get;set;}=new();
+    private bool CanAdopt=>Review.CanAdopt is true;
+    private string SourceLabel=>Review.SourceKind switch { "embedded_state"=>"Embedded character data", "compatible_form"=>"Editable character sheet", "json"=>"Character JSON", "Herohold workspace"=>"Character workspace", _=>"Uploaded character" };
+    private List<string> Dropped=>Review.DroppedFields;
+    private List<ImportIssueView> Issues=>Review.Issues;
+    private List<ImportComparisonView> Comparisons=>Review.Comparisons;
+    private int DifferenceCount=>Comparisons.Count(c=>c.Status=="conflict");
+    private List<KeyValuePair<string,string>> Fields=>Review.Fields;
+}

@@ -1,0 +1,57 @@
+@if(Choices.Count>0&&SheetRules.HasHeroicInspiration(Current))
+{
+    <section class="heroic-inspiration-controls" data-testid="heroic-inspiration-controls" aria-label="Heroic Inspiration">
+        <h3>Heroic Inspiration</h3>
+        <p class="small muted">Replace one just-rolled die. You must use the new result.</p>
+        <label class="field">Die to replace<select id="heroic-selected-die" value="@SelectedKey" @onchange="Choose">@foreach(var choice in Choices){<option value="@choice.Key">@choice.Label</option>}</select></label>
+        @if(Selected is {} selected&&selected.Mode==DiceMode.Physical){<label class="field">New unmodified d@(selected.Sides) result<input id="heroic-replacement-die" type="number" min="1" max="@selected.Sides" @bind="PhysicalDie" /></label>}
+        <button class="button" data-testid="use-heroic-inspiration" disabled="@(Working||Session.IsBusy)" @onclick="Apply">@(Selected?.Mode==DiceMode.Physical?"Record replacement die":"Reroll selected die")</button>
+        @if((LocalError??Session.Error) is {} error){<p role="alert" class="dialog-save-error">@error</p>}
+    </section>
+}
+@code {
+    [Parameter,EditorRequired]public WorkspaceSession Session {get;set;}=default!;
+    [Parameter]public RollOutcome? Roll {get;set;}
+    [Parameter]public CastOutcome? Cast {get;set;}
+    [Parameter]public EventCallback OnApplied {get;set;}
+    private CharacterState Current=>Session.Character!;
+    private bool Working;
+    private string Selection="";
+    private string? LocalError;
+    private int? PhysicalDie;
+    private sealed record Choice(string Key,string Label,HeroicDieKind Kind,int Term,int Index,int Sides,DiceMode Mode);
+    private List<Choice> Choices
+    {
+        get
+        {
+            var choices=new List<Choice>();var latest=Current.Play.CompletedOperationIds.LastOrDefault();
+            if(Roll is {} roll&&roll.InspirationWindowId is not null&&roll.InspirationWindowId==latest)
+            {
+                if(!roll.Resolved)
+                {
+                    for(var i=0;i<roll.D20.Count;i++)choices.Add(new("d20:"+i,$"D20 {i+1}: {roll.D20[i]}",HeroicDieKind.D20,0,i,20,roll.Mode));
+                    if(roll.BonusDieSides is {} bonusSides)for(var i=0;i<roll.BonusDice.Count;i++)choices.Add(new("bonus:"+i,$"Bonus D{bonusSides} {i+1}: {roll.BonusDice[i]}",HeroicDieKind.BonusDie,0,i,bonusSides,roll.Mode));
+                }
+                if(roll.Resolved&&roll.Hit is true)for(var term=0;term<roll.Damage.Count;term++)if(roll.Damage[term].DieSides is {} sides)for(var i=0;i<roll.Damage[term].Dice.Count;i++)choices.Add(new($"damage:{term}:{i}",$"{roll.Damage[term].Name} D{sides} {i+1}: {roll.Damage[term].Dice[i]}",HeroicDieKind.Damage,term,i,sides,roll.Mode));
+            }
+            if(Cast is {} cast&&cast.InspirationWindowId is not null&&cast.InspirationWindowId==latest&&cast.Preview.Dice is {} formula)
+                for(var i=0;i<cast.EffectDice.Count;i++)choices.Add(new("spell:"+i,$"{cast.Preview.Name} D{formula.Sides} {i+1}: {cast.EffectDice[i]}",HeroicDieKind.SpellEffect,0,i,formula.Sides,cast.Mode));
+            return choices;
+        }
+    }
+    private string SelectedKey=>Choices.Any(c=>c.Key==Selection)?Selection:Choices.FirstOrDefault()?.Key??"";
+    private Choice? Selected=>Choices.FirstOrDefault(c=>c.Key==SelectedKey);
+    private void Choose(ChangeEventArgs e){Selection=e.Value?.ToString()??"";PhysicalDie=null;LocalError=null;}
+    private async Task Apply()
+    {
+        if(Working||Session.IsBusy||Selected is not {} choice)return;
+        if(choice.Mode==DiceMode.Physical&&(PhysicalDie is null||PhysicalDie<1||PhysicalDie>choice.Sides)){LocalError=$"Enter an unmodified result from 1 to {choice.Sides}.";return;}
+        Working=true;LocalError=null;
+        try
+        {
+            await Session.UseHeroicInspirationAsync(new(){SourceCharacterId=Current.Id,SourceRevision=Session.Snapshot!.Revision,Kind=choice.Kind,RollId=Roll?.Id??"",CastId=Cast?.Id??"",DamageTermIndex=choice.Term,DieIndex=choice.Index,PhysicalDie=choice.Mode==DiceMode.Physical?PhysicalDie:null});
+            if(Session.Error is null)await OnApplied.InvokeAsync();
+        }
+        finally{Working=false;}
+    }
+}

@@ -1,0 +1,42 @@
+@inject IJSRuntime JS
+<dialog id="spell-reference-dialog" class="dialog context-manager-dialog" aria-labelledby="spell-reference-title">
+    <div class="dialog-inner">
+        @if(Selected is { } spell)
+        {
+            <div class="dialog-heading"><h2 id="spell-reference-title">@spell.Name</h2><button class="icon-button" aria-label="Close spell details" @onclick="Close">×</button></div>
+            <dl class="spell-reference-facts" data-testid="spell-reference-facts">
+                <dt>Level / school</dt><dd>@(spell.Level==0?"Cantrip":$"Level {spell.Level}") @spell.School</dd>
+                <dt>Casting time</dt><dd>@SpellText.CastingTime(spell.CastingTime) @(spell.Ritual?"· Ritual available":"") @(spell.RitualOnly?"· Ritual only":"")</dd>
+                <dt>Range</dt><dd>@spell.Range</dd>
+                <dt>Components</dt><dd>@(spell.ComponentsKnown?string.Join(", ",spell.Components):"Not recorded")</dd>
+                @if(spell.Components.Contains("M")){<dt>Material</dt><dd>@(string.IsNullOrWhiteSpace(spell.MaterialDescription)?"See spell description":spell.MaterialDescription) @if(spell.MaterialCostCp is {} cp){<span> · @(cp/100m) GP</span>}<span> · @(spell.MaterialConsumptionOptional?"May be consumed":spell.MaterialConsumed is true?"Consumed":spell.MaterialConsumed is false?"Not consumed":"Consumption not recorded")</span></dd>}
+                <dt>Duration</dt><dd>@(string.IsNullOrWhiteSpace(spell.DurationDescription)?"See spell description":spell.DurationDescription) @(spell.Concentration?"· Concentration":"")</dd>
+                <dt>Rules source</dt><dd>@(string.IsNullOrWhiteSpace(spell.RulesSource)?spell.Source:spell.RulesSource)</dd>
+                <dt>Casting source</dt><dd>@(string.IsNullOrWhiteSpace(spell.CastingSource)?spell.Source:spell.CastingSource) @if(spell.CastingAbility is {} ability){<span> · @ability</span>}</dd>
+                @if(Session?.Character is {} character){<dt>Access</dt><dd>@Access(character,spell.Id)</dd>}
+            </dl>
+            <p class="spell-copy">@spell.Description</p>
+            @if(Session?.Character is {} owner)
+            {
+                <label class="field">Personal spell notes<textarea id="personal-spell-note" maxlength="4000" rows="3" @bind="PersonalNote"></textarea></label>
+                <button class="button" data-testid="save-spell-note" disabled="@(Busy||Session.IsBusy)" @onclick="SaveNote">Save notes</button>
+                @if(NoteSaved){<span class="small" role="status">Notes saved</span>}
+                @if(Session.Error is {} error){<p role="alert">@error</p>}
+            }
+            <div class="form-footer"><span class="small muted">Reading this spends nothing.</span><button class="button primary" data-testid="cast-inspected-spell" disabled="@Busy" @onclick="Cast">Cast @spell.Name</button></div>
+        }
+    </div>
+</dialog>
+@code {
+    [Parameter]public bool Busy {get;set;}
+    [Parameter]public WorkspaceSession? Session {get;set;}
+    [Parameter]public EventCallback<SpellDefinition> OnCast {get;set;}
+    private SpellDefinition? Selected;
+    private string PersonalNote="",OwnerId="";
+    private bool NoteSaved;
+    public async Task OpenAsync(SpellDefinition spell){Selected=spell;PersonalNote=Session?.Character?.Play.SpellNotes.GetValueOrDefault(spell.Id)??"";OwnerId=Session?.Character?.Id??"";NoteSaved=false;await InvokeAsync(StateHasChanged);await JS.InvokeVoidAsync("heroholdUi.openDialog","spell-reference-dialog");}
+    private Task Close()=>JS.InvokeVoidAsync("heroholdUi.closeDialog","spell-reference-dialog").AsTask();
+    private async Task Cast(){if(Busy||Selected is null)return;var spell=Selected;await Close();await OnCast.InvokeAsync(spell);}
+    private async Task SaveNote(){if(Session is null||Selected is null)return;await Session.SetSpellNoteAsync(Selected.Id,PersonalNote,OwnerId);NoteSaved=Session.Error is null;}
+    private static string Access(CharacterState c,string id)=>c.Play.GrantedSpellIds.Contains(id)?"Granted / always prepared":c.Play.PreparedSpellIds.Contains(id)?"Prepared":c.Play.KnownSpellIds.Contains(id)?"Known":c.Play.SpellbookIds.Contains(id)?"In spellbook":"Not currently owned";
+}

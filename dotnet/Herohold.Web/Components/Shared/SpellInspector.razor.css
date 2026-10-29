@@ -1,0 +1,2 @@
+.spell-reference-facts{display:grid;grid-template-columns:110px minmax(0,1fr);gap:5px 10px;margin:12px 0;font-size:12px}.spell-reference-facts dt{color:var(--muted)}.spell-reference-facts dd{margin:0;overflow-wrap:anywhere}
+@media(max-width:480px){.spell-reference-facts{grid-template-columns:90px minmax(0,1fr)}}

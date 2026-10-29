@@ -1,0 +1,225 @@
+{
+  "description": "Independent 2024 proficiency reference data: all 20 levels and three training states, plus focused item-bonus scenarios at levels 5 and 9. Ability-modifier range/rounding is covered separately.",
+  "rulesSource": "https://www.dndbeyond.com/sources/dnd/br-2024/playing-the-game#Proficiency",
+  "levels": [
+    {
+      "level": 1,
+      "proficiency": 2,
+      "expertise": 4
+    },
+    {
+      "level": 2,
+      "proficiency": 2,
+      "expertise": 4
+    },
+    {
+      "level": 3,
+      "proficiency": 2,
+      "expertise": 4
+    },
+    {
+      "level": 4,
+      "proficiency": 2,
+      "expertise": 4
+    },
+    {
+      "level": 5,
+      "proficiency": 3,
+      "expertise": 6
+    },
+    {
+      "level": 6,
+      "proficiency": 3,
+      "expertise": 6
+    },
+    {
+      "level": 7,
+      "proficiency": 3,
+      "expertise": 6
+    },
+    {
+      "level": 8,
+      "proficiency": 3,
+      "expertise": 6
+    },
+    {
+      "level": 9,
+      "proficiency": 4,
+      "expertise": 8
+    },
+    {
+      "level": 10,
+      "proficiency": 4,
+      "expertise": 8
+    },
+    {
+      "level": 11,
+      "proficiency": 4,
+      "expertise": 8
+    },
+    {
+      "level": 12,
+      "proficiency": 4,
+      "expertise": 8
+    },
+    {
+      "level": 13,
+      "proficiency": 5,
+      "expertise": 10
+    },
+    {
+      "level": 14,
+      "proficiency": 5,
+      "expertise": 10
+    },
+    {
+      "level": 15,
+      "proficiency": 5,
+      "expertise": 10
+    },
+    {
+      "level": 16,
+      "proficiency": 5,
+      "expertise": 10
+    },
+    {
+      "level": 17,
+      "proficiency": 6,
+      "expertise": 12
+    },
+    {
+      "level": 18,
+      "proficiency": 6,
+      "expertise": 12
+    },
+    {
+      "level": 19,
+      "proficiency": 6,
+      "expertise": 12
+    },
+    {
+      "level": 20,
+      "proficiency": 6,
+      "expertise": 12
+    }
+  ],
+  "trainingStates": [
+    "untrained",
+    "proficient",
+    "expertise"
+  ],
+  "skills": [
+    {
+      "name": "Acrobatics",
+      "ability": "Dexterity"
+    },
+    {
+      "name": "Animal Handling",
+      "ability": "Wisdom"
+    },
+    {
+      "name": "Arcana",
+      "ability": "Intelligence"
+    },
+    {
+      "name": "Athletics",
+      "ability": "Strength"
+    },
+    {
+      "name": "Deception",
+      "ability": "Charisma"
+    },
+    {
+      "name": "History",
+      "ability": "Intelligence"
+    },
+    {
+      "name": "Insight",
+      "ability": "Wisdom"
+    },
+    {
+      "name": "Intimidation",
+      "ability": "Charisma"
+    },
+    {
+      "name": "Investigation",
+      "ability": "Intelligence"
+    },
+    {
+      "name": "Medicine",
+      "ability": "Wisdom"
+    },
+    {
+      "name": "Nature",
+      "ability": "Intelligence"
+    },
+    {
+      "name": "Perception",
+      "ability": "Wisdom"
+    },
+    {
+      "name": "Performance",
+      "ability": "Charisma"
+    },
+    {
+      "name": "Persuasion",
+      "ability": "Charisma"
+    },
+    {
+      "name": "Religion",
+      "ability": "Intelligence"
+    },
+    {
+      "name": "Sleight of Hand",
+      "ability": "Dexterity"
+    },
+    {
+      "name": "Stealth",
+      "ability": "Dexterity"
+    },
+    {
+      "name": "Survival",
+      "ability": "Wisdom"
+    }
+  ],
+  "abilityScenarios": [
+    {
+      "name": "ordinary ability modifier",
+      "score": 18,
+      "modifier": 4,
+      "itemBonus": 0,
+      "levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ]
+    },
+    {
+      "name": "ability modifier plus active item",
+      "score": 16,
+      "modifier": 3,
+      "itemBonus": 1,
+      "levels": [
+        5,
+        9
+      ]
+    }
+  ]
+}

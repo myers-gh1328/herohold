@@ -1,0 +1,62 @@
+@inject IJSRuntime JS
+
+<dialog id="quick-note-dialog" class="dialog context-manager-dialog" aria-labelledby="note-dialog-title"><div class="dialog-inner"><div class="dialog-heading"><h2 id="note-dialog-title">Add a journal entry.</h2><button class="icon-button" aria-label="Close note" @onclick='() => CloseAsync("quick-note-dialog")'>×</button></div><label class="field">Title <span class="muted">(optional)</span><input id="note-title" autofocus maxlength="200" placeholder="A quest, person, place, or discovery" @bind="NoteTitle" @bind:event="oninput" /></label><label class="field">Category<select id="note-category" @bind="NoteCategory">@foreach(var category in JournalRules.CategoryNames(Character)) { <option value="@category">@category</option> }</select></label><label class="field">Note<textarea id="note-text" maxlength="12000" rows="5" placeholder="What should you remember?" @bind="NoteText" @bind:event="oninput"></textarea></label>@if(Session.Error is not null) { <p class="dialog-save-error" role="alert">@Session.Error</p> }<div class="form-footer"><span class="small muted">Saved in @NoteCategory</span><div><button class="button" @onclick='() => CloseAsync("quick-note-dialog")'>Cancel</button><button class="button primary" data-testid="save-note" disabled="@(Session.IsBusy || Saving || string.IsNullOrWhiteSpace(NoteText))" @onclick="SaveNoteAsync">Save entry</button></div></div></div></dialog>
+
+<dialog id="effects-dialog" class="dialog context-manager-dialog" aria-labelledby="effects-title"><div class="dialog-inner"><div class="dialog-heading"><h2 id="effects-title">Conditions &amp; effects.</h2><button class="icon-button" aria-label="Close effects" @onclick='() => CloseAsync("effects-dialog")'>×</button></div><p class="small muted">Record a source and duration. Remaining rounds tick when you advance your own turn in Combat. The turn change can be undone. Exhaustion penalties apply to D20 tests and speed; other conditional effects remain table-managed.</p><div class="exhaustion-counter"><div><strong>Exhaustion</strong><p class="small muted">Each level reduces D20 tests by 2 and speed by 5 feet. Six levels cause death. Long rests reduce the tracked level under the 2024 recovery rule.</p></div><div class="quantity-controls"><button class="button" aria-label="Reduce exhaustion" disabled="@(Session.IsBusy||Character.Exhaustion==0)" @onclick="()=>Session.SetExhaustionAsync(Character.Exhaustion-1)">−</button><strong data-testid="exhaustion-level">@Character.Exhaustion / 6</strong><button class="button" aria-label="Increase exhaustion" disabled="@(Session.IsBusy||Character.Exhaustion==6)" @onclick="()=>Session.SetExhaustionAsync(Character.Exhaustion+1)">+</button></div></div><EffectSummary Character="Character" OnRemove="RemoveEffectAsync" /><div class="field-grid"><label class="field">Condition or effect<input id="effect-name" maxlength="100" placeholder="Poisoned, Bless, Hunter’s Mark…" @bind="EffectName" @bind:event="oninput" /></label><label class="field">Source<input id="effect-source" maxlength="120" placeholder="Venom trap, a spell, an item…" @bind="EffectSource" /></label></div><label class="field">Duration or reminder<input id="effect-note" maxlength="500" placeholder="Until treated, until my next turn…" @bind="EffectNote" /></label><label class="field">Rounds remaining <span class="muted">(leave blank for manual duration)</span><input id="effect-rounds" type="number" min="1" max="1000" @bind="EffectRounds" /></label><label class="inline-option"><input id="effect-concentration" type="checkbox" @bind="EffectConcentration" /> This effect requires Concentration</label><details class="context-collapsible"><summary>What does Concentration mean?</summary><p class="small muted">Keep one Concentration spell active at a time. You can still move and attack. Taking damage can require a Constitution save; a failed save, incapacitation, or a new Concentration spell ends it. Adding a new Concentration effect here replaces the previous one; other ending events are recorded manually.</p></details>@if(Session.Error is not null) { <p class="dialog-save-error" role="alert">@Session.Error</p> }<div class="form-footer"><span class="small muted">Changes save immediately</span><button class="button primary" disabled="@(Session.IsBusy || Saving || string.IsNullOrWhiteSpace(EffectName) || EffectRounds is < 1 or > 1000)" data-testid="add-effect" @onclick="SaveEffectAsync">Add effect</button></div></div></dialog>
+
+<dialog id="details-dialog" class="dialog context-manager-dialog" aria-labelledby="details-title"><div class="dialog-inner"><div class="dialog-heading"><h2 id="details-title">@Character.Name</h2><button class="icon-button" aria-label="Close details" @onclick='() => CloseAsync("details-dialog")'>×</button></div><p class="small muted">@Character.Species · @Character.ClassName @Character.Level · @Character.Subclass</p><div class="abilities">@foreach(var ability in Enum.GetValues<Ability>()) { <div class="ability"><div class="stat-label">@ability.ToString()[..3].ToUpperInvariant()</div><CalculationValue Value="CharacterCalculations.Ability(Character, ability)" Label='@(ability + " modifier")' /><p class="small muted">Score @Character.AbilityScores[ability]</p></div> }</div><p class="small muted">Proficiency bonus @Signed(CharacterCalculations.ProficiencyBonus(Character.Level)). Active item modifier bonuses remain separate from ability scores.</p><div class="form-footer"><button class="button" @onclick="StartEditAsync">Edit character →</button><button class="button primary" data-testid="open-level-up" disabled="@(Session.IsBusy||Character.Level>=20)" @onclick="StartLevelUpAsync">Level up →</button></div></div></dialog>
+
+
+
+
+<dialog id="level-class-dialog" class="dialog context-manager-dialog" aria-labelledby="level-class-title"><div class="dialog-inner"><div class="dialog-heading"><h2 id="level-class-title">Choose the class to advance</h2><button class="icon-button" aria-label="Close class selection" @onclick='()=>CloseAsync("level-class-dialog")'>×</button></div>
+<p class="small muted">Gain one character level. Continuing a class grants its next class-level features; a new class uses its multiclass entry requirements.</p>
+<div data-testid="level-class-options">@foreach(var option in Session.LevelUpClassOptions){<label class="luf-option"><input type="radio" name="level-target-class" value="@option.Name" checked="@(TargetClass==option.Name)" disabled="@(!option.Allowed||Session.IsBusy)" @onchange="()=>TargetClass=option.Name" /><span><strong>@option.Name</strong>@if(!option.Allowed){<small>@option.Reason</small>}</span></label>}</div>
+@if(Session.Error is {} classError){<p role="alert" class="dialog-save-error">@classError</p>}<div class="form-footer"><button class="button" @onclick='()=>CloseAsync("level-class-dialog")'>Cancel</button><button class="button primary" data-testid="confirm-level-class" disabled="@(Session.IsBusy||!Session.LevelUpClassOptions.Any(o=>o.Name==TargetClass&&o.Allowed))" @onclick="ConfirmLevelClassAsync">Continue with @TargetClass</button></div></div></dialog>
+
+@code {
+    [Parameter, EditorRequired] public CharacterState Character { get; set; } = default!;
+    [Parameter, EditorRequired] public WorkspaceSession Session { get; set; } = default!;
+    [Parameter] public EventCallback OnWorkflowStarted { get; set; }
+    private string NoteTitle { get; set; } = "";
+    private string NoteText { get; set; } = "";
+    private string NoteCategory="Notes";
+    private string NoteSourceId="";
+    private string EffectName { get; set; } = "";
+    private string EffectSource { get; set; } = "";
+    private string EffectNote { get; set; } = "";
+    private int? EffectRounds { get; set; }
+    private bool EffectConcentration { get; set; }
+    private bool Saving;
+    private string TargetClass="";
+    private string BoundCharacterId="";
+    protected override void OnParametersSet(){if(BoundCharacterId==Character.Id)return;BoundCharacterId=Character.Id;NoteTitle="";NoteText="";NoteCategory="Notes";NoteSourceId="";EffectName="";EffectSource="";EffectNote="";EffectRounds=null;}
+    private static string Signed(int value) => value >= 0 ? "+" + value : value.ToString();
+    private Task CloseAsync(string id) => JS.InvokeVoidAsync("heroholdUi.closeDialog", id).AsTask();
+    private async Task OpenAsync(string id) { await InvokeAsync(StateHasChanged); await JS.InvokeVoidAsync("heroholdUi.openDialog", id); }
+    public Task OpenNoteAsync()=>OpenNoteAsync("Notes");
+    public Task OpenNoteAsync(JournalCategory category)=>Enum.IsDefined(category)?OpenNoteAsync(category.ToString()):throw new ArgumentException("Choose a supported journal category.");
+    public async Task OpenNoteAsync(string category)
+    {NoteCategory=JournalRules.CategoryNames(Character).FirstOrDefault(n=>n.Equals(category,StringComparison.OrdinalIgnoreCase))??throw new ArgumentException("Choose an existing journal category.");NoteTitle="";NoteText="";NoteSourceId=Character.Id;await OpenAsync("quick-note-dialog");}
+    public async Task OpenEffectsAsync() { EffectName = ""; EffectSource = ""; EffectNote = ""; EffectRounds = null; EffectConcentration = false; await OpenAsync("effects-dialog"); }
+    public Task OpenDetailsAsync() => OpenAsync("details-dialog");
+    public async Task CloseAllAsync() { foreach(var id in new[] { "quick-note-dialog", "effects-dialog", "details-dialog", "health-dialog", "roll-dialog", "spell-reference-dialog" }) await CloseAsync(id); }
+    private async Task SaveNoteAsync()
+    {
+        if (Saving || Session.IsBusy || string.IsNullOrWhiteSpace(NoteText)) return;
+        Saving = true;
+        try { await Session.AddNoteAsync(string.IsNullOrWhiteSpace(NoteTitle) ? NoteCategory switch{"Quests"=>"Untitled quest","Friends"=>"A friend","Foes"=>"A foe","Locations"=>"A location","Lore"=>"Lore note",_=>"A note for the road"} : NoteTitle, NoteText,NoteCategory,NoteSourceId); if (Session.Error is null) await CloseAsync("quick-note-dialog"); }
+        finally { Saving = false; }
+    }
+    private async Task SaveEffectAsync()
+    {
+        if (Saving || Session.IsBusy || string.IsNullOrWhiteSpace(EffectName) || EffectRounds is < 1 or > 1000) return;
+        Saving = true;
+        try { await Session.AddEffectAsync(EffectName, EffectSource, EffectNote, EffectRounds, EffectConcentration); if (Session.Error is null) { EffectName = ""; EffectNote = ""; EffectRounds = null; } }
+        finally { Saving = false; }
+    }
+    private Task RemoveEffectAsync(string id) => Session.RemoveEffectAsync(id);
+    private async Task StartEditAsync(){await CloseAllAsync();await Session.StartEditAsync();if(Session.Error is null)await OnWorkflowStarted.InvokeAsync();}
+    private async Task StartLevelUpAsync(){await CloseAllAsync();TargetClass=Session.LevelUpClassOptions.FirstOrDefault(o=>o.Name==Character.ClassName&&o.Allowed)?.Name??Session.LevelUpClassOptions.FirstOrDefault(o=>o.Allowed)?.Name??"";await OpenAsync("level-class-dialog");}
+    private async Task ConfirmLevelClassAsync(){await Session.StartLevelUpAsync(TargetClass);if(Session.Error is null){await CloseAsync("level-class-dialog");await OnWorkflowStarted.InvokeAsync();}}
+}

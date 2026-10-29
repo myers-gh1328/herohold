@@ -1,0 +1,47 @@
+@using Herohold.Rules
+
+<section class="ability-method-editor" aria-label="Ability score method">
+    <label class="field">How would you like to set your scores?
+        <select data-testid="ability-method" value="@Method" disabled="@Busy" @onchange="ChangeMethod">
+            @if(!KnownMethod) { <option value="@Method" disabled>Saved method needs review</option> }
+            <option value="Manual entry">Enter my own scores</option><option value="Standard array">Use the standard array</option><option value="Roll 4d6">Roll 4d6, drop the lowest</option>
+        </select>
+    </label>
+    @if(Method=="Manual entry") { <p class="small muted">Enter base scores below, before background increases. You can use scores from your physical dice. Scores above 20 need a rules exception or your DM’s approval.</p> }
+    else if(GeneratedMethod)
+    {
+        <div class="ability-generation-heading"><p class="small muted">@(Method=="Standard array" ? "Assign the six standard scores before background increases." : "Each score rolls four six-sided dice and drops the lowest. Saved scores stay the same until you choose to roll again.")</p><button class="button" data-testid="generate-ability-scores" disabled="@Busy" @onclick="()=>GenerateRequested.InvokeAsync(Method)">@(Method=="Standard array" ? "Use standard array" : Pool.Count==6 ? "Roll six new scores" : "Roll six scores")</button></div>
+        @if(Pool.Count==6)
+        {
+            <div class="ability-score-pool" role="list" aria-label="Available base scores">@for(var i=0;i<Pool.Count;i++) { <div role="listitem"><strong>@Pool[i]</strong><small>Score @(i+1)</small></div> }</div>
+            <p class="small muted">Choosing a score swaps it with its current ability. Equal numbers remain separate choices.</p>
+            <div class="ability-assignment-grid">@foreach(var ability in Enum.GetValues<Ability>()) { <label class="field">@ability<select data-ability-assignment="@ability" aria-label="@($"Assign {ability} base score")" value="@Position(ability)" disabled="@(Busy || !CanAssign)" @onchange="e=>Assign(ability,e)"><option value="-1" disabled>Choose a score</option>@for(var i=0;i<Pool.Count;i++) { <option value="@i">@Pool[i] · score @(i+1)</option> }</select></label> }</div>
+            @if(!CanAssign) { <p class="small muted">@(Method=="Standard array" ? "Use the standard array to prepare all six assignments." : "Roll a set to prepare all six assignments, or use manual entry for your own scores.")</p> }
+        }
+        else { <p class="small muted">Roll six scores to begin assigning them.</p> }
+    }
+</section>
+
+@code {
+    [Parameter,EditorRequired] public DraftSummary Character {get;set;}=new();
+    [Parameter] public bool Busy {get;set;}
+    [Parameter] public EventCallback<string> MethodChanged {get;set;}
+    [Parameter] public EventCallback<string> GenerateRequested {get;set;}
+    [Parameter] public EventCallback<(Ability Ability,int Position)> AssignmentChanged {get;set;}
+    private string Method=>Character.AbilityMethod;
+    private bool KnownMethod=>Method is "Manual entry" or "Standard array" or "Roll 4d6";
+    private bool GeneratedMethod=>Method is "Standard array" or "Roll 4d6";
+    private IReadOnlyList<int> Pool
+    {
+        get
+        {
+            if(Method=="Standard array")return AbilityGenerationRules.StandardArray;
+            var numbers=Character.RolledScores;
+            return numbers.Count==6&&numbers.All(n=>n is >=3 and <=18)?numbers:[];
+        }
+    }
+    private int Position(Ability ability)=>Character.Assignments.GetValueOrDefault(ability,-1);
+    private bool CanAssign=>Pool.Count==6 && Enum.GetValues<Ability>().Select(Position).Distinct().Count()==6 && Enum.GetValues<Ability>().All(a=>Position(a) is >=0 and <=5);
+    private Task ChangeMethod(ChangeEventArgs args)=>Busy?Task.CompletedTask:MethodChanged.InvokeAsync(args.Value?.ToString()??"Manual entry");
+    private Task Assign(Ability ability,ChangeEventArgs args)=>!Busy&&CanAssign&&int.TryParse(args.Value?.ToString(),out var position)&&position is >=0 and <=5?AssignmentChanged.InvokeAsync((ability,position)):Task.CompletedTask;
+}

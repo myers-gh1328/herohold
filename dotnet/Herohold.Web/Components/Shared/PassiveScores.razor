@@ -1,0 +1,12 @@
+<section class="passive-scores" aria-label="Passive skill references">
+    <div class="passive-label"><strong>Passive scores</strong><details><summary aria-label="About passive scores">?</summary><p>10 plus your current skill bonus. Use these references when your DM calls for a passive check; situational effects are decided at the table.</p></details></div>
+    @foreach(var (name,ability) in new[]{("Perception",Ability.Wisdom),("Insight",Ability.Wisdom),("Investigation",Ability.Intelligence)})
+    {
+        <div class="passive-score"><span>@name</span><strong data-testid='@("passive-"+name.ToLowerInvariant())'><CalculationValue Value="Value(name,ability)" Label='@("Passive "+name)' Unsigned="true" /></strong></div>
+    }
+</section>
+@code {
+    [Parameter,EditorRequired]public CharacterState Character {get;set;}=default!;
+    private Calculation Value(string skill,Ability ability)
+    {var calculated=CharacterCalculations.Skill(Character,skill,ability);return new(10+calculated.Total,[new("Passive base",10),..calculated.Terms]);}
+}

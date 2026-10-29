@@ -1,0 +1,3 @@
+@if(Defenses.Count==0) { <p class="context-defense-summary">None listed</p> }
+else { <div class="context-defense-summary">@foreach(var defense in Defenses) { <span class="tag source" title='@(defense.Source+" · "+defense.Note)'>@DefensePresentation.Label(defense.Kind): @defense.Type</span> }</div> }
+@code { [Parameter] public IReadOnlyList<DamageDefense> Defenses {get;set;}=[]; }

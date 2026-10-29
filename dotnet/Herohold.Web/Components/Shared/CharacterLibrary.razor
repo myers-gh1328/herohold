@@ -1,0 +1,34 @@
+<div class="library-toolbar"><div><div class="section-kicker">Your collection</div><h2>Characters, ready for the table.</h2></div><div class="library-toolbar-actions"><button class="button" disabled="@Session.IsBusy" @onclick="Session.RefreshLibraryAsync">Refresh list ↻</button><button class="button primary" data-testid="create-character" disabled="@Session.IsBusy" @onclick="StartCreate">Create character +</button></div></div>
+@if(Session.LibraryNotice is { } notice) { <p class="reference-line" role="status">@notice</p> }
+<div class="library-grid">
+    @foreach(var character in Session.Library)
+    {
+        <article class="panel library-entry"><div class="library-monogram">@Initials(character.Name)</div><div><div class="section-kicker">@(Session.Character?.Id==character.Id?"Open character":"Saved character")</div><h2>@character.Name</h2><p>@character.Species · @character.ClassName @character.Level</p><button class="button" disabled="@Session.IsBusy" data-character-id="@character.Id" @onclick="()=>OpenCharacter(character.Id)">Open character →</button></div></article>
+    }
+</div>
+<details class="context-collapsible upload-review" open="@ShowImport"><summary>Import a character · JSON or editable PDF</summary><div class="panel"><div class="section-kicker">Explicit upload &amp; review</div><h2>Bring your character along.</h2><p class="small muted">Choose a character JSON or supported editable PDF. Review recovered values and unresolved choices before adoption. Uploading never overwrites an existing character.</p><label class="upload-control"><span class="button">Choose a file ↥</span><InputFile id="character-upload" OnChange="Upload" accept=".json,.pdf,application/json,application/pdf" disabled="@(Session.IsBusy||Uploading)" /></label><p class="small muted">Up to 20 MB. Flattened PDFs need a supported structured export; they cannot be losslessly imported.</p>@if(Uploading) { <p role="status">Reading your selected file…</p> }@if((LocalError??Session.Error) is { } error) { <p class="dialog-save-error" role="alert">@error</p> }</div></details>
+
+@code {
+    [Parameter,EditorRequired] public WorkspaceSession Session {get;set;}=default!;
+    [Parameter] public bool ShowImport {get;set;}
+    [Parameter] public EventCallback OnOpened {get;set;}
+    [Parameter] public EventCallback OnWorkflowStarted {get;set;}
+    private async Task StartCreate(){await Session.StartCreateAsync();if(Session.Error is null)await OnWorkflowStarted.InvokeAsync();}
+    private bool Uploading;
+    private string? LocalError;
+    private static string Initials(string name)=>string.Concat(name.Split(' ',StringSplitOptions.RemoveEmptyEntries).Take(2).Select(p=>p[..1])).ToUpperInvariant();
+    private async Task OpenCharacter(string id){await Session.SwitchCharacterAsync(id);if(Session.Error is null)await OnOpened.InvokeAsync();}
+    private async Task Upload(InputFileChangeEventArgs args)
+    {
+        if(Uploading||Session.IsBusy){LocalError="Herohold is still saving. Choose the file again when it finishes.";return;}
+        Uploading=true;LocalError=null;
+        try
+        {
+            var file=args.File;if(file.Size>20*1024*1024)throw new InvalidOperationException("Choose a file smaller than 20 MB.");
+            using var memory=new MemoryStream();await using var input=file.OpenReadStream(20*1024*1024);await input.CopyToAsync(memory);
+            await Session.ReviewUploadAsync(file.Name,memory.ToArray());if(Session.Error is null)await OnWorkflowStarted.InvokeAsync();
+        }
+        catch(Exception e)when(e is IOException or InvalidOperationException or ArgumentException){LocalError=e.Message;}
+        finally{Uploading=false;}
+    }
+}

@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "fixedFacts": {
+    "counts": {"classes": 12, "species": 10, "backgrounds": 16, "feats": 55, "spells": 391, "equipment": 217, "weapons": 41},
+    "firstNames": {"classes": "Barbarian", "species": "Aasimar", "backgrounds": "Acolyte", "feats": "Ability Score Improvement", "spells": "Acid Splash", "weapons": "Battleaxe"},
+    "equipmentFirst": ["Acid", "Airship", "Alchemist's Fire", "Alchemist's Supplies", "Ale (mug)"],
+    "equipmentLast": ["Woodcarver's Tools", "Wooden Staff", "Yew Wand"],
+    "rituals": {"Alarm": true, "Comprehend Languages": true, "Fire Bolt": false},
+    "classWeaponProficiencies": {
+      "Monk": ["Martial Weapons That Have The Light Property", "Simple Weapons"],
+      "Rogue": ["Martial Weapons That Have The Finesse Or Light Property", "Simple Weapons"]
+    }
+  },
+  "syntheticCases": [
+    {
+      "id": "recursive-cleaning-and-unknown-preservation",
+      "inputs": {
+        "classes": [{"name": "Fictional Class", "unknown": {"future": [null, true, 12, 1.25, "  untouched  ", "  Use {@spell Alarm|XPHB} at {@dc 17}.  "], "display": "{@spell Shield|XPHB|a ward}", "filter": "{@FILTER Light|items|query}", "emptyPipe": "{@spell Shield||different}", "nested": "{@b {@spell Alarm|XPHB}}", "malformed": "  broken {@spell  ", "empty": "{@mystery}"}}],
+        "species": [{"name": "Second species", "order": [3, 1, 2]}, {"name": "First species", "extra": "{@condition Prone|XPHB}"}],
+        "backgrounds": [{"name": "Fictional Background", "unknownFlag": false}],
+        "feats": [{"name": "Fictional Feat", "unknownArray": [{"text": "{@note internal|source|display}"}]}],
+        "spells": [{"name": "ALARM", "source": "xphb", "unknown": "keep"}, {"name": "Fire Bolt", "source": "XPHB", "ritual": true}],
+        "equipment": ["  untouched equipment  ", "{@item Rope|XPHB}", "Second", "First"],
+        "weapons": [{"name": "Fictional Weapon", "futureProperties": ["one", "two"]}],
+        "rawSpells": {"spell": [{"name": "Alarm", "source": "XPHB", "meta": {"ritual": false}}, {"name": "ALARM", "source": "xphb", "meta": {"ritual": true}}, {"name": "Fire Bolt", "source": "XPHB"}]}
+      },
+      "expected": {
+        "catalogs": {
+          "classes": [{"name": "Fictional Class", "unknown": {"future": [null, true, 12, 1.25, "  untouched  ", "Use Alarm at DC 17."], "display": "a ward", "filter": "Light", "emptyPipe": "Shield", "nested": "{@b Alarm}", "malformed": "broken {@spell", "empty": ""}}],
+          "species": [{"name": "Second species", "order": [3, 1, 2]}, {"name": "First species", "extra": "Prone"}],
+          "backgrounds": [{"name": "Fictional Background", "unknownFlag": false}],
+          "feats": [{"name": "Fictional Feat", "unknownArray": [{"text": "display"}]}],
+          "spells": [{"name": "ALARM", "source": "xphb", "unknown": "keep", "ritual": true}, {"name": "Fire Bolt", "source": "XPHB", "ritual": false}],
+          "equipment": ["  untouched equipment  ", "Rope", "Second", "First"],
+          "weapons": [{"name": "Fictional Weapon", "futureProperties": ["one", "two"]}]
+        }
+      }
+    },
+    {
+      "id": "ritual-defaults-and-python-truthiness",
+      "inputs": {
+        "classes": [], "species": [], "backgrounds": [], "feats": [], "equipment": [], "weapons": [],
+        "spells": [{"name": "Truthy String", "source": "XPHB"}, {"name": "Zero", "source": "XPHB"}, {"name": "Empty List", "source": "XPHB"}, {"name": "Filled List", "source": "XPHB"}, {"name": "Missing", "source": "XPHB"}, {"name": "Default Source"}],
+        "rawSpells": {"spell": [{"name": "Truthy String", "source": "XPHB", "meta": {"ritual": "false"}}, {"name": "Zero", "source": "XPHB", "meta": {"ritual": 0}}, {"name": "Empty List", "source": "XPHB", "meta": {"ritual": []}}, {"name": "Filled List", "source": "XPHB", "meta": {"ritual": [0]}}, {"name": "Default Source", "source": "XPHB", "meta": {"ritual": true}}]}
+      },
+      "expected": {"catalogs": {
+        "classes": [], "species": [], "backgrounds": [], "feats": [], "equipment": [], "weapons": [],
+        "spells": [{"name": "Truthy String", "source": "XPHB", "ritual": true}, {"name": "Zero", "source": "XPHB", "ritual": false}, {"name": "Empty List", "source": "XPHB", "ritual": false}, {"name": "Filled List", "source": "XPHB", "ritual": true}, {"name": "Missing", "source": "XPHB", "ritual": false}, {"name": "Default Source", "ritual": true}]
+      }}
+    },
+    {
+      "id": "equipment-must-stay-strings",
+      "inputs": {"classes": [], "species": [], "backgrounds": [], "feats": [], "spells": [], "equipment": [{"name": "Wrong shape"}], "weapons": [], "rawSpells": {"spell": []}},
+      "reject": true,
+      "expected": {"rejected": true}
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "ability_modifiers": {},
+  "ability_score_adjustments": [],
+  "ability_score_assignments": {},
+  "ability_score_bonuses": {
+    "Charisma": 0,
+    "Constitution": 0,
+    "Dexterity": 0,
+    "Intelligence": 0,
+    "Strength": 0,
+    "Wisdom": 0
+  },
+  "ability_score_method": "Manual entry",
+  "ability_scores": {
+    "Charisma": 10,
+    "Constitution": 10,
+    "Dexterity": 10,
+    "Intelligence": 10,
+    "Strength": 10,
+    "Wisdom": 10
+  },
+  "armor_class": 10,
+  "armor_proficiencies": [],
+  "background": "",
+  "background_feature": "",
+  "background_options": {},
+  "base_ability_scores": {
+    "Charisma": 10,
+    "Constitution": 10,
+    "Dexterity": 10,
+    "Intelligence": 10,
+    "Strength": 10,
+    "Wisdom": 10
+  },
+  "character_id": "",
+  "class": "",
+  "class_levels": {},
+  "class_options": {},
+  "completed_level_up_transactions": [],
+  "custom_equipment": [],
+  "derived_resources": {},
+  "equipment": [],
+  "equipment_migration_pending": false,
+  "equipment_modifier_bonuses": {},
+  "expertise": [],
+  "feature_configurations": [],
+  "features": [],
+  "general_feats": [],
+  "hit_dice": {},
+  "hit_points": {
+    "current": 0,
+    "hit_die": "",
+    "max": 0,
+    "maximum": 0,
+    "temporary": 0
+  },
+  "hp_history": [],
+  "hp_rolls": [],
+  "import_overrides": {
+    "maximum_hp_adjustment": 0
+  },
+  "import_provenance": {},
+  "include_default_equipment": true,
+  "initiative": 0,
+  "languages": [
+    "Common"
+  ],
+  "level": 1,
+  "level_history": [],
+  "name": "",
+  "notes": "",
+  "origin_feat_choices": {
+    "cantrips": [],
+    "skills": [],
+    "spell": "",
+    "spellcasting_ability": "",
+    "tools": []
+  },
+  "origin_feats": [],
+  "origin_languages": [],
+  "pdf_passthrough_fields": {},
+  "pending_choices": [],
+  "presentation_preferences": {
+    "featured_cantrip": "",
+    "primary_weapon": "",
+    "weapon_wielding_modes": {}
+  },
+  "proficiency_bonus": 2,
+  "rolled_ability_scores": [],
+  "saving_throw_bonuses": {},
+  "saving_throw_proficiencies": [],
+  "schema_version": 5,
+  "size": "",
+  "skill_bonuses": {},
+  "skill_proficiencies": [],
+  "species": "",
+  "species_options": {},
+  "species_traits": [],
+  "speed": 30,
+  "spells": {
+    "cantrips": [],
+    "known": [],
+    "prepared": [],
+    "spellbook": []
+  },
+  "subclass": "",
+  "tool_proficiencies": [],
+  "weapon_masteries": [],
+  "weapon_proficiencies": []
+}

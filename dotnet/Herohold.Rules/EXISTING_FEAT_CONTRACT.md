@@ -1,0 +1,19 @@
+# Owned feat review and repair
+
+`ExistingFeatValidationRules(snapshot, selectionRules)` is pure and does not load files or invoke a runtime. `Validate(canonical, current)` returns stable `BuildIssue` records. `DescribeChoices` returns detached `ExistingFeatChoice` records; `ApplyChoices(canonical, instanceId, choices)` returns a detached draft. The caller recalculates and validates that draft before persistence.
+
+Known feat IDs and names must agree. Missing IDs may resolve from a known name. Unknown rules and missing historical gain levels produce warnings and preserve the original record. Known malformed children, allocations, duplicate nonrepeatable feats, conflicting identities, and ambiguous linked ability increases produce errors. `source.type=class_level` or explicit `level_taken` establishes a gain level; an import-time source level does not.
+
+Prerequisite checks exclude the feat's own proficiency source. `FeatRuleContext.SourceLevels` excludes known later proficiency grants, so Resilient taken before Monk's Disciplined Survivor remains legal. Known score histories are rebuilt without the feat's linked increase using native capped calculations; requested boosts are not subtracted from final scores at a cap. Unknown histories remain explicitly unverified.
+
+Each descriptor's `Fields.Path` is relative to the fixed feat-mode value: `[feat_ability_choice]` or `[feat_choices, key]`. The owning operation identifies the existing feat instance; clients cannot replace its ID. Skill Expert's expertise choices include its proposed new trained skill. ASI records expose allocation mode and ability controls. Every descriptor and selection is detached from the source.
+
+A valid explicit repair updates one existing linked ability adjustment in place, preserving its source and other safe fields. Invalid selections remain visible for repair without changing that adjustment. Missing ability links are not created during inspection or ordinary repair: a legacy base may already include the increase. Only `apply_ability_increase=true` explicitly creates a missing owned record, once. The optional boolean control asks whether the user's base already includes the increase. Persistence still requires complete validation.
+
+Tests record nine initial NotImplementedException failures, then additional failures for ignored unknown child keys, false historical Resilient rejection, and an invalid split allocation being interpreted as +2. Twelve focused cases verify these boundaries, identity/source preservation, native pre-self prerequisite checks, and repeat-safe repair.
+
+Explicit structured repair archives unsupported old child keys under `folio_legacy_choice_history` before removing them from active choices. Inspection preserves them unchanged and reports an error. This permits repair without discarding imported evidence. Malformed source shapes are review errors rather than exceptions.
+
+An exact owned ability link must also match the feat's chosen allocation and catalog cap; valid children do not authorize a different stored raise. Explicit repair normalizes that link's allocation and cap in place. Unknown-level manual saving throw sources cannot establish that Resilient's chosen save was already proficient when the feat was gained; this case emits `unknown_source_history` rather than inventing a historical conflict. Known earlier saving throw sources still exclude the save.
+
+`NormalizeIdentities(canonical)` is a detached calculation-identity pass using the same augmented definitions. Known IDs or case-insensitive names resolve a canonical feat name and fill a missing ID. Conflicting nonempty identities, malformed identity fields, and unknown records stay raw for blocking review; normalization never repairs children, appends bonuses, or hides evidence. Explicit `ApplyChoices` uses this same identity normalization.

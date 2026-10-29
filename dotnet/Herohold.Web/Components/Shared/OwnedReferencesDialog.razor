@@ -1,0 +1,62 @@
+@using System.Text.Json.Nodes
+@inject IJSRuntime JS
+@implements IDisposable
+<dialog id="sheet-references-dialog" class="dialog owned-references-dialog" aria-labelledby="sheet-references-title"><div class="dialog-inner">
+    <div class="dialog-heading"><h2 id="sheet-references-title">Languages &amp; features</h2><button type="button" class="icon-button" aria-label="Close training and features" @onclick="Close">×</button></div>
+    @if(Opened&&Character is { } c)
+    {
+        var profile=SheetRules.Profile(c);
+        <section class="reference-training"><dl>@foreach(var group in Training(profile)){<div><dt>@group.Name</dt><dd>@(group.Values.Count>0?string.Join(", ",group.Values):"Not recorded")</dd></div>}</dl><button type="button" class="text-link" @onclick="Edit">Edit languages &amp; training →</button></section>
+
+        @if(Loading){<p class="small muted" role="status">Loading features…</p>}
+        else if(ReferenceUnavailable){<p class="small muted">Some feature descriptions are unavailable. Check your rulebook for details.</p>}
+        @foreach(var group in FeatureGroups)
+        {
+            var entries=References.Where(r=>r.Group==group.Key).ToArray();
+            <section class="owned-feature-group" data-testid='@("features-"+group.Key)'><h3>@group.Title</h3>@foreach(var feature in entries){<details><summary>@feature.Name</summary><small class="muted">@DisplaySource(feature.Source)</small><p>@(string.IsNullOrWhiteSpace(feature.Description)?"See your rulebook for this feature.":feature.Description)</p></details>}@if(entries.Length==0){<p class="small muted">None listed.</p>}</section>
+        }
+    }
+</div></dialog>
+@code {
+    [Parameter,EditorRequired]public CharacterState Character {get;set;}=default!;
+    [Parameter]public WorkspaceSession? Session {get;set;}
+    [Parameter]public EventCallback OnEditProfile {get;set;}
+    private bool Opened;
+    private bool Loading,ReferenceUnavailable,Disposed;
+    private List<FeatureDetail>? ReadDetails;
+    private sealed record OwnedReference(string Name,string Description,string Source,string Group);
+    private static readonly (string Key,string Title)[] FeatureGroups=[("class","Class & subclass features"),("feats","Feats"),("species","Species traits"),("other","Background & other features")];
+    public async Task OpenAsync()
+    {
+        Opened=true;ReadDetails=null;ReferenceUnavailable=false;Loading=Session is not null;await InvokeAsync(StateHasChanged);await JS.InvokeVoidAsync("heroholdUi.openDialog","sheet-references-dialog");
+        if(Session is not null)
+        {
+            var sourceId=Character.Id;var rows=await Session.ReadOwnedFeatureReferencesAsync(sourceId);if(Disposed||Character.Id!=sourceId)return;
+            ReadDetails=rows;Loading=false;ReferenceUnavailable=rows is null&&Character.Derived.FeatureDetails.Count==0;await InvokeAsync(StateHasChanged);
+        }
+    }
+    private Task Close()=>JS.InvokeVoidAsync("heroholdUi.closeDialog","sheet-references-dialog").AsTask();
+    private async Task Edit(){await Close();await OnEditProfile.InvokeAsync();}
+    private IEnumerable<(string Name,IReadOnlyList<string> Values,string Source)> Training(CharacterProfile p)
+    {
+        var raw=Character.Sheet.Profile;
+        yield return("Languages",p.Languages??[],raw.Languages is null?"Build / imported source":"Manual override");
+        yield return("Armor training",p.ArmorTraining??[],raw.ArmorTraining is null?"Build / imported source":"Manual override");
+        yield return("Weapon proficiencies",p.WeaponProficiencies??[],raw.WeaponProficiencies is null?"Build / imported source":"Manual override");
+        yield return("Tool proficiencies",p.ToolProficiencies??[],raw.ToolProficiencies is null?"Build / imported source":"Manual override");
+    }
+    private IEnumerable<OwnedReference> References
+    {
+        get
+        {
+            var rows=new List<OwnedReference>();
+            foreach(var d in (ReadDetails??[]).Concat(Character.Derived.FeatureDetails)){var source=d.Source;var group=source.StartsWith("species:",StringComparison.Ordinal)?"species":source.StartsWith("feat:",StringComparison.Ordinal)||source.StartsWith("origin:",StringComparison.Ordinal)?"feats":source.StartsWith("class:",StringComparison.Ordinal)||source.StartsWith("subclass:",StringComparison.Ordinal)?"class":"other";rows.Add(new(d.Name,d.Description,source,group));}
+            void Named(IEnumerable<string> names,string group,string source){foreach(var name in names)if(!rows.Any(r=>r.Name==name))rows.Add(new(name,Character.Derived.FeatureDescriptions.GetValueOrDefault(name,""),source,group));}
+            Named(Character.Derived.SpeciesTraits,"species","Species record");Named(Character.Derived.OriginFeats,"feats","Origin feat record");Named((Character.Build?.Feats??[]).Select(f=>f.Name).Where(n=>n.Length>0),"feats","Feat record");
+            Named(Character.Features,"other","Recorded feature");
+            return rows.DistinctBy(r=>(r.Name,r.Source));
+        }
+    }
+    private static string DisplaySource(string source)=>source.Contains(':')?string.Join(" · ",source.Split(':').Skip(1)):source switch{"Species record"=>"Species","Origin feat record"=>"Background","Feat record"=>"Feat","Recorded feature"=>"Character feature",_=>source};
+    public void Dispose()=>Disposed=true;
+}

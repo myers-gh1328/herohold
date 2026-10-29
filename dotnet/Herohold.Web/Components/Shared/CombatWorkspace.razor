@@ -1,0 +1,118 @@
+@if(!Character.Combat.Enabled)
+{
+    @if(ShowEntryControl){<div class="combat-entry"><button class="button" data-testid="enter-combat" disabled="@Busy" @onclick="()=>Entering=true">@(Character.Combat.EncounterActive?"Resume combat mode":"Enter combat mode")</button><small>Optional turn tracking. Your ordinary sheet stays available.</small></div>}
+    @if(!Character.Combat.EncounterActive)
+    {
+        <div class="sheet-shortcuts">
+            @if(CanResumeRoll){<button class="button" data-testid="resume-pending-roll" disabled="@Busy" @onclick="()=>OnResumeRoll.InvokeAsync()">Resume @Character.Play.LastRoll!.Name · @Character.Play.LastRoll.Mode dice</button>}
+            @if(CombatRules.HasPendingCast(Character)){<button class="button" data-testid="resume-pending-cast" disabled="@Busy" @onclick="()=>OnResumeCast.InvokeAsync()">Resume @Character.Play.LastCast!.Preview.Name · @Character.Play.LastCast.Mode dice</button>}
+        </div>
+    }
+    @if(Entering)
+    {
+        <section class="panel combat-review" aria-label="Enter combat mode">
+            <h2>@(Character.Combat.EncounterActive?"Resume encounter":"Start encounter")</h2>
+            @if(!Character.Combat.EncounterActive){<label class="inline-option"><input data-testid="combat-own-turn-now" type="checkbox" @bind="OwnTurnNow" /> The table confirms my turn starts now</label><p class="small">Otherwise, start tracking between turns. Entering combat does not roll initiative or restore resources.</p>}
+            <button class="button" @onclick="()=>Entering=false">Cancel</button><button class="button primary" data-testid="confirm-enter-combat" disabled="@Busy" @onclick="Enter">@(Character.Combat.EncounterActive?"Resume":"Start encounter")</button>
+        </section>
+    }
+}
+else
+{
+    <section class="combat-workspace" aria-label="Combat mode">
+        <div class="combat-engaged" data-testid="combat-engaged"><strong>⚔ COMBAT MODE</strong><span>Round @Character.Combat.Round · @(Character.Combat.Phase==CombatPhase.OwnTurn?"Your turn":Character.Combat.Phase==CombatPhase.ExternalTurn?"Another creature’s turn":"Between turns")</span><button class="text-link" disabled="@Busy" @onclick="()=>Send(CombatTransitionKind.Leave)">Return to sheet</button></div>
+        <div class="combat-allowances" aria-label="Turn allowances"><span class="combat-allowance" data-ready='@(Character.Combat.ActionAvailable?"yes":"no")'>Action <strong>@Availability(Character.Combat.ActionAvailable)</strong></span><span class="combat-allowance" data-ready='@(Character.Combat.BonusActionAvailable?"yes":"no")'>Bonus action <strong>@Availability(Character.Combat.BonusActionAvailable)</strong></span><span class="combat-allowance" data-ready='@(Character.Combat.ReactionAvailable?"yes":"no")'>Reaction <strong>@Availability(Character.Combat.ReactionAvailable)</strong></span><span class="combat-allowance">Attacks left <strong>@Character.Combat.AttacksRemaining</strong></span><span class="combat-allowance">Movement <strong>@Character.Combat.MovementSpent / @(CharacterCalculations.Speed(Character)+Character.Combat.MovementGranted) ft</strong></span><span class="combat-allowance">Slot spell this turn <strong>@(Character.Combat.SlotCastThisTurn?"Cast":"Not yet")</strong></span></div>
+        <details><summary>Record movement</summary><label class="field">Feet moved<input data-testid="combat-move-feet" type="number" min="0" max="100000" @bind="FeetMoved" /></label><button class="button" data-testid="combat-record-move" disabled="@(Busy||FeetMoved<0||FeetMoved>CharacterCalculations.Speed(Character)+Character.Combat.MovementGranted-Character.Combat.MovementSpent||Character.Combat.Phase!=CombatPhase.OwnTurn||CombatRules.Incapacitated(Character))" @onclick="Move">Record movement</button></details>
+        <CombatTimerEditor Character="Character" Busy="Busy" OnTransition="OnTransition" />
+        @if(Character.CurrentHp==0&&!Character.Sheet.DeathSaves.Dead&&!Character.Sheet.DeathSaves.Stable&&Character.Combat.Phase==CombatPhase.OwnTurn&&Character.Combat.DeathSaveRecordedTurnId!=Character.Combat.TurnId){<p class="reference-line" data-testid="combat-death-save-due"><strong>Death save due at the start of your turn.</strong> <button class="button primary" @onclick="()=>OnSurvival.InvokeAsync()">Record death save</button></p>}
+        @if(CanResumeRoll){<p class="reference-line">Unresolved: @Character.Play.LastRoll!.Name <button class="button" data-testid="combat-resume-roll" @onclick="()=>OnResumeRoll.InvokeAsync()">Resume roll / hit resolution</button></p>}
+        @if(CombatRules.HasPendingCast(Character)){<p class="reference-line">Unresolved spell effect <button class="button" data-testid="combat-resume-cast" @onclick="()=>OnResumeCast.InvokeAsync()">Resume spell effect</button></p>}
+        <div class="sheet-shortcuts">
+            @if(Character.Combat.Phase==CombatPhase.OwnTurn){<button class="button primary" data-testid="combat-end-turn" disabled="@Busy" @onclick="()=>Review(CombatTransitionKind.EndTurn)">End my turn</button>}
+            else{<button class="button primary" data-testid="combat-start-turn" disabled="@Busy" @onclick="()=>ConfirmingTurn=true">My turn starts</button><button class="button" disabled="@Busy" @onclick="()=>ExternalTurnOpen=true">Another creature’s turn</button>}
+            <button class="button" data-testid="combat-next-round" disabled="@Busy" @onclick="()=>Review(CombatTransitionKind.AdvanceRound)">Advance round</button><button class="text-link" @onclick="()=>Configuring=!Configuring">Configure combat layout</button><button class="text-link" @onclick="()=>EndingEncounter=true">End encounter</button>
+        </div>
+        @if(ConfirmingTurn){<section class="combat-review"><h3>Confirm a new turn with the table</h3><p>This starts your next turn and restores your Action, Bonus Action and Reaction. It does not advance the round.</p><button class="button" @onclick="()=>ConfirmingTurn=false">Cancel</button><button class="button primary" disabled="@Busy" data-testid="combat-confirm-start" @onclick="StartOwnTurn">The table confirms my new turn</button></section>}
+        @if(ExternalTurnOpen){<section class="combat-review"><label class="field">Creature identifier<input maxlength="80" @bind="Actor" placeholder="For example: goblin-1" /></label><p>Record a real creature-turn boundary. This does not restore your Reaction or Action.</p><button class="button" @onclick="()=>ExternalTurnOpen=false">Cancel</button><button class="button" disabled="@(Busy||string.IsNullOrWhiteSpace(Actor))" @onclick="ExternalTurn">Confirm creature’s turn</button></section>}
+        @if(EndingEncounter){<section class="combat-review"><h3>End this encounter?</h3><p>Resources stay spent and surviving conditions remain. Ending an encounter is not a rest.</p><button class="button" @onclick="()=>EndingEncounter=false">Cancel</button>@if(HasPending){<label class="inline-option"><input type="checkbox" @bind="AbandonPending" /> Abandon my pending roll or spell effect; resources stay spent</label>}<button class="button" disabled="@(Busy||HasPending&&!AbandonPending)" @onclick="EndEncounter">Confirm end encounter</button></section>}
+        @if(PendingAdvance is {} advance)
+        {
+            var preview=CombatRules.Preview(Character,advance);
+            <section class="panel combat-review" data-testid="combat-advance-preview" aria-label="Review combat advance"><h3>@(advance.Kind==CombatTransitionKind.EndTurn?"End your turn?":"Advance game round?")</h3>
+                @foreach(var warning in preview.UnusedOpportunities){<p>Unused usable @warning</p>}
+                @foreach(var name in preview.ExpiringEffects){<p>Will expire: @name</p>}
+                @foreach(var save in preview.DueSaves){<p>Save pending: @save</p>}
+                @if(preview.UnusedOpportunities.Count==0){<p>No unused usable Action or Bonus Action.</p>}
+                @if(HasPending){<label class="inline-option"><input type="checkbox" @bind="AbandonPending" /> Abandon my unresolved roll or spell effect (resources stay spent)</label>}
+                <p class="small">Movement and Reaction are not turn-ending warnings. Rounds do not refresh turn allowances.</p><button class="button" data-testid="combat-cancel-advance" @onclick="()=>PendingAdvance=null">Cancel</button><button class="button primary" data-testid="combat-confirm-advance" disabled="@(Busy||HasPending&&!AbandonPending)" @onclick="ConfirmAdvance">Confirm</button>
+            </section>
+        }
+        @if(Configuring)
+        {
+            <section class="panel combat-layout"><h3>Combat layout</h3><p class="small">These preferences affect combat mode only. Effects, health and resources remain visible.</p>
+                @foreach(var section in Character.Combat.Layout.Sections){var index=Character.Combat.Layout.Sections.IndexOf(section);<div class="combat-layout-row"><strong>@Title(section)</strong><button class="button" aria-label='@("Move "+section+" up")' disabled="@(Busy||index==0)" @onclick="()=>Reorder(section,-1)">↑</button><button class="button" aria-label='@("Move "+section+" down")' disabled="@(Busy||index==4)" @onclick="()=>Reorder(section,1)">↓</button>@if(section!="effects"){<label><input type="checkbox" checked="@(!Character.Combat.Layout.HiddenSections.Contains(section))" @onchange="()=>ToggleSection(section)" /> Show</label>}</div>}
+                <details><summary>Pin skills</summary>@foreach(var skill in Skills){<label class="inline-option"><input type="checkbox" checked="@Character.Combat.Layout.PinnedSkills.Contains(skill.Name)" @onchange='()=>Pin(skill.Name,"skills")' /> @skill.Name</label>}</details>
+                <details><summary>Pin spells</summary>@foreach(var spell in Spells){<label class="inline-option"><input type="checkbox" checked="@Character.Combat.Layout.PinnedSpells.Contains(spell.Id)" @onchange='()=>Pin(spell.Id,"spells")' /> @spell.Name</label>}</details>
+                <details><summary>Pin owned features &amp; items</summary>@foreach(var feature in Character.Features){<label class="inline-option"><input type="checkbox" checked="@Character.Combat.Layout.PinnedFeatures.Contains(feature)" @onchange='()=>Pin(feature,"features")' /> @feature</label>}@foreach(var item in Character.Equipment){<label class="inline-option"><input type="checkbox" checked="@Character.Combat.Layout.PinnedItems.Contains(item.Id)" @onchange='()=>Pin(item.Id,"items")' /> @item.Name</label>}</details>
+                <label class="inline-option"><input type="checkbox" @bind="ResetConfirmed" /> Reset my combat layout</label><button class="button" disabled="@(Busy||!ResetConfirmed)" @onclick="()=>Layout(new())">Confirm reset</button>
+            </section>
+        }
+        @if(Character.Combat.Timers.Any(x=>x.AwaitingSave)){<section class="panel combat-pending-saves" aria-label="Pending combat saves"><h3>Saves to resolve at the table</h3>@foreach(var timer in Character.Combat.Timers.Where(x=>x.AwaitingSave)){<div><strong>@(Character.Effects.FirstOrDefault(x=>x.Id==timer.EffectId)?.Name)</strong><span>@timer.SavePrompt</span><button class="button" disabled="@Busy" @onclick="()=>Save(timer.EffectId,true)">Succeeded — end effect</button><button class="button" disabled="@Busy" @onclick="()=>Save(timer.EffectId,false)">Failed — effect continues</button></div>}</section>}
+        <details class="combat-standard-actions"><summary>Standard actions &amp; eligibility</summary><p class="small">Actions with table facts require confirmation. Specific attack and casting buttons spend their own allowances.</p>@foreach(var option in CombatRules.Options(Character)){<div class="combat-action"><button class="button" data-combat-action="@option.Id" disabled="@(Busy||!option.Allowed)" @onclick="()=>ChooseAction(option)">@option.Name</button><small>@option.Cost · @option.Source @if(!string.IsNullOrWhiteSpace(option.Reason)){<span>· @option.Reason</span>}</small></div>}@if(TableOption is {} selected){<div class="combat-review"><p>Confirm the trigger, range, target and other required facts for @selected.Name at the table.</p><button class="button" @onclick="()=>TableOption=null">Cancel</button><button class="button" @onclick="()=>ConfirmAction(selected)">Facts confirmed — spend @selected.Cost</button></div>}</details>
+        @{var visibleSections=Character.Combat.Layout.Sections.Where(x=>!Character.Combat.Layout.HiddenSections.Contains(x)).ToList();var splitSpells=visibleSections.Contains("spells");}
+        @* Spells are the tall list, so they get their own column; the other sections stack beside them. On phones the configured order returns. *@
+        <div class='@("combat-sections"+(splitSpells?" combat-sections--split":""))'>
+            <div class="combat-column">@foreach(var section in visibleSections.Where(x=>x!="spells")){<div class="combat-slot" style="order:@visibleSections.IndexOf(section)">@CombatSection(section)</div>}</div>
+            @if(splitSpells){<div class="combat-column"><div class="combat-slot" style='order:@visibleSections.IndexOf("spells")'>@CombatSection("spells")</div></div>}
+        </div>
+        @if(Character.Combat.Layout.PinnedFeatures.Count>0||Character.Combat.Layout.PinnedItems.Count>0){<section class="panel"><h2>Pinned features &amp; items</h2>@foreach(var f in Character.Features.Where(x=>Character.Combat.Layout.PinnedFeatures.Contains(x))){<details><summary>@f</summary><small>Resolve source-specific requirements at the table unless a modeled action is available.</small></details>}@foreach(var item in Character.Equipment.Where(x=>Character.Combat.Layout.PinnedItems.Contains(x.Id))){<details><summary>@item.Name · @item.Quantity remaining</summary><p>@item.Description</p><button class="text-link" @onclick="()=>OnItem.InvokeAsync(item)">Open item</button></details>}</section>}
+    </section>
+}
+@code {
+    private RenderFragment CombatSection(string section)=>@<section class="panel combat-section" data-combat-section="@section"><div class="panel-heading"><h2>@Title(section)</h2>@if(section is "skills" or "spells"){<button class="text-link" @onclick="()=>ShowAll=!ShowAll">@(ShowAll?"Pinned only":"Show all")</button>}</div>
+                @if(section=="attacks"){@ChildContent}
+                else if(section=="spells"){var shown=Spells.Where(x=>ShowAll||Character.Combat.Layout.PinnedSpells.Count==0||Character.Combat.Layout.PinnedSpells.Contains(x.Id)).Select(x=>(Spell:x,Option:CombatRules.CastOption(Character,x))).ToList();var sharedReason=SharedLockReason(shown.Select(x=>x.Option.Reason));@if(sharedReason.Length>0){<p class="combat-lock-summary" data-testid="combat-spell-lock">@sharedReason</p>}@foreach(var (spell,option) in shown){<div class="combat-spell-row"><div><details><summary>@spell.Name · @SpellText.CastingTime(spell.CastingTime)</summary><p>@spell.Description</p><small>@spell.Range · @string.Join(", ",spell.Components)</small></details>@if(option.Reason.Length>0&&option.Reason!=sharedReason){<small class="combat-lock-reason">@option.Reason</small>}</div><button class="button" data-combat-cast="@spell.Id" disabled="@(Busy||!option.Allowed)" @onclick="()=>OnCast.InvokeAsync(spell)">Cast</button></div>}}
+                else if(section=="skills"){@foreach(var skill in Skills.Where(x=>ShowAll||Character.Combat.Layout.PinnedSkills.Contains(x.Name))){<div class="combat-check-row"><button class="text-link" aria-label='@("Roll "+skill.Name)' disabled="@Busy" @onclick="()=>OnSkill.InvokeAsync((skill.Name,skill.Ability))">@skill.Name</button><CalculationValue Value="CharacterCalculations.Skill(Character,skill.Name,skill.Ability)" Label="@skill.Name" /></div>}}
+                else if(section=="saves"){@foreach(var ability in Enum.GetValues<Ability>()){<div class="combat-check-row"><button class="text-link" aria-label='@("Roll "+ability+" saving throw")' disabled="@Busy" @onclick="()=>OnSave.InvokeAsync(ability)">@ability</button><CalculationValue Value="CharacterCalculations.Save(Character,ability)" Label='@(ability+" saving throw")' /></div>}}
+                else if(section=="effects"){@if(Character.Exhaustion>0){<p><strong>Exhaustion @Character.Exhaustion / 6</strong></p>}@foreach(var effect in SheetRules.EffectiveEffects(Character)){<p><strong>@effect.Name</strong> · @effect.Source @if(Character.Combat.Timers.FirstOrDefault(t=>t.EffectId==effect.Id) is {} timer){<small>@TimerText(timer)</small>}else{<small>Table-managed duration</small>}</p>}@if(!SheetRules.EffectiveEffects(Character).Any()&&Character.Exhaustion==0){<p>No effects tracked.</p>}}
+            </section>;
+    [Parameter,EditorRequired] public CharacterState Character {get;set;}=default!;
+    [Parameter] public bool Busy {get;set;}
+    [Parameter] public EventCallback<CombatTransitionRequest> OnTransition {get;set;}
+    [Parameter] public RenderFragment? ChildContent {get;set;}
+    [Parameter] public IEnumerable<SpellDefinition> Spells {get;set;}=[];
+    [Parameter] public EventCallback<SpellDefinition> OnCast {get;set;}
+    [Parameter] public EventCallback<(string Name,Ability Ability)> OnSkill {get;set;}
+    [Parameter] public EventCallback<Ability> OnSave {get;set;}
+    [Parameter] public EventCallback<EquipmentItem> OnItem {get;set;}
+    [Parameter] public EventCallback OnResumeRoll {get;set;}
+    [Parameter] public EventCallback OnResumeCast {get;set;}
+    [Parameter] public EventCallback OnSurvival {get;set;}
+    [Parameter]public bool ShowEntryControl {get;set;}=true;
+    public Task BeginEntryAsync(){if(!Busy)Entering=true;return InvokeAsync(StateHasChanged);}
+    private bool Entering,OwnTurnNow,ConfirmingTurn,ExternalTurnOpen,EndingEncounter,Configuring,ResetConfirmed,ShowAll,AbandonPending;
+    private string Actor="";private int FeetMoved=5;private CombatOption? TableOption;private CombatTransitionRequest? PendingAdvance;
+    private bool HasPending=>Character.Play.LastRoll is {Resolved:false}||CombatRules.HasPendingCast(Character);
+    private bool CanResumeRoll=>Character.Play.LastRoll is {Resolved:false} roll&&(roll.Kind!=RollKind.Attack||Character.Combat.AttackSelection is {AttackProfile:not null} selection&&selection.RollId==roll.Id);
+    private static string TimerText(CombatEffectTimer timer)=>timer.Duration==CombatDuration.GameSeconds?$"{timer.Remaining}s remaining (original {timer.OriginalAmount} {timer.OriginalUnit})":timer.Duration==CombatDuration.Rounds?$"{timer.Remaining} rounds remaining":timer.Duration switch{CombatDuration.CreatorNextStart=>"Until creator’s next turn starts",CombatDuration.CreatorNextEnd=>"Until creator’s next turn ends",CombatDuration.TargetNextStart=>"Until target’s next turn starts",CombatDuration.TargetNextEnd=>"Until target’s next turn ends",CombatDuration.RepeatedSave=>"Save at end of target’s turn",_=>"No automatic expiry"};
+    private static string Availability(bool available)=>available?"Ready":"Used";
+    /// <summary>A lock reason shared by every listed spell is shown once rather than under each row.</summary>
+    public static string SharedLockReason(IEnumerable<string> reasons){var list=reasons.ToList();return list.Count>1&&list[0].Length>0&&list.All(r=>r==list[0])?list[0]:"";}
+    private static string Title(string id)=>char.ToUpperInvariant(id[0])+id[1..];
+    private Task Send(CombatTransitionKind kind)=>OnTransition.InvokeAsync(new(){Kind=kind,EncounterId=Character.Combat.EncounterId});
+    private async Task Enter(){Entering=false;await OnTransition.InvokeAsync(new(){Kind=Character.Combat.EncounterActive?CombatTransitionKind.Resume:CombatTransitionKind.Enter,NewEncounter=true,EncounterId=Character.Combat.EncounterActive?Character.Combat.EncounterId:Guid.NewGuid().ToString("N"),OwnTurnNow=OwnTurnNow,TableBoundaryConfirmed=OwnTurnNow,BoundaryId=Guid.NewGuid().ToString("N")});}
+    private async Task StartOwnTurn(){ConfirmingTurn=false;await OnTransition.InvokeAsync(new(){Kind=CombatTransitionKind.StartTurn,EncounterId=Character.Combat.EncounterId,BoundaryId=Guid.NewGuid().ToString("N"),TableBoundaryConfirmed=true});}
+    private Task EndEncounter()=>OnTransition.InvokeAsync(new(){Kind=CombatTransitionKind.EndEncounter,AbandonPending=AbandonPending});
+    private Task Move()=>OnTransition.InvokeAsync(new(){Kind=CombatTransitionKind.Move,Amount=FeetMoved});
+    private async Task ExternalTurn(){ExternalTurnOpen=false;await OnTransition.InvokeAsync(new(){Kind=CombatTransitionKind.ExternalTurn,EncounterId=Character.Combat.EncounterId,ActorId=Actor.Trim(),BoundaryId=Guid.NewGuid().ToString("N"),TableBoundaryConfirmed=true});}
+    private void Review(CombatTransitionKind kind){AbandonPending=false;PendingAdvance=new(){Kind=kind,EncounterId=Character.Combat.EncounterId,Round=Character.Combat.Round+1};}
+    private async Task ConfirmAdvance(){var r=PendingAdvance;PendingAdvance=null;if(r is not null)await OnTransition.InvokeAsync(r with{AdvanceConfirmed=true,AbandonPending=AbandonPending});}
+    private async Task ChooseAction(CombatOption o){if(o.Support==CombatSupport.NeedsTableFact)TableOption=o;else await OnTransition.InvokeAsync(new(){Kind=CombatTransitionKind.SpendAction,ActionId=o.Id});}
+    private async Task ConfirmAction(CombatOption o){TableOption=null;await OnTransition.InvokeAsync(new(){Kind=CombatTransitionKind.SpendAction,ActionId=o.Id,TableBoundaryConfirmed=true});}
+    private Task Save(string id,bool success)=>OnTransition.InvokeAsync(new(){Kind=CombatTransitionKind.ResolveSave,EffectId=id,SaveSucceeded=success});
+    private Task Layout(CombatLayout layout)=>OnTransition.InvokeAsync(new(){Kind=CombatTransitionKind.ConfigureLayout,Layout=layout});
+    private Task Reorder(string id,int delta){var order=Character.Combat.Layout.Sections.ToList();var index=order.IndexOf(id);(order[index],order[index+delta])=(order[index+delta],order[index]);return Layout(Character.Combat.Layout with{Sections=order});}
+    private Task ToggleSection(string id){var hidden=Character.Combat.Layout.HiddenSections.ToList();if(!hidden.Remove(id))hidden.Add(id);return Layout(Character.Combat.Layout with{HiddenSections=hidden});}
+    private Task Pin(string id,string kind){var l=Character.Combat.Layout;var list=(kind switch{"skills"=>l.PinnedSkills,"spells"=>l.PinnedSpells,"features"=>l.PinnedFeatures,_=>l.PinnedItems}).ToList();if(!list.Remove(id))list.Add(id);return Layout(kind switch{"skills"=>l with{PinnedSkills=list},"spells"=>l with{PinnedSpells=list},"features"=>l with{PinnedFeatures=list},_=>l with{PinnedItems=list}});}
+    private static readonly (string Name,Ability Ability)[] Skills=[("Acrobatics",Ability.Dexterity),("Animal Handling",Ability.Wisdom),("Arcana",Ability.Intelligence),("Athletics",Ability.Strength),("Deception",Ability.Charisma),("History",Ability.Intelligence),("Insight",Ability.Wisdom),("Intimidation",Ability.Charisma),("Investigation",Ability.Intelligence),("Medicine",Ability.Wisdom),("Nature",Ability.Intelligence),("Perception",Ability.Wisdom),("Performance",Ability.Charisma),("Persuasion",Ability.Charisma),("Religion",Ability.Intelligence),("Sleight of Hand",Ability.Dexterity),("Stealth",Ability.Dexterity),("Survival",Ability.Wisdom)];
+}

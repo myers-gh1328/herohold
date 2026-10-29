@@ -1,0 +1,128 @@
+/* Shared herohold surfaces. Layout belongs to the page and component styles. */
+:root{--paper:#f1ecdf;--white:#fcf8ee;--rail:#e8e1d1;--ink:#302e28;--muted:#736d60;--line:#d5cbb8;--dark:#544834;--gold:#997444;--rust:#8d4d32;--moss:#738364;--soft-rust:#f2e3d6;--radius:8px;--accent:var(--gold)}
+:root[data-theme=dark]{--paper:#15191b;--white:#1e2326;--rail:#191e20;--ink:#eee8dc;--muted:#aaa69b;--line:#363d3e;--dark:#c8af7a;--gold:#bd9b60;--rust:#d9ae85;--moss:#99af98;--soft-rust:#342b25}
+html{-webkit-font-smoothing:antialiased;scrollbar-color:var(--line) transparent}
+body{background:radial-gradient(ellipse at 60% 0,color-mix(in srgb,var(--gold) 4%,transparent),transparent 60%),var(--paper);color:var(--ink);font-variant-numeric:tabular-nums}
+button,input,select,textarea{font-family:var(--sans)}
+button{touch-action:manipulation}
+button:focus-visible,summary:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.sheet-glyph{display:inline-block;flex:0 0 auto;vertical-align:middle;color:var(--gold)}
+.button{border-color:var(--line);border-radius:5px;background:var(--white);color:var(--ink);font-weight:500;box-shadow:0 1px 1px #00000005;transition:background-color .15s,border-color .15s,color .15s,transform .12s}
+.button:hover:not(:disabled){background:color-mix(in srgb,var(--gold) 9%,var(--white));border-color:var(--gold);color:var(--ink)}
+.button.primary{background:var(--gold);color:var(--paper);border-color:var(--gold);font-weight:650}
+:root:not([data-theme=dark]) .button.primary{color:#fffcf5}
+.button.primary:hover:not(:disabled){background:color-mix(in srgb,var(--gold) 85%,var(--ink));color:var(--paper)}
+.button:active:not(:disabled){transform:scale(.98)}
+.button:disabled{opacity:.5;cursor:default}
+.text-link{color:var(--rust);text-decoration:none;border-bottom:0;text-underline-offset:3px}
+.text-link:hover:not(:disabled){text-decoration:underline}
+.text-link:disabled{opacity:.35;cursor:default}
+.player-workspace .panel{border:1px solid var(--line);border-radius:8px;background:var(--white);box-shadow:0 2px 3px #00000006,0 8px 24px #00000006}
+.player-workspace .panel-heading{margin-bottom:13px;gap:12px}
+.player-workspace .panel-heading h2{display:flex;align-items:center;gap:9px;font:500 18px/1.35 var(--serif);letter-spacing:.015em;text-wrap:balance}
+.player-workspace .panel-heading .text-link{font-size:12px}
+/* Resource rail: aligned names, values and modest controls, without nested cards. */
+.player-workspace .player-resource-bar .resource-strip--vertical{display:flex;flex-direction:column;gap:0}
+.player-workspace .player-resource-bar .resource-counter{display:grid;grid-template-columns:minmax(0,1fr) auto 24px;align-items:center;gap:8px;flex:0 0 auto;min-height:49px;padding:5px 0;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent}
+.player-workspace .player-resource-bar .resource-info{display:contents}
+.player-workspace .player-resource-bar .resource-name{grid-column:1;grid-row:1;min-height:0;opacity:1;font-size:12px;line-height:1.35;color:var(--muted);white-space:normal;overflow:visible;overflow-wrap:normal}
+.player-workspace .player-resource-bar .resource-value{grid-column:2;grid-row:1;font-size:11px;line-height:1.2;color:var(--muted);white-space:nowrap}
+.player-workspace .player-resource-bar .resource-value strong{font-size:16px;font-weight:600;color:var(--ink)}
+.player-workspace .player-resource-bar .counter-buttons{grid-column:3;grid-row:1;display:grid;gap:2px}
+.player-workspace .player-resource-bar .counter-buttons button{display:grid;place-items:center;width:24px;height:21px;min-width:24px;min-height:21px;padding:0;background:transparent;border:1px solid var(--line);border-radius:4px;font:14px/1 var(--sans);color:var(--muted)}
+.player-workspace .player-resource-bar .counter-buttons button:hover:not(:disabled){border-color:var(--gold);color:var(--ink);background:color-mix(in srgb,var(--gold) 9%,transparent)}
+.player-workspace .player-resource-bar .counter-buttons button:disabled{opacity:.25}
+.player-workspace .player-resource-bar .status-cards{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;margin-top:22px}
+.player-workspace .player-resource-bar .status-card{padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+.player-workspace .player-resource-bar .status-card .panel-heading{gap:6px;margin:0 0 7px}
+.player-workspace .player-resource-bar .status-card h2{font:600 11px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--ink)}
+.player-workspace .player-resource-bar .status-card .text-link{font-size:11px;color:var(--muted)}
+.player-workspace .player-resource-bar .status-card p,.player-workspace .player-resource-bar .status-card .small,.player-workspace .player-resource-bar .context-defense-summary{font-size:12px;line-height:1.5;color:var(--muted)}
+.player-workspace .player-resource-bar .tag{font-size:9px;padding:3px 5px;white-space:normal;max-width:100%}
+.player-workspace .player-resource-bar .tracked-effect{display:grid;gap:4px;padding:5px 0}
+.player-workspace .player-resource-bar .tracked-effect>button{justify-self:start;font-size:11px}
+.player-workspace .player-resource-bar .context-chip{font-size:11px;color:var(--ink)}
+.player-workspace .player-resource-bar .known-target-tool{border:0;border-top:1px solid var(--line);border-radius:0;background:transparent;box-shadow:none;padding:12px 0}
+.player-workspace .player-resource-bar .known-target-tool p{font-size:12px}
+/* Ability scores and saves: small individual stations rather than a wide text band. */
+.player-workspace .calculation-trigger{font-variant-numeric:tabular-nums;text-decoration-color:color-mix(in srgb,var(--gold) 50%,transparent);text-underline-offset:4px;color:var(--ink)}
+/* Actions and magic share one clear scale. */
+.player-workspace .player-attack-row strong{font-size:14px;font-weight:600}
+.player-workspace .player-attack-row p{font-size:12px;line-height:1.5;margin-top:4px;color:var(--muted)}
+.player-workspace .player-attack-row small{font-size:12px;margin-top:6px}
+.player-workspace .player-attack-row>.button{min-height:34px;font-size:12px;padding:6px 12px}
+.player-workspace .player-attack-row .attack-value{font:20px var(--serif)}
+.attack-properties{margin-top:4px;max-width:65ch;color:var(--muted);font-size:11px}
+.attack-properties summary{width:fit-content;cursor:pointer;list-style:none;color:var(--rust);font-size:11px;padding:3px 0}
+.attack-properties summary::after{content:' +';color:var(--muted)}
+.attack-properties[open] summary::after{content:' −'}
+.attack-properties>p{font-size:12px;line-height:1.65;white-space:normal}
+.player-workspace .magic-panel .panel-heading h2{font-size:18px}
+.player-workspace .magic-group-heading h3{font:600 10px var(--sans);text-transform:uppercase;letter-spacing:.11em;color:var(--gold)}
+.player-workspace .magic-spell{padding:7px 0;gap:8px;align-items:center;border-color:var(--line)}
+.player-workspace .magic-spell>div{display:block;min-width:0}
+.player-workspace .magic-spell-name{font-size:14px;font-weight:600;line-height:1.35;color:var(--ink)}
+.player-workspace .magic-spell small{display:block;font-size:11px;line-height:1.4;margin-top:3px;color:var(--muted)}
+.player-workspace .magic-spell>.button{min-height:30px;font-size:11px;padding:5px 9px;flex:0 0 auto;background:transparent;border-color:var(--line)}
+.player-workspace .magic-spell>.button:hover{border-color:var(--gold)}
+/* The open skills column keeps totals aligned and removes repetitive visual labels. */
+.player-workspace .adventure-checks{padding:17px 15px;position:sticky;top:calc(var(--character-header-height,112px) + 16px)}
+.player-workspace .adventure-checks .panel-heading{margin-bottom:10px;gap:8px}
+.player-workspace .adventure-checks .panel-heading h2{font-size:17px;gap:7px}
+.player-workspace .adventure-checks .skill-help summary{width:22px;height:22px;font-size:11px;border-color:var(--line);color:var(--muted)}
+.player-workspace .adventure-checks .adventure-skill.skill-row{min-height:29px;height:29px;padding:0 3px;gap:6px;border-color:color-mix(in srgb,var(--line) 65%,transparent);border-radius:3px}
+.player-workspace .adventure-checks .adventure-skill:hover{background:color-mix(in srgb,var(--gold) 6%,transparent)}
+.player-workspace .adventure-checks .skill-name{display:flex;align-items:center;gap:8px;min-height:28px;min-width:0;font-size:13px;line-height:1.2}
+.player-workspace .adventure-checks .skill-name>small{display:none}
+.player-workspace .adventure-checks .skill-dot{width:5px;height:5px;min-width:5px;border-color:var(--muted);opacity:.7}
+.player-workspace .adventure-checks .skill-dot.filled{background:var(--gold);border-color:var(--gold);opacity:1}
+.player-workspace .adventure-checks .skill-row:has(.expertise) .skill-dot{box-shadow:0 0 0 2px var(--white),0 0 0 3px var(--gold);margin:0 2px}
+.player-workspace .adventure-checks .skill-totals{display:grid;grid-template-columns:29px 53px;align-items:center;gap:4px}
+.player-workspace .adventure-checks .skill-calculation-total{font-size:16px;min-width:28px;min-height:26px;line-height:1.3;font-weight:500}
+.player-workspace .adventure-checks .inline-passive{display:flex;align-items:center;gap:3px;font-size:9px;line-height:1;white-space:nowrap;color:var(--muted)}
+.player-workspace .adventure-checks .inline-passive .calculation-trigger{font-size:12px;min-width:19px;min-height:24px;line-height:1.3;color:var(--muted)}
+/* Modals and records use the same herohold surface and a quieter hierarchy. */
+.dialog{background:var(--white);color:var(--ink);border:1px solid var(--line);border-radius:10px;box-shadow:0 24px 80px #00000050,0 0 0 1px #ffffff04}
+.dialog::backdrop{background:#0b1015a8;backdrop-filter:blur(5px)}
+.dialog .dialog-inner{padding:26px 28px}
+.dialog .dialog-heading{margin-bottom:20px;gap:16px}
+.dialog .dialog-heading h2{font:500 25px/1.25 var(--serif);letter-spacing:.01em}
+.dialog .icon-button{color:var(--muted);width:32px;height:32px;font-size:20px;border-radius:4px}
+.dialog .icon-button:hover{background:var(--paper);color:var(--ink)}
+.dialog .small,.dialog .muted{font-size:12px;line-height:1.6}
+.dialog .field{font-size:13px}
+.dialog input,.dialog select,.dialog textarea{border-color:var(--line);border-radius:5px;background:var(--paper);color:var(--ink);font-size:14px}
+.dialog .field-grid{gap:16px}
+.dialog .form-footer{border-color:var(--line)}
+.dialog .button{font-size:13px;min-height:37px;padding:8px 13px}
+.dialog .journal-layout{gap:24px}
+.dialog .journal-sidebar{padding:10px;background:var(--paper);border-radius:6px}
+.dialog .journal-categories button{font-size:12px;min-height:36px;padding:7px 9px}
+.dialog .journal-category-creator summary{font-size:11px;color:var(--muted)}
+.dialog .journal-group>h2{font:600 11px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--gold);padding-bottom:10px;margin-bottom:2px}
+.dialog .journal-entry{padding:14px 0}
+.dialog .journal-entry h3{font-size:16px;font-weight:600}
+.dialog .journal-entry-text{font-size:14px;line-height:1.65;color:var(--muted);margin-top:5px}
+.dialog .journal-entry-heading>.text-link{color:var(--muted);font-size:11px;opacity:.7}
+.dialog .journal-entry-heading>.text-link:hover{color:var(--rust);opacity:1}
+.dialog .journal-tools .button{font-size:12px}
+.player-workspace .context-note-item{padding:12px 0}
+.player-workspace .context-note-item strong{font-size:14px}
+.player-workspace .context-note-item p{font-size:13px;line-height:1.6}
+.player-workspace .context-note-item small{font-size:10px}
+.player-workspace .context-adventure-bottom{padding:18px;margin-top:20px}
+.player-workspace .app-drawer{border-radius:0;background:var(--rail)}
+.player-workspace .app-drawer .drawer-actions .button{background:transparent;border-color:transparent;box-shadow:none;padding:9px 10px;font-size:13px}
+.player-workspace .app-drawer .drawer-actions .button:hover{background:var(--white)}
+.player-workspace .library-entry{padding:24px;align-items:center}
+.player-workspace .library-entry h2{font:500 23px var(--serif)}
+.player-workspace .library-entry p{font-size:13px;margin-top:7px;color:var(--muted)}
+.player-workspace .library-entry .button{margin-top:14px;font-size:12px}
+/* Phone controls remain compact while text retains a readable scale. */
+@media(max-width:1100px) and (min-width:851px){.player-workspace .adventure-checks{padding:14px 11px}.player-workspace .adventure-checks .skill-totals{grid-template-columns:27px 48px;gap:2px}.player-workspace .adventure-checks .skill-name{font-size:12px;gap:6px}.player-workspace .sheet-training.expertise{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}}
+@media(max-width:850px){.player-workspace .adventure-checks{position:static}.player-workspace .adventure-checks .skill-name{font-size:13px}.player-workspace .adventure-checks .skill-totals{grid-template-columns:34px 65px}}
+@media(max-width:600px){.player-workspace .player-resource-bar .resource-strip--vertical{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.player-workspace .player-resource-bar .resource-counter{grid-template-columns:minmax(0,1fr) auto;align-content:space-between;min-height:0;padding:6px 7px;border:1px solid var(--line);border-radius:5px;background:var(--white);gap:5px}.player-workspace .player-resource-bar .resource-name{grid-column:1/-1;grid-row:1;min-height:0;font-size:10px;line-height:1.3}.player-workspace .player-resource-bar .resource-value{grid-column:1;grid-row:2;font-size:10px}.player-workspace .player-resource-bar .resource-value strong{font-size:14px}.player-workspace .player-resource-bar .counter-buttons{grid-column:2;grid-row:2;display:flex;gap:3px}.player-workspace .player-resource-bar .counter-buttons button{width:23px;height:25px;min-width:23px;min-height:25px;font-size:13px}.player-workspace .player-resource-bar .status-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:12px}.player-workspace .player-resource-bar .status-card p{font-size:11px}.player-workspace .player-resource-bar .status-card h2{font-size:10px}.player-workspace .player-resource-tools{display:inline-flex;padding:8px 12px 0;font-size:10px}.player-workspace .target-defense-shortcut{display:inline-block;padding:10px 0 0;font-size:11px}.player-workspace .panel-heading h2{font-size:17px}.player-workspace .magic-spell-name{font-size:13px}.player-workspace .magic-spell small{font-size:10px}.player-workspace .magic-spell>.button{padding:5px 8px;min-height:31px}.player-workspace .play-attacks .player-attack-row{gap:8px}.player-workspace .player-attack-row>.button{padding:6px 9px;font-size:11px}.dialog .dialog-inner{padding:20px}.dialog .dialog-heading h2{font-size:23px}.dialog .journal-sidebar{padding:0;background:transparent}.dialog .journal-entry{padding:13px 0}.dialog .journal-entry h3{font-size:15px}.dialog .journal-entry-text{font-size:13px}.dialog .journal-tools{gap:7px}.dialog .journal-tools .button{font-size:11px;padding:8px}.dialog .journal-mobile-category select{background:var(--paper)}}
+@media(max-width:350px){.player-workspace .player-resource-bar{padding-inline:10px}.player-workspace .player-resource-bar .resource-strip--vertical{gap:5px}.player-workspace .player-resource-bar .resource-counter{padding:5px 4px;gap:4px 3px}.player-workspace .player-resource-bar .counter-buttons{gap:2px}.player-workspace .player-resource-bar .counter-buttons button{width:20px;min-width:20px}.player-workspace .sheet-tool-nav>.button .sheet-glyph{width:14px;height:14px}.player-workspace .sheet-tool-nav>.button{font-size:10px;gap:4px}.dialog .dialog-inner{padding:17px}}
+@media(prefers-reduced-motion:reduce){button{transition:none!important}dialog::backdrop{backdrop-filter:none}}
+
+.attack-name-line{display:flex;align-items:baseline;gap:9px 16px;flex-wrap:wrap}.attack-damage-summary{font-size:12px;color:var(--muted);white-space:nowrap}

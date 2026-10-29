@@ -1,0 +1,20 @@
+@using System.Text
+<div class="context-note-list">
+    @if (!Notes.Any())
+    {
+        <div class="empty-state"><h3>Your journal starts here.</h3><p>Add a note about a quest, person or place.</p></div>
+    }
+    @foreach (var note in Notes)
+    {
+        <article class="context-note-item"><strong>@note.Title</strong><p>@Preview(note.Text)</p><small>@note.CreatedAt.ToLocalTime().ToString("ddd, d MMM · HH:mm")</small></article>
+    }
+</div>
+@code {
+    private static string Preview(string text)
+    {
+        var compact=string.Join(" ",text.Split((char[]?)null,StringSplitOptions.RemoveEmptyEntries));
+        var runes=compact.EnumerateRunes().Take(181).ToArray();
+        return string.Concat(runes.Take(180).Select(r=>r.ToString()))+(runes.Length>180?"…":"");
+    }
+    [Parameter, EditorRequired] public IEnumerable<JournalNote> Notes { get; set; } = [];
+}

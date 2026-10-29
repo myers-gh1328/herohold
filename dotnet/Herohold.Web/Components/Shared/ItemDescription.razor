@@ -1,0 +1,8 @@
+@* Long item text shows a short preview; the full description stays one click away. *@
+@if(Text.Length>PreviewLength){<p class="small muted item-description-preview">@Preview</p><details class="attack-properties item-description"><summary>Full description</summary><p>@Text</p></details>}
+else if(!string.IsNullOrWhiteSpace(Text)){<p class="small muted">@Text</p>}
+@code{
+    public const int PreviewLength=110;
+    [Parameter]public string Text{get;set;}="";
+    private string Preview{get{var cut=Text.LastIndexOf(' ',PreviewLength);return Text[..(cut>40?cut:PreviewLength)].TrimEnd(' ','.',',',';',':','·')+"…";}}
+}

@@ -1,0 +1,39 @@
+@{var sourceCharacterId=Character.Id;var ready=Spells.OrderBy(s=>s.Level).ThenBy(s=>s.Name,StringComparer.OrdinalIgnoreCase).ToArray();var multipleSources=ready.Select(s=>s.CastingSource).Where(s=>!string.IsNullOrWhiteSpace(s)).Distinct(StringComparer.OrdinalIgnoreCase).Count()>1;var slots=Character.Resources.Where(r=>SlotLevel(r) is >=1 and <=9).OrderBy(SlotLevel).ThenBy(r=>r.Name).ToArray();}
+<section class="panel magic-panel" data-testid="@TestId" aria-label="Ready spells and spell slots">
+    <div class="panel-heading"><h2><SheetGlyph Name="spark" />Magic</h2><button class="text-link" data-testid="open-spell-library" @onclick="()=>OnAllSpells.InvokeAsync()">Spell reference →</button></div>
+    @* Each level's slots sit in that level's heading; slots with no spells of their level (or Pact slots) lead the list. *@
+    @{var placed=new HashSet<string>();}
+    @foreach(var group in ready.GroupBy(s=>s.Level))
+    {
+        var levelSlot=group.Key==0?null:slots.FirstOrDefault(r=>SlotLevel(r)==group.Key&&!IsPact(r));if(levelSlot is not null)placed.Add(levelSlot.Id);
+    }
+    @{var loose=slots.Where(r=>!placed.Contains(r.Id)).ToArray();}
+    @if(loose.Length>0){<div class="magic-slots" aria-label="Spell slots">@foreach(var slot in loose){@SlotLedger(slot,SlotLabel(slot))}</div>}
+    @foreach(var group in ready.GroupBy(s=>s.Level))
+    {
+        var levelSlot=group.Key==0?null:slots.FirstOrDefault(r=>SlotLevel(r)==group.Key&&!IsPact(r));
+        <div class="magic-spell-group"><div class="magic-group-heading"><h3>@(group.Key==0?"Cantrips":$"Level {group.Key}")</h3>@if(levelSlot is not null){@SlotLedger(levelSlot,"Slots")}</div>
+        @foreach(var spell in group)
+        {
+            var ritualOnly=Character.Play.Preparation.FromSpellbook&&spell.Ritual&&Character.Play.SpellbookIds.Contains(spell.Id)&&!Character.Play.PreparedSpellIds.Concat(Character.Play.KnownSpellIds).Concat(Character.Play.GrantedSpellIds).Contains(spell.Id);
+            <div class="magic-spell"><div><button class="magic-spell-name" @onclick="()=>OnInspect.InvokeAsync(spell)">@spell.Name</button><small>@if(multipleSources&&!string.IsNullOrWhiteSpace(spell.CastingSource)){<span>@spell.CastingSource · </span>}@SpellText.CastingTime(spell.CastingTime) · @spell.Range @if(spell.Concentration){<span>· Concentration</span>}@if(ritualOnly){<span>· Ritual only</span>}@if(!string.IsNullOrWhiteSpace(spell.DamageType)){<span>· @spell.DamageType</span>}</small></div><button class="button" data-testid='@("cast-"+spell.Id)' disabled="@Busy" @onclick="()=>OnCast.InvokeAsync(spell)">Cast</button></div>
+        }</div>
+    }
+    @if(slots.Length==0&&ready.Any(s=>s.Level>0)){<p class="small muted">No spell slots. Limited-use spells use their own casting options.</p>}
+    @if(ready.Length==0){<p class="small muted">No prepared, known or granted spells ready.</p>}
+</section>
+@code {
+    private RenderFragment SlotLedger(ResourcePool slot,string label)=>@<div class="magic-slot" data-testid='@("magic-slot-"+slot.Id)' role="group" aria-label="@slot.Name"><span class="magic-slot-name">@label</span><span class="slot-pips" aria-hidden="true">@for(var n=0;n<Math.Min(slot.Maximum,9);n++){<i class='@(n<slot.Remaining?"filled":null)'></i>}</span><strong>@slot.Remaining / @slot.Maximum</strong><span class="magic-slot-buttons"><button type="button" disabled="@(Busy||slot.Remaining==0)" aria-label='@("Use one "+slot.Name)' @onclick="()=>OnAdjust.InvokeAsync((slot.Id,-1,Character.Id))">−</button><button type="button" disabled="@(Busy||slot.Remaining==slot.Maximum)" aria-label='@("Restore one "+slot.Name)' @onclick="()=>OnAdjust.InvokeAsync((slot.Id,1,Character.Id))">+</button></span></div>;
+    private static bool IsPact(ResourcePool pool)=>pool.Id.Contains("pact",StringComparison.OrdinalIgnoreCase)||pool.Name.Contains("Pact",StringComparison.OrdinalIgnoreCase);
+    private static string SlotLabel(ResourcePool pool)=>(IsPact(pool)?"Pact level ":"Level ")+SlotLevel(pool)+" slots";
+    // Match the legacy slot IDs accepted by the existing casting payment rules.
+    public static int? SlotLevel(ResourcePool pool)=>pool.SlotLevel??(pool.Id.StartsWith("slot",StringComparison.Ordinal)&&int.TryParse(pool.Id.AsSpan(4),out var level)?level:null);
+    [Parameter]public string TestId {get;set;}="magic-panel";
+    [Parameter,EditorRequired]public CharacterState Character {get;set;}=default!;
+    [Parameter]public IEnumerable<SpellDefinition> Spells {get;set;}=[];
+    [Parameter]public bool Busy {get;set;}
+    [Parameter]public EventCallback<SpellDefinition> OnCast {get;set;}
+    [Parameter]public EventCallback<SpellDefinition> OnInspect {get;set;}
+    [Parameter]public EventCallback OnAllSpells {get;set;}
+    [Parameter]public EventCallback<(string Id,int Delta,string SourceId)> OnAdjust {get;set;}
+}

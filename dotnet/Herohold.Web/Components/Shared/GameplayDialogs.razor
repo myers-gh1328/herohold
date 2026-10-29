@@ -1,0 +1,124 @@
+<dialog id="roll-dialog" class="dialog context-manager-dialog" aria-labelledby="roll-title"><div class="dialog-inner">
+    <div class="dialog-heading"><div><div class="section-kicker">At the table</div><h2 id="roll-title">@RollDraft.Name</h2></div><button class="icon-button" data-testid="close-roll" aria-label="Close roll" @onclick='() => CloseAsync("roll-dialog")'>×</button></div>
+    <div class="roll-standing"><span>Standing bonus</span><CalculationValue Value="Standing" Label="@RollDraft.Name" /></div>
+    @if(Roll is null)
+    {
+        @if(RollDraft.CombatContext?.ConfirmedFacts.Contains("reaction-attack")==true){<label class="inline-option"><input data-testid="combat-reaction-attack-trigger" type="checkbox" @bind="ReactionAttackTrigger" /> The table confirms a legal reaction attack trigger, reach and visible target.</label>}
+        @if(PreRollEffects){<fieldset class="combat-pre-roll"><legend>Arm effects before rolling</legend><p class="small">Nothing is spent until a confirmed qualifying hit. You can leave an armed effect unused.</p><label class="inline-option"><input data-testid="arm-hunters-mark" type="checkbox" @bind="MarkDamage" disabled="@(!HasActiveMark)" /> Hunter’s Mark against @Current.Play.HunterTarget</label><label class="inline-option"><input data-testid="arm-dreadful-strike" type="checkbox" @bind="DreadDamage" disabled="@(!OwnsDread||RollDraft.AttackKind!=AttackKind.Weapon||Current.Play.DreadUsedThisTurn||!Current.Resources.Any(x=>x.Id=="dread"&&x.Remaining>0))" /> Dreadful Strike on a weapon hit</label></fieldset>}
+        <div class="field-grid"><label class="field">D20 mode<select @bind="Advantage"><option value="@RollAdvantage.Normal">Normal</option><option value="@RollAdvantage.Advantage">Advantage</option><option value="@RollAdvantage.Disadvantage">Disadvantage</option></select></label></div>
+        <details class="context-collapsible"><summary>Situational attack / check modifiers</summary><div class="field-grid"><label class="field">Flat adjustment<input id="roll-flat" type="number" min="-100" max="100" @bind="FlatBonus" /></label><label class="field">Bonus dice count<input id="roll-bonus-count" type="number" min="0" max="10" @bind="BonusCount" /></label><label class="field">Bonus die<select @bind="BonusSides">@foreach(var sides in new[] {4,6,8,10,12,20}) { <option value="@sides">d@(sides)</option> }</select></label></div><p class="small muted">Use for effects such as Bless. Hunter’s Mark and Dreadful Strike are selected after a hit.</p></details>
+        @if(Mode == DiceMode.Physical) { <label class="field">Your unmodified D20 results<input id="physical-d20" placeholder='@(Advantage == RollAdvantage.Normal ? "One D20: 14" : "Both D20s: 7, 18")' @bind="PhysicalD20" /></label>@if(BonusCount>0) { <label class="field">Bonus dice results<input @bind="PhysicalBonus" placeholder="One value per die, separated by commas" /></label> } }
+        <div class="form-footer"><span class="small muted">No damage resources spent yet.</span><button class="button primary" data-testid="roll-digital" disabled="@(Working || Session.IsBusy || RollDraft.CombatContext?.ConfirmedFacts.Contains("reaction-attack")==true&&!ReactionAttackTrigger)" @onclick="RollAsync">@(Mode == DiceMode.Physical ? "Record result" : "Roll D20 ↗")</button></div>
+    }
+    else if(Roll is { } rolled)
+    {
+        <div class="herohold-roll-result" data-testid="roll-result"><span>D20 [@string.Join(", ", rolled.D20)] · @rolled.Advantage</span><strong>@rolled.Total</strong><small>Standing @Signed(rolled.StandingBonus.Total) · situational @Signed(rolled.FlatBonus)@if(rolled.BonusDice.Count>0) { <span> · extra dice [@string.Join(", ", rolled.BonusDice)]</span> }</small></div>
+        <HeroicInspirationControls Session="Session" Roll="rolled" OnApplied="InspirationApplied" />
+        @if(!rolled.Resolved && !rolled.LuckyUsed && rolled.Advantage != RollAdvantage.Advantage && Current.Resources.Any(r=>r.Id=="luck" && r.Remaining>0))
+        {
+            <div class="lucky-section"><strong>Use Lucky?</strong><p class="small">Spend one Luck point to gain Advantage on this unresolved roll. With Disadvantage, use the first original D20.</p>@if(rolled.Mode == DiceMode.Physical && rolled.Advantage == RollAdvantage.Normal) { <label class="field">Additional D20<input id="lucky-extra" type="number" min="1" max="20" @bind="LuckyD20" /></label> }<button class="button" data-testid="use-lucky" disabled="@(Working || Session.IsBusy)" @onclick="LuckyAsync">Use one Luck point</button></div>
+        }
+        @if(IsDamageAttack(rolled) && !rolled.Resolved)
+        {
+            <h3 class="section-gap">Did the attack hit?</h3>@if(rolled.ChosenD20 is 1 or 20) { <p class="small muted">@(rolled.ChosenD20==1?"A natural 1 misses.":"A natural 20 hits critically.")</p> }<label class="field">Target<input id="attack-target" maxlength="120" @bind="DamageTarget" placeholder="Name the creature you attacked" /></label><label class="inline-option"><input type="checkbox" @bind="CriticalHit" /> Critical hit (natural 20 is included automatically)</label><p class="small muted">Confirm against the target’s AC at the table. On-hit damage effects are separate from accuracy.</p>
+            <label class="inline-option"><input id="effect-hm" type="checkbox" @bind="MarkDamage" disabled="@(!HasActiveMark||(Current.Combat.Enabled||rolled.Kind==RollKind.SpellAttack)&&!(Current.Combat.AttackSelection?.ArmedEffects.Contains("hunters-mark")??false))" /> This hit is against @(!string.IsNullOrWhiteSpace(Current.Play.HunterTarget) ? Current.Play.HunterTarget : "my marked target") · add Hunter’s Mark @(DiceText(RangerRules.HuntersMarkDamage(Current))) Force</label>
+            @if(OwnsDread){<label class="inline-option"><input id="effect-dread" type="checkbox" @bind="DreadDamage" disabled="@(!CanDread||Current.Combat.Enabled&&!(Current.Combat.AttackSelection?.ArmedEffects.Contains("dreadful-strike")??false))" /> Use Dreadful Strike · @(DiceText(RangerRules.DreadfulStrikeDamage(Current))) Psychic on this hit</label>@if(rolled.AttackKind!=AttackKind.Weapon){<p class="small muted">Dreadful Strike requires a weapon hit. This attack's source does not qualify.</p>}}
+            @if(rolled.Mode == DiceMode.Physical) { <label class="field">Damage dice results<input id="physical-damage-dice" @bind="DamageDice" placeholder="One value per attack / selected effect die" /></label><p class="small muted">Include all rolled damage dice, including selected effects and any critical-hit dice. The standing damage modifier is added once.</p> }
+            <div class="form-footer"><button class="button" data-testid="attack-miss" disabled="@(Working || Session.IsBusy || rolled.ChosenD20==20)" @onclick="() => ResolveAttackAsync(false)">Miss</button><button class="button primary" data-testid="attack-hit" disabled="@(Working || Session.IsBusy || rolled.ChosenD20==1)" @onclick="() => ResolveAttackAsync(true)">@(rolled.Mode==DiceMode.Physical?"Hit · record damage":"Hit · roll damage")</button></div>
+        }
+        @if(!IsDamageAttack(rolled) && !rolled.Resolved) { <div class="form-footer"><span class="small muted">Confirm after deciding whether to use Lucky.</span><button class="button primary" data-testid="confirm-roll" disabled="@(Working||Session.IsBusy)" @onclick="ConfirmRollAsync">Confirm result</button></div> }
+        @if(rolled.Resolved && IsDamageAttack(rolled))
+        {
+            @if(rolled.Kind==RollKind.SpellAttack&&Current.Play.LastCast?.Id==Current.Combat.AttackSelection?.CastId&&Current.Play.LastCast?.AttacksRemaining is>0){<button class="button primary" data-testid="next-spell-attack" disabled="@(Working||Session.IsBusy)" @onclick="NextSpellAttackAsync">Next spell attack · @Current.Play.LastCast.AttacksRemaining remaining</button>}
+            <div class="rest-preview"><strong>@(rolled.Hit is true ? "Damage confirmed" : "Miss recorded")</strong>@foreach(var term in rolled.Damage) { <div class="change-row"><span>@term.Name · @term.DamageType</span><strong>@term.Total</strong></div> }<p class="small muted">Damage before resistance or immunity. Apply it to the target at the table.</p></div>
+        }
+    }
+    @if((LocalError ?? Session.Error) is { } rollError) { <p class="dialog-save-error" role="alert">@rollError</p> }
+</div></dialog>
+
+<dialog id="spell-cast-dialog" class="dialog context-manager-dialog" aria-labelledby="cast-title"><div class="dialog-inner">
+    <div class="dialog-heading"><div><div class="section-kicker">Spell casting</div><h2 id="cast-title">@CastSpell?.Name</h2></div><button class="icon-button" aria-label="Close casting" @onclick='() => CloseAsync("spell-cast-dialog")'>×</button></div>
+    @if(CastSpell is { } spell && Casting is { } preview)
+    {
+        <p class="small muted">@SpellText.CastingTime(spell.CastingTime) · @spell.Range · @spell.Source</p><p class="spell-copy">@spell.Description</p>
+        @if(Cast is null)
+        {
+            <div class="field-grid"><label class="field">Spell slot or free use<select id="cast-payment" @bind="CastPayment">@if(FreeBaseAvailable) { <option value="none">@(spell.Level==0?"Cantrip · no slot":RitualCasting||spell.RitualOnly?"Ritual · no slot · base effect":"At will · no slot · base effect")</option> }@foreach(var payment in Payments) { <option value="@payment.Id">@payment.Name · @payment.Remaining remaining</option> }</select></label></div>
+            @if(spell.Ritual || spell.RitualOnly) { <label class="inline-option"><input id="cast-ritual" type="checkbox" checked="@RitualCasting" disabled="@(spell.RitualOnly||BookRitualOnly)" @onchange="ChangeRitual" /> Cast as a ritual · add 10 minutes · no slot · base-level effect</label> }
+            <label class="field">Target or reminder<input id="cast-target" maxlength="120" placeholder="Who or where?" @bind="CastTarget" /></label>
+            @if(preview.EffectKind==SpellEffectKind.Damage) { <details class="context-collapsible"><summary>Defenses at a glance</summary><p class="small"><strong>Your defenses</strong></p><DefenseSummary Defenses="SheetRules.EffectiveDefenses(Current)" /><p class="small section-gap"><strong>Target: @(string.IsNullOrWhiteSpace(Current.KnownTarget.Name)?"Not selected":Current.KnownTarget.Name)</strong></p>@if(Current.KnownTarget.Knowledge=="none"){<p class="small muted">No special defenses</p>}else if(Current.KnownTarget.Defenses.Count>0){<DefenseSummary Defenses="Current.KnownTarget.Defenses" />}else{<p class="small muted">No target defenses added</p>}<p class="small muted">Apply the target’s resistances, immunities and vulnerabilities when resolving damage.</p></details> }
+            <div class="context-cast-preview"><strong>@preview.FormulaText @preview.DamageType</strong>@if(preview.CastingModifierCalculation is { } castingMath) { <p class="small">Casting modifier <CalculationValue Value="castingMath" Label="@(spell.Name+" casting modifier")" /></p> }@if(preview.SaveDcCalculation is { } dcMath) { <p class="small">Spell save DC <CalculationValue Value="dcMath" Label="@(spell.Name+" save DC")" Unsigned="true" /></p> }@if(preview.RadiusFt is int radius) { <p>@radius-ft radius</p> }@if(preview.SaveAbility is { } save) { <p>Target makes a @save save against DC @preview.SaveDc.</p> }<p>@preview.DurationText</p><p class="small muted">@preview.Note</p></div>
+            @if(SpellRules.RequiresCastingConcentration(spell,RitualCasting||spell.RitualOnly)&&Current.Effects.FirstOrDefault(effect=>effect.Concentration) is { } earlier) { <p class="reference-line" data-testid="casting-concentration-warning">Confirming this cast ends your Concentration on @earlier.Name. Ritual or long casting requires Concentration while you cast.</p> }
+            @if(preview.Trigger == "ranged-weapon-hit") { <label class="inline-option"><input id="cast-qualifying-hit" type="checkbox" @bind="CastQualifyingHit" /> I confirmed the qualifying ranged attack hit.</label> }
+            @if(Current.Combat.EncounterActive&&spell.CastingTime.Contains("Reaction",StringComparison.OrdinalIgnoreCase)){<label class="inline-option"><input data-testid="combat-cast-reaction-trigger" type="checkbox" @bind="CastReactionTrigger" /> The table confirms this spell’s specific Reaction trigger occurred.</label>}
+            @if(preview.Concentration) { <label class="inline-option"><input id="cast-concentration" type="checkbox" @bind="CastConcentration" /> I will maintain Concentration on @spell.Name.</label><p class="small muted">You can still move and attack. This replaces another Concentration spell; taking damage can require a Constitution save.</p> }
+            <div class="form-footer"><button class="button" @onclick='() => CloseAsync("spell-cast-dialog")'>Cancel</button><button class="button primary" id="confirm-cast" data-testid="confirm-cast" disabled="@(Working || Session.IsBusy || spell.Level>0 && string.IsNullOrWhiteSpace(CastPayment)||Current.Combat.EncounterActive&&spell.CastingTime.Contains("Reaction",StringComparison.OrdinalIgnoreCase)&&!CastReactionTrigger)" @onclick="ConfirmCastAsync">Confirm cast</button></div>
+        }
+        else if(Cast is { } cast)
+        {
+            <div class="context-cast-preview"><strong>Cast confirmed · @cast.Preview.Name</strong><p>@cast.Preview.FormulaText @cast.Preview.DamageType</p><p class="small muted">@cast.Target</p></div>
+            @if(cast.Preview.AttackRollCount is>0){<p class="reference-line" data-testid="spell-attacks-remaining"><strong>@cast.AttacksRemaining / @cast.Preview.AttackRollCount attacks remaining</strong> · @cast.Preview.AttackRollKind spell attacks. Confirm each hit or miss and its damage separately.</p><button class="button primary" data-testid="roll-spell-attack" disabled="@(Working||Session.IsBusy||cast.AttacksRemaining is not>0||Current.Play.LastRoll is {Resolved:false})" @onclick="RollCastAttackAsync">Roll spell attack</button>}
+            else if(cast.Preview.AttackRollKind is not null){<p class="reference-line">Follow the spell description to make any later attacks.</p>}
+            @if(cast.Preview.Dice is not null && cast.EffectTotal is null && cast.Preview.Modeled && cast.Preview.AttackRollCount is not>0 && cast.Preview.Trigger != "attack-hit-marked-target")
+            {
+                @if(cast.Mode == DiceMode.Physical) { <label class="field">Your effect dice<input id="cast-effect-physical" @bind="SpellEffectDice" placeholder="Unmodified dice separated by commas" /></label> }
+                <button class="button primary section-gap" id="roll-cast-effect" data-testid="roll-cast-effect" disabled="@(Working || Session.IsBusy)" @onclick="ResolveSpellAsync">@(cast.Mode == DiceMode.Physical ? "Record effect dice" : "Roll spell effect")</button>
+            }
+            @if(cast.Preview.Trigger == "attack-hit-marked-target") { <p class="reference-line">The mark is active on @cast.Target. Select Hunter’s Mark after a confirmed hit against that target; its casting use is not spent again.</p> }
+            <HeroicInspirationControls Session="Session" Cast="cast" OnApplied="InspirationApplied" />
+            @if(cast.EffectTotal is int effect) { <div class="herohold-roll-result" data-testid="cast-effect-result"><span>@cast.Preview.EffectKind · @cast.Preview.DamageType</span><strong>@effect</strong><small>Dice [@string.Join(", ",cast.EffectDice)] · modifier @Signed(cast.Preview.Modifier)</small></div>@if(cast.Preview.EffectKind==SpellEffectKind.Healing&&OnHealingRequested.HasDelegate){<button class="button primary section-gap" data-testid="apply-healing-to-self" disabled="@(Working||Session.IsBusy)" @onclick="()=>RequestHealing(effect)">Apply healing to me…</button>}<p class="small muted">Choose who receives healing or damage at the table. Use the health controls to record changes to your own character.</p> }
+        }
+    }
+    @if((LocalError ?? Session.Error) is { } castError) { <p class="dialog-save-error" role="alert">@castError</p> }
+</div></dialog>
+
+<dialog id="rest-dialog" class="dialog context-manager-dialog" aria-labelledby="rest-title"><div class="dialog-inner">
+    <div class="dialog-heading"><div><div class="section-kicker">Rest review</div><h2 id="rest-title">@(RestDraft.Kind == RestKind.Long ? "A long rest." : "Catch your breath.")</h2></div><button class="icon-button" aria-label="Close rest review" @onclick='() => CloseAsync("rest-dialog")'>×</button></div><p class="small muted">Review recovery first. Your character changes only when you confirm the completed rest.</p>
+    @if(RestDraft.Kind == RestKind.Short)
+    {
+        @if(Current.Play.HitDiePools.Count>0){<label class="field">Hit Dice<select id="rest-hit-die-pool" value="@SelectedHitDiePoolId" @onchange="SelectHitDiePool">@foreach(var pool in Current.Play.HitDiePools){<option value="@pool.Id">d@(pool.Sides) · @pool.Remaining / @pool.Maximum available</option>}</select></label>}
+        <p class="section-gap">@SelectedDiceCount of @HitDiceAvailable available d@(RestDieSize) Hit Dice selected.</p>
+        @if(Mode == DiceMode.Physical) { <label class="field">Unmodified D@(RestDieSize) result<input id="rest-physical-hit-die" type="number" min="1" max="@RestDieSize" @bind="PhysicalHitDie" /></label> }
+        <button class="button section-gap" data-testid="stage-hit-die" disabled="@(Working || Session.IsBusy || !CanRest || SelectedDiceCount>=HitDiceAvailable)" @onclick="AddHitDie">@(Mode==DiceMode.Physical ? "Add this Hit Die" : "Roll and add a Hit Die")</button><p class="small muted">Selected dice: @(Current.Play.HitDiePools.Count>0?string.Join("; ",StagedPoolDice.Select(p=>$"d{Current.Play.HitDiePools.First(pool=>pool.Id==p.Key).Sides}: {string.Join(", ",p.Value)}")):StagedHitDice.Count==0 ? "none" : string.Join(", ",StagedHitDice))</p>
+    }
+    else
+    {
+        <p class="rest-preview">Restore HP and recover resources according to their recharge rules. Recover all spent Hit Dice.</p>
+        @if(Current.Play.SpellSources.Count>0){<SourceRestChoices @key="RestDraft.OperationId" Character="Current" Changed="SetSourceRestChanges" />}
+        @if(Current.Play.SpellSources.Count==0&&Current.Play.Preparation.CanChangeOnLongRest)
+        {
+            <label class="inline-option"><input id="rest-change-spells" type="checkbox" checked="@ChangeSpells" @onchange="ToggleSpellChanges" /> I want to change prepared spells.</label>
+            @if(ChangeSpells)
+            {
+                <div id="rest-spell-picker" class="spell-preparation-picker"><p class="small muted">Select up to @Current.Play.Preparation.PreparedLimit ordinary preparations. @(Current.Play.Preparation.ReplacementLimit is int limit ? $"Replace at most {limit} spell(s)." : "Choose from your eligible list.") Granted spells stay locked.</p>@foreach(var id in RestRules.EligiblePreparations(Current)) { <label class="spell-choice"><input type="checkbox" checked="@PreparedDraft.Contains(id)" @onchange="e=>TogglePrepared(id,e)" /><span>@SpellName(Current,id)</span></label> }<p class="small muted">Always prepared: @string.Join(", ",Current.Play.GrantedSpellIds.Select(id=>SpellName(Current,id)))</p></div>
+            }
+        }
+    }
+    @if(RestDraft.Kind==RestKind.Long&&Current.Play.SpellSources.Count==0&&Current.Play.Preparation.CanChangeCantripsOnLongRest)
+    {
+        <label class="inline-option"><input id="rest-change-cantrips" type="checkbox" checked="@ChangeCantrips" @onchange="ToggleCantripChanges" /> I want to replace a class cantrip.</label>
+        @if(ChangeCantrips){<div id="rest-cantrip-picker" class="spell-preparation-picker"><p class="small muted">Keep @Current.Play.Preparation.OwnedCantripSpellIds.Count cantrips from this source; replace at most @Current.Play.Preparation.CantripReplacementLimit. Other sources stay unchanged.</p>@foreach(var id in RestRules.EligibleCantrips(Current)){<label class="spell-choice"><input type="checkbox" checked="@ClassCantripDraft.Contains(id)" @onchange="e=>ToggleClassCantrip(id,e)" /><span>@SpellName(Current,id)</span></label>}</div>}
+    }
+    @if(Current.Effects.Any(e=>e.Concentration)) { <label class="inline-option"><input type="checkbox" checked="@EndConcentration" @onchange="e=>{EndConcentration=e.Value is true;StageRest();}" /> End @Current.Effects.First(e=>e.Concentration).Name when this rest completes.</label> }
+    @if(RestPreview is { } rest) { <div class="rest-preview"><div class="change-row"><span>Current HP</span><strong>@Current.CurrentHp → @rest.CurrentHp / @rest.MaximumHp</strong></div>@if(Current.Exhaustion>0) { <div class="change-row"><span>Exhaustion</span><strong>@Current.Exhaustion → @rest.Exhaustion</strong></div> }@foreach(var resource in rest.Resources) { <div class="change-row"><span>@resource.Name</span><strong>@resource.Remaining / @resource.Maximum</strong></div> }<p class="small muted">@rest.Note</p>@foreach(var pool in rest.HitDiePools){<div class="change-row"><span>d@(pool.Sides) Hit Dice</span><strong>@pool.Remaining / @pool.Maximum</strong></div>}</div> }
+    @if((LocalError ?? Session.Error) is { } restError) { <p class="dialog-save-error" role="alert">@restError</p> }
+    <div class="form-footer"><button class="button" @onclick='() => CloseAsync("rest-dialog")'>Cancel</button><button class="button primary" data-testid="confirm-rest" disabled="@(Working || Session.IsBusy || !CanRest || RestPreview is null)" @onclick="ConfirmRestAsync">Confirm completed rest</button></div>
+</div></dialog>
+
+<dialog id="move-mark-dialog" class="dialog context-manager-dialog" aria-labelledby="move-mark-title"><div class="dialog-inner">
+    <div class="dialog-heading"><div><div class="section-kicker">Hunter’s Mark</div><h2 id="move-mark-title">Move your mark.</h2></div><button class="icon-button" aria-label="Close mark transfer" @onclick='() => CloseAsync("move-mark-dialog")'>×</button></div>
+    <p class="small muted">Your mark is on @Current.Play.HunterTarget. After that creature drops to zero HP, use a Bonus Action to mark a new creature you can see within 90 feet. Keep the existing duration and Concentration; no new spell slot or free use is spent.</p>
+    <label class="field">New marked creature<input id="move-mark-target" maxlength="200" @bind="MoveMarkTarget" @bind:event="oninput" /></label>
+    <label class="inline-option"><input id="move-mark-defeated" type="checkbox" @bind="PreviousQuarryDefeated" /> My previous marked creature dropped to zero HP.</label>
+    @if((LocalError ?? Session.Error) is { } markError) { <p class="dialog-save-error" role="alert">@markError</p> }
+    <div class="form-footer"><button class="button" @onclick='() => CloseAsync("move-mark-dialog")'>Cancel</button><button class="button primary" data-testid="confirm-move-mark" disabled="@(Working || Session.IsBusy || !HasActiveMark || !PreviousQuarryDefeated || string.IsNullOrWhiteSpace(MoveMarkTarget))" @onclick="ConfirmMoveMarkAsync">Move mark · no new cast</button></div>
+</div></dialog>
+
+<dialog id="next-roll-options-dialog" class="dialog context-manager-dialog" aria-labelledby="next-roll-options-title"><div class="dialog-inner">
+    <div class="dialog-heading"><h2 id="next-roll-options-title">Next roll options</h2><button class="icon-button" aria-label="Close roll options" @onclick='() => CloseAsync("next-roll-options-dialog")'>×</button></div>
+    <p class="small muted">Choose before rolling. These options apply to the next check, save or attack, then reset after a recorded result. Dice use your header preference.</p>
+    <label class="field">D20 mode<select id="next-roll-advantage" @bind="OptionsAdvantage"><option value="@RollAdvantage.Normal">Normal</option><option value="@RollAdvantage.Advantage">Advantage</option><option value="@RollAdvantage.Disadvantage">Disadvantage</option></select></label>
+    <div class="field-grid"><label class="field">Flat adjustment<input id="next-roll-flat" type="number" min="-100" max="100" @bind="OptionsFlat" /></label><label class="field">Bonus dice count<input id="next-roll-bonus-count" type="number" min="0" max="10" @bind="OptionsCount" /></label><label class="field">Bonus die<select id="next-roll-bonus-sides" @bind="OptionsSides">@foreach(var sides in new[]{4,6,8,10,12,20}){<option value="@sides">d@(sides)</option>}</select></label></div>
+    @if(LocalError is { } optionsError){<p role="alert" class="dialog-save-error">@optionsError</p>}
+    <div class="form-footer"><button class="button" data-testid="cancel-roll-options" @onclick='() => CloseAsync("next-roll-options-dialog")'>Cancel</button><button class="button primary" data-testid="save-roll-options" @onclick="SaveRollOptionsAsync">Use for next roll</button></div>
+</div></dialog>

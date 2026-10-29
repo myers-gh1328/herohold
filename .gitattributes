@@ -1,0 +1,6 @@
+# Keep .NET source and Unix launch scripts consistent across platforms.
+dotnet/** text eol=lf
+
+# Embedded document assets must retain their exact tested bytes.
+dotnet/**/*.ttf binary
+dotnet/**/*.pdf binary

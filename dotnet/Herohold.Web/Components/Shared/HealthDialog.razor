@@ -1,0 +1,63 @@
+@inject IJSRuntime JS
+<dialog id="health-dialog" class="dialog health-dialog" aria-labelledby="health-title"><div class="dialog-inner">
+    <div class="dialog-heading"><h2 id="health-title">@Title</h2><button type="button" class="icon-button" aria-label="Close health change" @onclick="Close">×</button></div>
+    <p class="health-current">@Character.Name · @Character.CurrentHp / @Character.MaximumHp HP · @Character.TemporaryHp temporary</p>
+    <label class="field">@AmountLabel<input id="health-amount" type="number" autofocus min="@(Kind==HealthChangeKind.TemporaryHp?0:1)" max="100000" inputmode="numeric" value="@Amount" disabled="@(Saving||Session.IsBusy)" @oninput="SetAmount" /></label>
+    <p class="small muted">@Help</p>
+    @if(PreviewError is { } previewError){<p class="dialog-save-error" role="alert" data-testid="health-preview-error">@previewError</p>}
+    @if(Kind==HealthChangeKind.Damage&&Character.CurrentHp==0){<label class="inline-option"><input id="health-critical-damage" type="checkbox" @bind="CriticalDamage" /> This damage is from a critical hit (two death-save failures).</label>}
+    @if(Preview is { } preview)
+    {
+        <div class="health-preview" data-testid="health-preview"><span>After this change</span><strong>@preview.CurrentHp / @preview.MaximumHp HP</strong><small>@preview.TemporaryHp temporary HP</small></div>
+        @if(preview.CurrentHp==0){<p class="health-warning">Death saves: @preview.Sheet.DeathSaves.Successes successes, @preview.Sheet.DeathSaves.Failures failures. @(preview.Sheet.DeathSaves.Dead?"Dead — use Survival for a table-adjudicated correction before healing.":preview.Sheet.DeathSaves.Stable?"Stable.":"Unstable.")</p>}
+        @if(Kind==HealthChangeKind.Damage&&preview.CurrentHp>0&&Character.Effects.Any(e=>e.Concentration)){<p class="small muted">Concentrating? Resolve any required Constitution save at the table, and remove the effect in Conditions if concentration ends.</p>}
+        @if(Kind==HealthChangeKind.Damage&&preview.CurrentHp==0&&Character.Effects.Any(e=>e.Concentration)){<p class="health-warning">Reaching zero HP ends concentration and its marked target.</p>}
+        @if(Kind==HealthChangeKind.TemporaryHp&&Character.TemporaryHp>0){<p class="health-warning">This replaces @Character.TemporaryHp temporary HP with @preview.TemporaryHp. Temporary HP never stack. Cancel to keep the current amount.</p>}
+    }
+    @if(Session.Error is { } error){<p role="alert" class="dialog-save-error">@error</p>}
+    <div class="form-footer"><button type="button" class="button" disabled="@Saving" @onclick="Close">Cancel</button><button type="button" class="button primary" data-testid="confirm-health" disabled="@(Saving||Session.IsBusy||!CanConfirm)" @onclick="Confirm">@ConfirmLabel</button></div>
+</div></dialog>
+@code {
+    [Parameter,EditorRequired] public CharacterState Character {get;set;}=default!;
+    [Parameter,EditorRequired] public WorkspaceSession Session {get;set;}=default!;
+    private HealthChangeKind Kind;
+    private int? Amount;
+    private bool Saving;
+    private bool Open;
+    private bool CriticalDamage;
+    private string SourceId="",OperationId="";
+    private long SourceRevision;
+    private string Title=>Kind switch{HealthChangeKind.Damage=>"Take damage",HealthChangeKind.Healing=>"Receive healing",_=>"Set temporary HP"};
+    private string AmountLabel=>Kind switch{HealthChangeKind.Damage=>"Damage received",HealthChangeKind.Healing=>"Healing received",_=>"New temporary HP"};
+    private string Help=>Kind switch{HealthChangeKind.Damage=>"Enter damage after resistance or vulnerability. Temporary HP absorb it first.",HealthChangeKind.Healing=>"Healing stops at maximum HP and leaves temporary HP unchanged.",_=>"Enter the new pool, not an amount to add. Zero clears temporary HP."};
+    private string ConfirmLabel=>Kind switch{HealthChangeKind.Damage=>"Apply damage",HealthChangeKind.Healing=>"Apply healing",_=>"Replace temporary HP"};
+    private HealthChangeRequest Request=>new(){OperationId=OperationId,SourceCharacterId=SourceId,SourceRevision=SourceRevision,Kind=Kind,Amount=Amount??0,CriticalDamage=CriticalDamage};
+    private CharacterState? Preview
+    {
+        get
+        {
+            if(!Open||Amount is null)return null;
+            try{return PlayRules.ChangeHealth(new(){Character=Character,Revision=SourceRevision},Request);}
+            catch(ArgumentException){return null;}catch(WorkspaceConflictException){return null;}
+        }
+    }
+    private bool CanConfirm=>Preview is { } after&&(after.CurrentHp!=Character.CurrentHp||after.TemporaryHp!=Character.TemporaryHp||after.Sheet.DeathSaves!=Character.Sheet.DeathSaves);
+    private string? PreviewError
+    {
+        get{if(!Open||Amount is null)return null;try{_ = PlayRules.ChangeHealth(new(){Character=Character,Revision=SourceRevision},Request);return null;}catch(Exception error)when(error is ArgumentException or WorkspaceConflictException){return error.Message;}}
+    }
+    public async Task OpenAsync(HealthChangeKind kind,int? initialAmount=null)
+    {
+        Kind=kind;Amount=initialAmount;CriticalDamage=false;SourceId=Character.Id;SourceRevision=Session.Snapshot?.Revision??0;OperationId=Guid.NewGuid().ToString("N");Open=true;
+        await InvokeAsync(StateHasChanged);await JS.InvokeVoidAsync("heroholdUi.openDialog","health-dialog");
+    }
+    private void SetAmount(ChangeEventArgs e)=>Amount=int.TryParse(e.Value?.ToString(),out var amount)?amount:null;
+    private async Task Close(){Open=false;await JS.InvokeVoidAsync("heroholdUi.closeDialog","health-dialog");}
+    private async Task Confirm()
+    {
+        if(Saving||Session.IsBusy||!CanConfirm)return;
+        Saving=true;
+        try{await Session.ChangeHealthAsync(Request);if(Session.Error is null)await Close();}
+        finally{Saving=false;}
+    }
+}

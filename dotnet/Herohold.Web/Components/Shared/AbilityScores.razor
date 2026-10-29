@@ -1,0 +1,18 @@
+@* One card per ability: roll the check from the name, the modifier is the headline, score and save sit underneath. *@
+<div class="ability-scores" role="group" aria-label="Ability scores">
+    @foreach(var ability in Enum.GetValues<Ability>())
+    {
+        var key=ability.ToString().ToLowerInvariant();var proficient=Character.SaveProficiencies.Contains(ability);
+        <div class="ability-card" data-testid='@("ability-"+key)'>
+            <button type="button" class="ability-check" data-testid='@("check-"+key)' aria-label='@("Roll "+ability+" check")' title='@("Roll "+ability+" check")' disabled="@Busy" @onclick="()=>OnCheck.InvokeAsync(ability)"><AbilityIcon Ability="ability" /><span>@ability.ToString()[..3].ToUpperInvariant()</span></button>
+            <div class="ability-modifier"><CalculationValue Value="CharacterCalculations.Ability(Character,ability)" Label='@(ability+" modifier")' /></div>
+            <div class="ability-foot"><span class="sheet-ability-score" title="Ability score"><span class="sr-only">Score </span>@Character.AbilityScores[ability]</span><span class="ability-save"><button class="text-link" data-testid='@("sheet-save-"+key)' aria-label='@("Roll "+ability+" saving throw")' disabled="@Busy" @onclick="()=>OnSave.InvokeAsync(ability)">Save</button><CalculationValue Value="CharacterCalculations.Save(Character,ability)" Label='@(ability+" saving throw")' />@if(proficient){<span class="save-proficient" title="Proficient">●</span>}<span class="sr-only" data-testid='@("save-training-"+key)'>@(proficient?"Proficient":"Untrained")</span></span></div>
+        </div>
+    }
+</div>
+@code {
+    [Parameter,EditorRequired]public CharacterState Character {get;set;}=default!;
+    [Parameter]public bool Busy {get;set;}
+    [Parameter]public EventCallback<Ability> OnCheck {get;set;}
+    [Parameter]public EventCallback<Ability> OnSave {get;set;}
+}

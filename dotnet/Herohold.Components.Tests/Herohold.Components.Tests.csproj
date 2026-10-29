@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net10.0</TargetFramework><IsTestProject>true</IsTestProject><IsPackable>false</IsPackable><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.3.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="4.1.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="4.1.0" />
+    <PackageReference Include="bunit" Version="2.6.2" />
+    <PackageReference Include="AngleSharp" Version="1.5.0" />
+    <ProjectReference Include="../Herohold.Web/Herohold.Web.csproj" />
+  </ItemGroup>
+<ItemGroup><Compile Include="../TestSupport/*.cs" Link="TestSupport/%(Filename)%(Extension)" /></ItemGroup>
+</Project>

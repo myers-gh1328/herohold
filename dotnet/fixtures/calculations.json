@@ -1,0 +1,1379 @@
+{
+  "schemaVersion": 1,
+  "scope": "Bounded calculation fixtures, not whole-character rules parity",
+  "fixtures": [
+    {
+      "id": "odd-score-below-ten",
+      "character": {
+        "id": "parity-odd-score",
+        "name": "Fictional low-score fighter",
+        "className": "Fighter",
+        "level": 1,
+        "abilityScores": {
+          "Strength": 9,
+          "Dexterity": 10,
+          "Constitution": 10,
+          "Intelligence": 10,
+          "Wisdom": 10,
+          "Charisma": 10
+        },
+        "saveProficiencies": [
+          "Strength"
+        ],
+        "skillProficiencies": [
+          "Athletics"
+        ],
+        "expertise": [],
+        "equipment": []
+      },
+      "skill": {
+        "name": "Athletics",
+        "ability": "Strength"
+      },
+      "saveAbility": "Strength",
+      "attack": {
+        "ability": "Strength",
+        "proficient": true,
+        "flatBonus": 0
+      },
+      "expected": {
+        "abilityModifiers": {
+          "Strength": -1,
+          "Dexterity": 0,
+          "Constitution": 0,
+          "Intelligence": 0,
+          "Wisdom": 0,
+          "Charisma": 0
+        },
+        "proficiencyBonus": 2,
+        "skillBonus": 1,
+        "saveBonus": 1,
+        "attackBonus": 1,
+        "initiativeBonus": 0
+      }
+    },
+    {
+      "id": "sample-equipped-attuned-charm",
+      "character": {
+        "id": "fictional-veyra",
+        "name": "Veyra Thorne \u00b7 parity fixture",
+        "className": "Ranger",
+        "subclass": "Gloom Stalker",
+        "level": 5,
+        "currentHp": 32,
+        "maximumHp": 44,
+        "temporaryHp": 0,
+        "armorClass": 16,
+        "speed": 30,
+        "turn": 1,
+        "abilityScores": {
+          "Strength": 12,
+          "Dexterity": 18,
+          "Constitution": 14,
+          "Intelligence": 10,
+          "Wisdom": 16,
+          "Charisma": 10
+        },
+        "saveProficiencies": [
+          "Strength",
+          "Dexterity"
+        ],
+        "skillProficiencies": [
+          "Athletics",
+          "Perception",
+          "Stealth"
+        ],
+        "expertise": [
+          "Perception",
+          "Stealth"
+        ],
+        "equipment": [
+          {
+            "id": "wayfinder-charm",
+            "name": "Wayfinder charm",
+            "description": "Fictional modifier-only item",
+            "quantity": 1,
+            "equipped": true,
+            "requiresAttunement": true,
+            "attuned": true,
+            "consumable": false,
+            "modifierBonuses": {
+              "Wisdom": 1
+            }
+          }
+        ],
+        "resources": [
+          {
+            "id": "slot1",
+            "name": "1st-level slots",
+            "remaining": 2,
+            "maximum": 4
+          }
+        ],
+        "notes": [],
+        "effects": []
+      },
+      "skill": {
+        "name": "Perception",
+        "ability": "Wisdom"
+      },
+      "saveAbility": "Dexterity",
+      "attack": {
+        "ability": "Dexterity",
+        "proficient": true,
+        "flatBonus": 2
+      },
+      "expected": {
+        "abilityModifiers": {
+          "Strength": 1,
+          "Dexterity": 4,
+          "Constitution": 2,
+          "Intelligence": 0,
+          "Wisdom": 4,
+          "Charisma": 0
+        },
+        "proficiencyBonus": 3,
+        "skillBonus": 10,
+        "saveBonus": 7,
+        "attackBonus": 9,
+        "initiativeBonus": 8
+      }
+    },
+    {
+      "id": "carried-charm-is-inactive",
+      "character": {
+        "id": "fictional-veyra",
+        "name": "Veyra Thorne \u00b7 parity fixture",
+        "className": "Ranger",
+        "subclass": "Gloom Stalker",
+        "level": 5,
+        "currentHp": 32,
+        "maximumHp": 44,
+        "temporaryHp": 0,
+        "armorClass": 16,
+        "speed": 30,
+        "turn": 1,
+        "abilityScores": {
+          "Strength": 12,
+          "Dexterity": 18,
+          "Constitution": 14,
+          "Intelligence": 10,
+          "Wisdom": 16,
+          "Charisma": 10
+        },
+        "saveProficiencies": [
+          "Strength",
+          "Dexterity"
+        ],
+        "skillProficiencies": [
+          "Athletics",
+          "Perception",
+          "Stealth"
+        ],
+        "expertise": [
+          "Perception",
+          "Stealth"
+        ],
+        "equipment": [
+          {
+            "id": "wayfinder-charm",
+            "name": "Wayfinder charm",
+            "description": "Fictional modifier-only item",
+            "quantity": 1,
+            "equipped": false,
+            "requiresAttunement": true,
+            "attuned": true,
+            "consumable": false,
+            "modifierBonuses": {
+              "Wisdom": 1
+            }
+          }
+        ],
+        "resources": [
+          {
+            "id": "slot1",
+            "name": "1st-level slots",
+            "remaining": 2,
+            "maximum": 4
+          }
+        ],
+        "notes": [],
+        "effects": []
+      },
+      "skill": {
+        "name": "Perception",
+        "ability": "Wisdom"
+      },
+      "saveAbility": "Dexterity",
+      "attack": {
+        "ability": "Dexterity",
+        "proficient": true,
+        "flatBonus": 2
+      },
+      "expected": {
+        "abilityModifiers": {
+          "Strength": 1,
+          "Dexterity": 4,
+          "Constitution": 2,
+          "Intelligence": 0,
+          "Wisdom": 3,
+          "Charisma": 0
+        },
+        "proficiencyBonus": 3,
+        "skillBonus": 9,
+        "saveBonus": 7,
+        "attackBonus": 9,
+        "initiativeBonus": 7
+      }
+    },
+    {
+      "id": "unattuned-charm-is-inactive",
+      "character": {
+        "id": "fictional-veyra",
+        "name": "Veyra Thorne \u00b7 parity fixture",
+        "className": "Ranger",
+        "subclass": "Gloom Stalker",
+        "level": 5,
+        "currentHp": 32,
+        "maximumHp": 44,
+        "temporaryHp": 0,
+        "armorClass": 16,
+        "speed": 30,
+        "turn": 1,
+        "abilityScores": {
+          "Strength": 12,
+          "Dexterity": 18,
+          "Constitution": 14,
+          "Intelligence": 10,
+          "Wisdom": 16,
+          "Charisma": 10
+        },
+        "saveProficiencies": [
+          "Strength",
+          "Dexterity"
+        ],
+        "skillProficiencies": [
+          "Athletics",
+          "Perception",
+          "Stealth"
+        ],
+        "expertise": [
+          "Perception",
+          "Stealth"
+        ],
+        "equipment": [
+          {
+            "id": "wayfinder-charm",
+            "name": "Wayfinder charm",
+            "description": "Fictional modifier-only item",
+            "quantity": 1,
+            "equipped": true,
+            "requiresAttunement": true,
+            "attuned": false,
+            "consumable": false,
+            "modifierBonuses": {
+              "Wisdom": 1
+            }
+          }
+        ],
+        "resources": [
+          {
+            "id": "slot1",
+            "name": "1st-level slots",
+            "remaining": 2,
+            "maximum": 4
+          }
+        ],
+        "notes": [],
+        "effects": []
+      },
+      "skill": {
+        "name": "Perception",
+        "ability": "Wisdom"
+      },
+      "saveAbility": "Dexterity",
+      "attack": {
+        "ability": "Dexterity",
+        "proficient": true,
+        "flatBonus": 2
+      },
+      "expected": {
+        "abilityModifiers": {
+          "Strength": 1,
+          "Dexterity": 4,
+          "Constitution": 2,
+          "Intelligence": 0,
+          "Wisdom": 3,
+          "Charisma": 0
+        },
+        "proficiencyBonus": 3,
+        "skillBonus": 9,
+        "saveBonus": 7,
+        "attackBonus": 9,
+        "initiativeBonus": 7
+      }
+    },
+    {
+      "id": "zero-quantity-charm-is-inactive",
+      "character": {
+        "id": "fictional-veyra",
+        "name": "Veyra Thorne \u00b7 parity fixture",
+        "className": "Ranger",
+        "subclass": "Gloom Stalker",
+        "level": 5,
+        "currentHp": 32,
+        "maximumHp": 44,
+        "temporaryHp": 0,
+        "armorClass": 16,
+        "speed": 30,
+        "turn": 1,
+        "abilityScores": {
+          "Strength": 12,
+          "Dexterity": 18,
+          "Constitution": 14,
+          "Intelligence": 10,
+          "Wisdom": 16,
+          "Charisma": 10
+        },
+        "saveProficiencies": [
+          "Strength",
+          "Dexterity"
+        ],
+        "skillProficiencies": [
+          "Athletics",
+          "Perception",
+          "Stealth"
+        ],
+        "expertise": [
+          "Perception",
+          "Stealth"
+        ],
+        "equipment": [
+          {
+            "id": "wayfinder-charm",
+            "name": "Wayfinder charm",
+            "description": "Fictional modifier-only item",
+            "quantity": 0,
+            "equipped": true,
+            "requiresAttunement": true,
+            "attuned": true,
+            "consumable": false,
+            "modifierBonuses": {
+              "Wisdom": 1
+            }
+          }
+        ],
+        "resources": [
+          {
+            "id": "slot1",
+            "name": "1st-level slots",
+            "remaining": 2,
+            "maximum": 4
+          }
+        ],
+        "notes": [],
+        "effects": []
+      },
+      "skill": {
+        "name": "Perception",
+        "ability": "Wisdom"
+      },
+      "saveAbility": "Dexterity",
+      "attack": {
+        "ability": "Dexterity",
+        "proficient": true,
+        "flatBonus": 2
+      },
+      "expected": {
+        "abilityModifiers": {
+          "Strength": 1,
+          "Dexterity": 4,
+          "Constitution": 2,
+          "Intelligence": 0,
+          "Wisdom": 3,
+          "Charisma": 0
+        },
+        "proficiencyBonus": 3,
+        "skillBonus": 9,
+        "saveBonus": 7,
+        "attackBonus": 9,
+        "initiativeBonus": 7
+      }
+    },
+    {
+      "id": "quantity-does-not-multiply-modifier",
+      "character": {
+        "id": "fictional-veyra",
+        "name": "Veyra Thorne \u00b7 parity fixture",
+        "className": "Ranger",
+        "subclass": "Gloom Stalker",
+        "level": 5,
+        "currentHp": 32,
+        "maximumHp": 44,
+        "temporaryHp": 0,
+        "armorClass": 16,
+        "speed": 30,
+        "turn": 1,
+        "abilityScores": {
+          "Strength": 12,
+          "Dexterity": 18,
+          "Constitution": 14,
+          "Intelligence": 10,
+          "Wisdom": 16,
+          "Charisma": 10
+        },
+        "saveProficiencies": [
+          "Strength",
+          "Dexterity"
+        ],
+        "skillProficiencies": [
+          "Athletics",
+          "Perception",
+          "Stealth"
+        ],
+        "expertise": [
+          "Perception",
+          "Stealth"
+        ],
+        "equipment": [
+          {
+            "id": "wayfinder-charm",
+            "name": "Wayfinder charm",
+            "description": "Fictional modifier-only item",
+            "quantity": 5,
+            "equipped": true,
+            "requiresAttunement": true,
+            "attuned": true,
+            "consumable": false,
+            "modifierBonuses": {
+              "Wisdom": 1
+            }
+          }
+        ],
+        "resources": [
+          {
+            "id": "slot1",
+            "name": "1st-level slots",
+            "remaining": 2,
+            "maximum": 4
+          }
+        ],
+        "notes": [],
+        "effects": []
+      },
+      "skill": {
+        "name": "Perception",
+        "ability": "Wisdom"
+      },
+      "saveAbility": "Dexterity",
+      "attack": {
+        "ability": "Dexterity",
+        "proficient": true,
+        "flatBonus": 2
+      },
+      "expected": {
+        "abilityModifiers": {
+          "Strength": 1,
+          "Dexterity": 4,
+          "Constitution": 2,
+          "Intelligence": 0,
+          "Wisdom": 4,
+          "Charisma": 0
+        },
+        "proficiencyBonus": 3,
+        "skillBonus": 10,
+        "saveBonus": 7,
+        "attackBonus": 9,
+        "initiativeBonus": 8
+      }
+    },
+    {
+      "id": "distinct-active-sources-add-once",
+      "character": {
+        "id": "fictional-veyra",
+        "name": "Veyra Thorne \u00b7 parity fixture",
+        "className": "Ranger",
+        "subclass": "Gloom Stalker",
+        "level": 5,
+        "currentHp": 32,
+        "maximumHp": 44,
+        "temporaryHp": 0,
+        "armorClass": 16,
+        "speed": 30,
+        "turn": 1,
+        "abilityScores": {
+          "Strength": 12,
+          "Dexterity": 18,
+          "Constitution": 14,
+          "Intelligence": 10,
+          "Wisdom": 16,
+          "Charisma": 10
+        },
+        "saveProficiencies": [
+          "Strength",
+          "Dexterity"
+        ],
+        "skillProficiencies": [
+          "Athletics",
+          "Perception",
+          "Stealth"
+        ],
+        "expertise": [
+          "Perception",
+          "Stealth"
+        ],
+        "equipment": [
+          {
+            "id": "wayfinder-charm",
+            "name": "Wayfinder charm",
+            "description": "Fictional modifier-only item",
+            "quantity": 1,
+            "equipped": true,
+            "requiresAttunement": true,
+            "attuned": true,
+            "consumable": false,
+            "modifierBonuses": {
+              "Wisdom": 1
+            }
+          },
+          {
+            "id": "second-token",
+            "name": "Second fictional token",
+            "description": "Fictional modifier-only item",
+            "quantity": 1,
+            "equipped": true,
+            "requiresAttunement": true,
+            "attuned": true,
+            "consumable": false,
+            "modifierBonuses": {
+              "Wisdom": 2
+            }
+          }
+        ],
+        "resources": [
+          {
+            "id": "slot1",
+            "name": "1st-level slots",
+            "remaining": 2,
+            "maximum": 4
+          }
+        ],
+        "notes": [],
+        "effects": []
+      },
+      "skill": {
+        "name": "Perception",
+        "ability": "Wisdom"
+      },
+      "saveAbility": "Dexterity",
+      "attack": {
+        "ability": "Dexterity",
+        "proficient": true,
+        "flatBonus": 2
+      },
+      "expected": {
+        "abilityModifiers": {
+          "Strength": 1,
+          "Dexterity": 4,
+          "Constitution": 2,
+          "Intelligence": 0,
+          "Wisdom": 6,
+          "Charisma": 0
+        },
+        "proficiencyBonus": 3,
+        "skillBonus": 12,
+        "saveBonus": 7,
+        "attackBonus": 9,
+        "initiativeBonus": 10
+      }
+    },
+    {
+      "id": "negative-source-modifier",
+      "character": {
+        "id": "fictional-veyra",
+        "name": "Veyra Thorne \u00b7 parity fixture",
+        "className": "Ranger",
+        "subclass": "Gloom Stalker",
+        "level": 5,
+        "currentHp": 32,
+        "maximumHp": 44,
+        "temporaryHp": 0,
+        "armorClass": 16,
+        "speed": 30,
+        "turn": 1,
+        "abilityScores": {
+          "Strength": 12,
+          "Dexterity": 18,
+          "Constitution": 14,
+          "Intelligence": 10,
+          "Wisdom": 16,
+          "Charisma": 10
+        },
+        "saveProficiencies": [
+          "Strength",
+          "Dexterity"
+        ],
+        "skillProficiencies": [
+          "Athletics",
+          "Perception",
+          "Stealth"
+        ],
+        "expertise": [
+          "Perception",
+          "Stealth"
+        ],
+        "equipment": [
+          {
+            "id": "wayfinder-charm",
+            "name": "Wayfinder charm",
+            "description": "Fictional modifier-only item",
+            "quantity": 1,
+            "equipped": true,
+            "requiresAttunement": true,
+            "attuned": true,
+            "consumable": false,
+            "modifierBonuses": {
+              "Wisdom": -1
+            }
+          }
+        ],
+        "resources": [
+          {
+            "id": "slot1",
+            "name": "1st-level slots",
+            "remaining": 2,
+            "maximum": 4
+          }
+        ],
+        "notes": [],
+        "effects": []
+      },
+      "skill": {
+        "name": "Perception",
+        "ability": "Wisdom"
+      },
+      "saveAbility": "Dexterity",
+      "attack": {
+        "ability": "Dexterity",
+        "proficient": true,
+        "flatBonus": 2
+      },
+      "expected": {
+        "abilityModifiers": {
+          "Strength": 1,
+          "Dexterity": 4,
+          "Constitution": 2,
+          "Intelligence": 0,
+          "Wisdom": 2,
+          "Charisma": 0
+        },
+        "proficiencyBonus": 3,
+        "skillBonus": 8,
+        "saveBonus": 7,
+        "attackBonus": 9,
+        "initiativeBonus": 6
+      }
+    },
+    {
+      "id": "proficiency-and-expertise-level-4",
+      "character": {
+        "id": "fictional-veyra",
+        "name": "Veyra Thorne \u00b7 parity fixture",
+        "className": "Ranger",
+        "subclass": "Gloom Stalker",
+        "level": 4,
+        "currentHp": 32,
+        "maximumHp": 44,
+        "temporaryHp": 0,
+        "armorClass": 16,
+        "speed": 30,
+        "turn": 1,
+        "abilityScores": {
+          "Strength": 12,
+          "Dexterity": 18,
+          "Constitution": 14,
+          "Intelligence": 10,
+          "Wisdom": 16,
+          "Charisma": 10
+        },
+        "saveProficiencies": [
+          "Wisdom"
+        ],
+        "skillProficiencies": [
+          "Athletics",
+          "Perception",
+          "Stealth"
+        ],
+        "expertise": [
+          "Perception",
+          "Stealth"
+        ],
+        "equipment": [],
+        "resources": [
+          {
+            "id": "slot1",
+            "name": "1st-level slots",
+            "remaining": 2,
+            "maximum": 4
+          }
+        ],
+        "notes": [],
+        "effects": []
+      },
+      "skill": {
+        "name": "Perception",
+        "ability": "Wisdom"
+      },
+      "saveAbility": "Wisdom",
+      "attack": {
+        "ability": "Dexterity",
+        "proficient": true,
+        "flatBonus": 0
+      },
+      "expected": {
+        "abilityModifiers": {
+          "Strength": 1,
+          "Dexterity": 4,
+          "Constitution": 2,
+          "Intelligence": 0,
+          "Wisdom": 3,
+          "Charisma": 0
+        },
+        "proficiencyBonus": 2,
+        "skillBonus": 7,
+        "saveBonus": 5,
+        "attackBonus": 6,
+        "initiativeBonus": 7
+      }
+    },
+    {
+      "id": "proficiency-and-expertise-level-5",
+      "character": {
+        "id": "fictional-veyra",
+        "name": "Veyra Thorne \u00b7 parity fixture",
+        "className": "Ranger",
+        "subclass": "Gloom Stalker",
+        "level": 5,
+        "currentHp": 32,
+        "maximumHp": 44,
+        "temporaryHp": 0,
+        "armorClass": 16,
+        "speed": 30,
+        "turn": 1,
+        "abilityScores": {
+          "Strength": 12,
+          "Dexterity": 18,
+          "Constitution": 14,
+          "Intelligence": 10,
+          "Wisdom": 16,
+          "Charisma": 10
+        },
+        "saveProficiencies": [
+          "Wisdom"
+        ],
+        "skillProficiencies": [
+          "Athletics",
+          "Perception",
+          "Stealth"
+        ],
+        "expertise": [
+          "Perception",
+          "Stealth"
+        ],
+        "equipment": [],
+        "resources": [
+          {
+            "id": "slot1",
+            "name": "1st-level slots",
+            "remaining": 2,
+            "maximum": 4
+          }
+        ],
+        "notes": [],
+        "effects": []
+      },
+      "skill": {
+        "name": "Perception",
+        "ability": "Wisdom"
+      },
+      "saveAbility": "Wisdom",
+      "attack": {
+        "ability": "Dexterity",
+        "proficient": true,
+        "flatBonus": 0
+      },
+      "expected": {
+        "abilityModifiers": {
+          "Strength": 1,
+          "Dexterity": 4,
+          "Constitution": 2,
+          "Intelligence": 0,
+          "Wisdom": 3,
+          "Charisma": 0
+        },
+        "proficiencyBonus": 3,
+        "skillBonus": 9,
+        "saveBonus": 6,
+        "attackBonus": 7,
+        "initiativeBonus": 7
+      }
+    },
+    {
+      "id": "proficiency-and-expertise-level-9",
+      "character": {
+        "id": "fictional-veyra",
+        "name": "Veyra Thorne \u00b7 parity fixture",
+        "className": "Ranger",
+        "subclass": "Gloom Stalker",
+        "level": 9,
+        "currentHp": 32,
+        "maximumHp": 44,
+        "temporaryHp": 0,
+        "armorClass": 16,
+        "speed": 30,
+        "turn": 1,
+        "abilityScores": {
+          "Strength": 12,
+          "Dexterity": 18,
+          "Constitution": 14,
+          "Intelligence": 10,
+          "Wisdom": 16,
+          "Charisma": 10
+        },
+        "saveProficiencies": [
+          "Wisdom"
+        ],
+        "skillProficiencies": [
+          "Athletics",
+          "Perception",
+          "Stealth"
+        ],
+        "expertise": [
+          "Perception",
+          "Stealth"
+        ],
+        "equipment": [],
+        "resources": [
+          {
+            "id": "slot1",
+            "name": "1st-level slots",
+            "remaining": 2,
+            "maximum": 4
+          }
+        ],
+        "notes": [],
+        "effects": []
+      },
+      "skill": {
+        "name": "Perception",
+        "ability": "Wisdom"
+      },
+      "saveAbility": "Wisdom",
+      "attack": {
+        "ability": "Dexterity",
+        "proficient": true,
+        "flatBonus": 0
+      },
+      "expected": {
+        "abilityModifiers": {
+          "Strength": 1,
+          "Dexterity": 4,
+          "Constitution": 2,
+          "Intelligence": 0,
+          "Wisdom": 3,
+          "Charisma": 0
+        },
+        "proficiencyBonus": 4,
+        "skillBonus": 11,
+        "saveBonus": 7,
+        "attackBonus": 8,
+        "initiativeBonus": 7
+      }
+    },
+    {
+      "id": "proficiency-and-expertise-level-13",
+      "character": {
+        "id": "fictional-veyra",
+        "name": "Veyra Thorne \u00b7 parity fixture",
+        "className": "Ranger",
+        "subclass": "Gloom Stalker",
+        "level": 13,
+        "currentHp": 32,
+        "maximumHp": 44,
+        "temporaryHp": 0,
+        "armorClass": 16,
+        "speed": 30,
+        "turn": 1,
+        "abilityScores": {
+          "Strength": 12,
+          "Dexterity": 18,
+          "Constitution": 14,
+          "Intelligence": 10,
+          "Wisdom": 16,
+          "Charisma": 10
+        },
+        "saveProficiencies": [
+          "Wisdom"
+        ],
+        "skillProficiencies": [
+          "Athletics",
+          "Perception",
+          "Stealth"
+        ],
+        "expertise": [
+          "Perception",
+          "Stealth"
+        ],
+        "equipment": [],
+        "resources": [
+          {
+            "id": "slot1",
+            "name": "1st-level slots",
+            "remaining": 2,
+            "maximum": 4
+          }
+        ],
+        "notes": [],
+        "effects": []
+      },
+      "skill": {
+        "name": "Perception",
+        "ability": "Wisdom"
+      },
+      "saveAbility": "Wisdom",
+      "attack": {
+        "ability": "Dexterity",
+        "proficient": true,
+        "flatBonus": 0
+      },
+      "expected": {
+        "abilityModifiers": {
+          "Strength": 1,
+          "Dexterity": 4,
+          "Constitution": 2,
+          "Intelligence": 0,
+          "Wisdom": 3,
+          "Charisma": 0
+        },
+        "proficiencyBonus": 5,
+        "skillBonus": 13,
+        "saveBonus": 8,
+        "attackBonus": 9,
+        "initiativeBonus": 7
+      }
+    },
+    {
+      "id": "proficiency-and-expertise-level-17",
+      "character": {
+        "id": "fictional-veyra",
+        "name": "Veyra Thorne \u00b7 parity fixture",
+        "className": "Ranger",
+        "subclass": "Gloom Stalker",
+        "level": 17,
+        "currentHp": 32,
+        "maximumHp": 44,
+        "temporaryHp": 0,
+        "armorClass": 16,
+        "speed": 30,
+        "turn": 1,
+        "abilityScores": {
+          "Strength": 12,
+          "Dexterity": 18,
+          "Constitution": 14,
+          "Intelligence": 10,
+          "Wisdom": 16,
+          "Charisma": 10
+        },
+        "saveProficiencies": [
+          "Wisdom"
+        ],
+        "skillProficiencies": [
+          "Athletics",
+          "Perception",
+          "Stealth"
+        ],
+        "expertise": [
+          "Perception",
+          "Stealth"
+        ],
+        "equipment": [],
+        "resources": [
+          {
+            "id": "slot1",
+            "name": "1st-level slots",
+            "remaining": 2,
+            "maximum": 4
+          }
+        ],
+        "notes": [],
+        "effects": []
+      },
+      "skill": {
+        "name": "Perception",
+        "ability": "Wisdom"
+      },
+      "saveAbility": "Wisdom",
+      "attack": {
+        "ability": "Dexterity",
+        "proficient": true,
+        "flatBonus": 0
+      },
+      "expected": {
+        "abilityModifiers": {
+          "Strength": 1,
+          "Dexterity": 4,
+          "Constitution": 2,
+          "Intelligence": 0,
+          "Wisdom": 3,
+          "Charisma": 0
+        },
+        "proficiencyBonus": 6,
+        "skillBonus": 15,
+        "saveBonus": 9,
+        "attackBonus": 10,
+        "initiativeBonus": 7
+      }
+    },
+    {
+      "id": "proficiency-and-expertise-level-20",
+      "character": {
+        "id": "fictional-veyra",
+        "name": "Veyra Thorne \u00b7 parity fixture",
+        "className": "Ranger",
+        "subclass": "Gloom Stalker",
+        "level": 20,
+        "currentHp": 32,
+        "maximumHp": 44,
+        "temporaryHp": 0,
+        "armorClass": 16,
+        "speed": 30,
+        "turn": 1,
+        "abilityScores": {
+          "Strength": 12,
+          "Dexterity": 18,
+          "Constitution": 14,
+          "Intelligence": 10,
+          "Wisdom": 16,
+          "Charisma": 10
+        },
+        "saveProficiencies": [
+          "Wisdom"
+        ],
+        "skillProficiencies": [
+          "Athletics",
+          "Perception",
+          "Stealth"
+        ],
+        "expertise": [
+          "Perception",
+          "Stealth"
+        ],
+        "equipment": [],
+        "resources": [
+          {
+            "id": "slot1",
+            "name": "1st-level slots",
+            "remaining": 2,
+            "maximum": 4
+          }
+        ],
+        "notes": [],
+        "effects": []
+      },
+      "skill": {
+        "name": "Perception",
+        "ability": "Wisdom"
+      },
+      "saveAbility": "Wisdom",
+      "attack": {
+        "ability": "Dexterity",
+        "proficient": true,
+        "flatBonus": 0
+      },
+      "expected": {
+        "abilityModifiers": {
+          "Strength": 1,
+          "Dexterity": 4,
+          "Constitution": 2,
+          "Intelligence": 0,
+          "Wisdom": 3,
+          "Charisma": 0
+        },
+        "proficiencyBonus": 6,
+        "skillBonus": 15,
+        "saveBonus": 9,
+        "attackBonus": 10,
+        "initiativeBonus": 7
+      }
+    },
+    {
+      "id": "untrained-skill-save-and-attack",
+      "character": {
+        "id": "fictional-veyra",
+        "name": "Veyra Thorne \u00b7 parity fixture",
+        "className": "Fighter",
+        "subclass": "",
+        "level": 5,
+        "currentHp": 32,
+        "maximumHp": 44,
+        "temporaryHp": 0,
+        "armorClass": 16,
+        "speed": 30,
+        "turn": 1,
+        "abilityScores": {
+          "Strength": 12,
+          "Dexterity": 18,
+          "Constitution": 14,
+          "Intelligence": 10,
+          "Wisdom": 16,
+          "Charisma": 10
+        },
+        "saveProficiencies": [],
+        "skillProficiencies": [],
+        "expertise": [],
+        "equipment": [],
+        "resources": [
+          {
+            "id": "slot1",
+            "name": "1st-level slots",
+            "remaining": 2,
+            "maximum": 4
+          }
+        ],
+        "notes": [],
+        "effects": []
+      },
+      "skill": {
+        "name": "Perception",
+        "ability": "Wisdom"
+      },
+      "saveAbility": "Wisdom",
+      "attack": {
+        "ability": "Dexterity",
+        "proficient": false,
+        "flatBonus": 0
+      },
+      "expected": {
+        "abilityModifiers": {
+          "Strength": 1,
+          "Dexterity": 4,
+          "Constitution": 2,
+          "Intelligence": 0,
+          "Wisdom": 3,
+          "Charisma": 0
+        },
+        "proficiencyBonus": 3,
+        "skillBonus": 3,
+        "saveBonus": 3,
+        "attackBonus": 4,
+        "initiativeBonus": 4
+      }
+    },
+    {
+      "id": "low-odd-scores-floor-correctly",
+      "character": {
+        "id": "fictional-veyra",
+        "name": "Veyra Thorne \u00b7 parity fixture",
+        "className": "Rogue",
+        "subclass": "",
+        "level": 1,
+        "currentHp": 32,
+        "maximumHp": 44,
+        "temporaryHp": 0,
+        "armorClass": 16,
+        "speed": 30,
+        "turn": 1,
+        "abilityScores": {
+          "Strength": 1,
+          "Dexterity": 3,
+          "Constitution": 5,
+          "Intelligence": 7,
+          "Wisdom": 9,
+          "Charisma": 11
+        },
+        "saveProficiencies": [],
+        "skillProficiencies": [],
+        "expertise": [],
+        "equipment": [],
+        "resources": [
+          {
+            "id": "slot1",
+            "name": "1st-level slots",
+            "remaining": 2,
+            "maximum": 4
+          }
+        ],
+        "notes": [],
+        "effects": []
+      },
+      "skill": {
+        "name": "Athletics",
+        "ability": "Strength"
+      },
+      "saveAbility": "Wisdom",
+      "attack": {
+        "ability": "Dexterity",
+        "proficient": false,
+        "flatBonus": 0
+      },
+      "expected": {
+        "abilityModifiers": {
+          "Strength": -5,
+          "Dexterity": -4,
+          "Constitution": -3,
+          "Intelligence": -2,
+          "Wisdom": -1,
+          "Charisma": 0
+        },
+        "proficiencyBonus": 2,
+        "skillBonus": -5,
+        "saveBonus": -1,
+        "attackBonus": -4,
+        "initiativeBonus": -4
+      }
+    },
+    {
+      "id": "ordinary-proficiency-adds-once",
+      "character": {
+        "id": "fictional-veyra",
+        "name": "Veyra Thorne \u00b7 parity fixture",
+        "className": "Ranger",
+        "subclass": "Gloom Stalker",
+        "level": 5,
+        "currentHp": 32,
+        "maximumHp": 44,
+        "temporaryHp": 0,
+        "armorClass": 16,
+        "speed": 30,
+        "turn": 1,
+        "abilityScores": {
+          "Strength": 12,
+          "Dexterity": 18,
+          "Constitution": 14,
+          "Intelligence": 10,
+          "Wisdom": 16,
+          "Charisma": 10
+        },
+        "saveProficiencies": [
+          "Strength",
+          "Dexterity"
+        ],
+        "skillProficiencies": [
+          "Athletics",
+          "Perception",
+          "Stealth"
+        ],
+        "expertise": [],
+        "equipment": [],
+        "resources": [
+          {
+            "id": "slot1",
+            "name": "1st-level slots",
+            "remaining": 2,
+            "maximum": 4
+          }
+        ],
+        "notes": [],
+        "effects": []
+      },
+      "skill": {
+        "name": "Perception",
+        "ability": "Wisdom"
+      },
+      "saveAbility": "Dexterity",
+      "attack": {
+        "ability": "Dexterity",
+        "proficient": true,
+        "flatBonus": 2
+      },
+      "expected": {
+        "abilityModifiers": {
+          "Strength": 1,
+          "Dexterity": 4,
+          "Constitution": 2,
+          "Intelligence": 0,
+          "Wisdom": 3,
+          "Charisma": 0
+        },
+        "proficiencyBonus": 3,
+        "skillBonus": 6,
+        "saveBonus": 7,
+        "attackBonus": 9,
+        "initiativeBonus": 7
+      }
+    },
+    {
+      "id": "gloom-initiative-not-before-level-three",
+      "character": {
+        "id": "fictional-veyra",
+        "name": "Veyra Thorne \u00b7 parity fixture",
+        "className": "Ranger",
+        "subclass": "Gloom Stalker",
+        "level": 2,
+        "currentHp": 32,
+        "maximumHp": 44,
+        "temporaryHp": 0,
+        "armorClass": 16,
+        "speed": 30,
+        "turn": 1,
+        "abilityScores": {
+          "Strength": 12,
+          "Dexterity": 18,
+          "Constitution": 14,
+          "Intelligence": 10,
+          "Wisdom": 16,
+          "Charisma": 10
+        },
+        "saveProficiencies": [
+          "Strength",
+          "Dexterity"
+        ],
+        "skillProficiencies": [
+          "Athletics",
+          "Perception",
+          "Stealth"
+        ],
+        "expertise": [
+          "Perception",
+          "Stealth"
+        ],
+        "equipment": [],
+        "resources": [
+          {
+            "id": "slot1",
+            "name": "1st-level slots",
+            "remaining": 2,
+            "maximum": 4
+          }
+        ],
+        "notes": [],
+        "effects": []
+      },
+      "skill": {
+        "name": "Perception",
+        "ability": "Wisdom"
+      },
+      "saveAbility": "Dexterity",
+      "attack": {
+        "ability": "Dexterity",
+        "proficient": true,
+        "flatBonus": 2
+      },
+      "expected": {
+        "abilityModifiers": {
+          "Strength": 1,
+          "Dexterity": 4,
+          "Constitution": 2,
+          "Intelligence": 0,
+          "Wisdom": 3,
+          "Charisma": 0
+        },
+        "proficiencyBonus": 2,
+        "skillBonus": 7,
+        "saveBonus": 6,
+        "attackBonus": 8,
+        "initiativeBonus": 4
+      }
+    }
+  ]
+}

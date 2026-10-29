@@ -1,0 +1,16 @@
+<section class="player-resource-dock" data-testid="resource-strip" aria-label="Resources and counters">
+    <div class="dock-heading"><h2>Resources</h2></div>
+    <ResourceCounters Character="Character" Busy="Busy" OnAdjust="OnAdjust" OnAdjustHitDiePool="OnAdjustHitDiePool" Layout="vertical" />
+    <button type="button" class="dock-undo" data-testid="undo-play" disabled="@(Busy||Character.Play.UndoHistory.Count==0)" title="@(Character.Play.UndoHistory.LastOrDefault()?.Description??"No play change to undo")" @onclick="()=>OnUndo.InvokeAsync()">Undo last change</button>
+    @if(ShowAppearance){<div class="dock-appearance"><AppearanceMenu Theme="@Theme" OnThemeChange="OnThemeChange" /></div>}
+</section>
+@code {
+    [Parameter,EditorRequired]public CharacterState Character {get;set;}=default!;
+    [Parameter]public bool Busy {get;set;}
+    [Parameter]public EventCallback<(string Id,int Delta,string SourceId)> OnAdjust {get;set;}
+    [Parameter]public EventCallback<(string Id,int Delta,string SourceId)> OnAdjustHitDiePool {get;set;}
+    [Parameter]public EventCallback OnUndo {get;set;}
+    [Parameter]public string Theme {get;set;}="system";
+    [Parameter]public EventCallback<ChangeEventArgs> OnThemeChange {get;set;}
+    [Parameter]public bool ShowAppearance {get;set;}=true;
+}

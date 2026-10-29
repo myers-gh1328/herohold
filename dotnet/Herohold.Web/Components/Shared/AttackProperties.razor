@@ -1,0 +1,3 @@
+@if(Text.Length>120){<p class="attack-range">@Text.Split(" · ",2)[0]</p><details class="attack-properties"><summary>Properties &amp; rules</summary><p>@Text</p></details>}
+else if(!string.IsNullOrWhiteSpace(Text)){<p class="attack-range">@Text</p>}
+@code{[Parameter]public string Text{get;set;}="";}

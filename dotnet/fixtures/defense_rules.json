@@ -1,0 +1,2028 @@
+{
+  "schemaVersion": 1,
+  "armor": [
+    {
+      "id": "Padded Armor--2-False",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Padded-Armor",
+            "name": "Padded Armor",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 9
+    },
+    {
+      "id": "Padded Armor--2-True",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Padded-Armor",
+            "name": "Padded Armor",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 11
+    },
+    {
+      "id": "Padded Armor-4-False",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Padded-Armor",
+            "name": "Padded Armor",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 15
+    },
+    {
+      "id": "Padded Armor-4-True",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Padded-Armor",
+            "name": "Padded Armor",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 17
+    },
+    {
+      "id": "Leather Armor--2-False",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Leather-Armor",
+            "name": "Leather Armor",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 9
+    },
+    {
+      "id": "Leather Armor--2-True",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Leather-Armor",
+            "name": "Leather Armor",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 11
+    },
+    {
+      "id": "Leather Armor-4-False",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Leather-Armor",
+            "name": "Leather Armor",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 15
+    },
+    {
+      "id": "Leather Armor-4-True",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Leather-Armor",
+            "name": "Leather Armor",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 17
+    },
+    {
+      "id": "Studded Leather Armor--2-False",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Studded-Leather-Armor",
+            "name": "Studded Leather Armor",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 10
+    },
+    {
+      "id": "Studded Leather Armor--2-True",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Studded-Leather-Armor",
+            "name": "Studded Leather Armor",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 12
+    },
+    {
+      "id": "Studded Leather Armor-4-False",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Studded-Leather-Armor",
+            "name": "Studded Leather Armor",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 16
+    },
+    {
+      "id": "Studded Leather Armor-4-True",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Studded-Leather-Armor",
+            "name": "Studded Leather Armor",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 18
+    },
+    {
+      "id": "Hide Armor--2-False",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Hide-Armor",
+            "name": "Hide Armor",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 10
+    },
+    {
+      "id": "Hide Armor--2-True",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Hide-Armor",
+            "name": "Hide Armor",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 12
+    },
+    {
+      "id": "Hide Armor-4-False",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Hide-Armor",
+            "name": "Hide Armor",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 14
+    },
+    {
+      "id": "Hide Armor-4-True",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Hide-Armor",
+            "name": "Hide Armor",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 16
+    },
+    {
+      "id": "Chain Shirt--2-False",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Chain-Shirt",
+            "name": "Chain Shirt",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 11
+    },
+    {
+      "id": "Chain Shirt--2-True",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Chain-Shirt",
+            "name": "Chain Shirt",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 13
+    },
+    {
+      "id": "Chain Shirt-4-False",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Chain-Shirt",
+            "name": "Chain Shirt",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 15
+    },
+    {
+      "id": "Chain Shirt-4-True",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Chain-Shirt",
+            "name": "Chain Shirt",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 17
+    },
+    {
+      "id": "Scale Mail--2-False",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Scale-Mail",
+            "name": "Scale Mail",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 12
+    },
+    {
+      "id": "Scale Mail--2-True",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Scale-Mail",
+            "name": "Scale Mail",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 14
+    },
+    {
+      "id": "Scale Mail-4-False",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Scale-Mail",
+            "name": "Scale Mail",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 16
+    },
+    {
+      "id": "Scale Mail-4-True",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Scale-Mail",
+            "name": "Scale Mail",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 18
+    },
+    {
+      "id": "Breastplate--2-False",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Breastplate",
+            "name": "Breastplate",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 12
+    },
+    {
+      "id": "Breastplate--2-True",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Breastplate",
+            "name": "Breastplate",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 14
+    },
+    {
+      "id": "Breastplate-4-False",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Breastplate",
+            "name": "Breastplate",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 16
+    },
+    {
+      "id": "Breastplate-4-True",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Breastplate",
+            "name": "Breastplate",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 18
+    },
+    {
+      "id": "Half Plate Armor--2-False",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Half-Plate-Armor",
+            "name": "Half Plate Armor",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 13
+    },
+    {
+      "id": "Half Plate Armor--2-True",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Half-Plate-Armor",
+            "name": "Half Plate Armor",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 15
+    },
+    {
+      "id": "Half Plate Armor-4-False",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Half-Plate-Armor",
+            "name": "Half Plate Armor",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 17
+    },
+    {
+      "id": "Half Plate Armor-4-True",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Half-Plate-Armor",
+            "name": "Half Plate Armor",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 19
+    },
+    {
+      "id": "Ring Mail--2-False",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Ring-Mail",
+            "name": "Ring Mail",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 14
+    },
+    {
+      "id": "Ring Mail--2-True",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Ring-Mail",
+            "name": "Ring Mail",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 16
+    },
+    {
+      "id": "Ring Mail-4-False",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Ring-Mail",
+            "name": "Ring Mail",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 14
+    },
+    {
+      "id": "Ring Mail-4-True",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Ring-Mail",
+            "name": "Ring Mail",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 16
+    },
+    {
+      "id": "Chain Mail--2-False",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Chain-Mail",
+            "name": "Chain Mail",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 16
+    },
+    {
+      "id": "Chain Mail--2-True",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Chain-Mail",
+            "name": "Chain Mail",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 18
+    },
+    {
+      "id": "Chain Mail-4-False",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Chain-Mail",
+            "name": "Chain Mail",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 16
+    },
+    {
+      "id": "Chain Mail-4-True",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Chain-Mail",
+            "name": "Chain Mail",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 18
+    },
+    {
+      "id": "Splint Armor--2-False",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Splint-Armor",
+            "name": "Splint Armor",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 17
+    },
+    {
+      "id": "Splint Armor--2-True",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Splint-Armor",
+            "name": "Splint Armor",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 19
+    },
+    {
+      "id": "Splint Armor-4-False",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Splint-Armor",
+            "name": "Splint Armor",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 17
+    },
+    {
+      "id": "Splint Armor-4-True",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Splint-Armor",
+            "name": "Splint Armor",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 19
+    },
+    {
+      "id": "Plate Armor--2-False",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Plate-Armor",
+            "name": "Plate Armor",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 18
+    },
+    {
+      "id": "Plate Armor--2-True",
+      "input": {
+        "dexterityModifier": -2,
+        "equipment": [
+          {
+            "id": "Plate-Armor",
+            "name": "Plate Armor",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 20
+    },
+    {
+      "id": "Plate Armor-4-False",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Plate-Armor",
+            "name": "Plate Armor",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 18
+    },
+    {
+      "id": "Plate Armor-4-True",
+      "input": {
+        "dexterityModifier": 4,
+        "equipment": [
+          {
+            "id": "Plate-Armor",
+            "name": "Plate Armor",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 20
+    },
+    {
+      "id": "monk-shield",
+      "input": {
+        "className": "Monk",
+        "subclass": "",
+        "level": 3,
+        "dexterityModifier": 3,
+        "wisdomModifier": 4,
+        "charismaModifier": 4,
+        "constitutionModifier": 3,
+        "equipment": [
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 15,
+      "legacyExpected": 17
+    },
+    {
+      "id": "dance-shield",
+      "input": {
+        "className": "Bard",
+        "subclass": "College of Dance",
+        "level": 3,
+        "dexterityModifier": 3,
+        "wisdomModifier": 4,
+        "charismaModifier": 4,
+        "constitutionModifier": 3,
+        "equipment": [
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 15,
+      "legacyExpected": 17
+    },
+    {
+      "id": "draconic-shield",
+      "input": {
+        "className": "Sorcerer",
+        "subclass": "Draconic Sorcery",
+        "level": 3,
+        "dexterityModifier": 3,
+        "wisdomModifier": 4,
+        "charismaModifier": 4,
+        "constitutionModifier": 3,
+        "equipment": [
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 19,
+      "legacyExpected": 17
+    },
+    {
+      "id": "draconic-too-early",
+      "input": {
+        "className": "Sorcerer",
+        "subclass": "Draconic Sorcery",
+        "level": 2,
+        "dexterityModifier": 3,
+        "wisdomModifier": 4,
+        "charismaModifier": 4,
+        "constitutionModifier": 3,
+        "equipment": [
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 15,
+      "legacyExpected": 17
+    },
+    {
+      "id": "monk-armor",
+      "input": {
+        "className": "Monk",
+        "subclass": "",
+        "level": 3,
+        "dexterityModifier": 3,
+        "wisdomModifier": 4,
+        "charismaModifier": 4,
+        "constitutionModifier": 3,
+        "equipment": [
+          {
+            "id": "Plate-Armor",
+            "name": "Plate Armor",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 18
+    },
+    {
+      "id": "barbarian-shield",
+      "input": {
+        "className": "Barbarian",
+        "subclass": "",
+        "level": 3,
+        "dexterityModifier": 3,
+        "wisdomModifier": 4,
+        "charismaModifier": 4,
+        "constitutionModifier": 3,
+        "equipment": [
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 18
+    },
+    {
+      "id": "carried",
+      "input": {
+        "dexterityScore": 16,
+        "dexterityModifier": 5,
+        "mediumArmorMaster": true,
+        "defenseStyle": true,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": false
+          }
+        ]
+      },
+      "expected": 15
+    },
+    {
+      "id": "unattuned",
+      "input": {
+        "dexterityScore": 16,
+        "dexterityModifier": 5,
+        "mediumArmorMaster": true,
+        "defenseStyle": true,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": true,
+            "requiresAttunement": true
+          }
+        ]
+      },
+      "expected": 15
+    },
+    {
+      "id": "custom-name",
+      "input": {
+        "dexterityScore": 16,
+        "dexterityModifier": 5,
+        "mediumArmorMaster": true,
+        "defenseStyle": true,
+        "equipment": [
+          {
+            "id": "Custom-Plate",
+            "name": "Custom Plate",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 15
+    },
+    {
+      "id": "half-plate-alias",
+      "input": {
+        "dexterityScore": 16,
+        "dexterityModifier": 5,
+        "mediumArmorMaster": true,
+        "defenseStyle": true,
+        "equipment": [
+          {
+            "id": "half-plate",
+            "name": "half plate",
+            "equipped": true
+          },
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": 21
+    }
+  ],
+  "movement": [
+    {
+      "id": "Ranger-5-none",
+      "input": {
+        "className": "Ranger",
+        "level": 5,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": []
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Ranger-6-none",
+      "input": {
+        "className": "Ranger",
+        "level": 6,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": []
+      },
+      "expected": {
+        "speed": 40,
+        "climbSpeed": 40,
+        "swimSpeed": 40
+      }
+    },
+    {
+      "id": "Ranger-20-none",
+      "input": {
+        "className": "Ranger",
+        "level": 20,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": []
+      },
+      "expected": {
+        "speed": 40,
+        "climbSpeed": 40,
+        "swimSpeed": 40
+      }
+    },
+    {
+      "id": "Ranger-5-plate",
+      "input": {
+        "className": "Ranger",
+        "level": 5,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Ranger-6-plate",
+      "input": {
+        "className": "Ranger",
+        "level": 6,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": 30,
+        "swimSpeed": 30
+      }
+    },
+    {
+      "id": "Ranger-20-plate",
+      "input": {
+        "className": "Ranger",
+        "level": 20,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": 30,
+        "swimSpeed": 30
+      }
+    },
+    {
+      "id": "Ranger-5-shield",
+      "input": {
+        "className": "Ranger",
+        "level": 5,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": [
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Ranger-6-shield",
+      "input": {
+        "className": "Ranger",
+        "level": 6,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": [
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 40,
+        "climbSpeed": 40,
+        "swimSpeed": 40
+      }
+    },
+    {
+      "id": "Ranger-20-shield",
+      "input": {
+        "className": "Ranger",
+        "level": 20,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": [
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 40,
+        "climbSpeed": 40,
+        "swimSpeed": 40
+      }
+    },
+    {
+      "id": "Ranger-5-carried",
+      "input": {
+        "className": "Ranger",
+        "level": 5,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": false
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Ranger-6-carried",
+      "input": {
+        "className": "Ranger",
+        "level": 6,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": false
+          }
+        ]
+      },
+      "expected": {
+        "speed": 40,
+        "climbSpeed": 40,
+        "swimSpeed": 40
+      }
+    },
+    {
+      "id": "Ranger-20-carried",
+      "input": {
+        "className": "Ranger",
+        "level": 20,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": false
+          }
+        ]
+      },
+      "expected": {
+        "speed": 40,
+        "climbSpeed": 40,
+        "swimSpeed": 40
+      }
+    },
+    {
+      "id": "Barbarian-4-none",
+      "input": {
+        "className": "Barbarian",
+        "level": 4,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": []
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Barbarian-5-none",
+      "input": {
+        "className": "Barbarian",
+        "level": 5,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": []
+      },
+      "expected": {
+        "speed": 40,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Barbarian-20-none",
+      "input": {
+        "className": "Barbarian",
+        "level": 20,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": []
+      },
+      "expected": {
+        "speed": 40,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Barbarian-4-plate",
+      "input": {
+        "className": "Barbarian",
+        "level": 4,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Barbarian-5-plate",
+      "input": {
+        "className": "Barbarian",
+        "level": 5,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Barbarian-20-plate",
+      "input": {
+        "className": "Barbarian",
+        "level": 20,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Barbarian-4-shield",
+      "input": {
+        "className": "Barbarian",
+        "level": 4,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": [
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Barbarian-5-shield",
+      "input": {
+        "className": "Barbarian",
+        "level": 5,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": [
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 40,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Barbarian-20-shield",
+      "input": {
+        "className": "Barbarian",
+        "level": 20,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": [
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 40,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Barbarian-4-carried",
+      "input": {
+        "className": "Barbarian",
+        "level": 4,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": false
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Barbarian-5-carried",
+      "input": {
+        "className": "Barbarian",
+        "level": 5,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": false
+          }
+        ]
+      },
+      "expected": {
+        "speed": 40,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Barbarian-20-carried",
+      "input": {
+        "className": "Barbarian",
+        "level": 20,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": false
+          }
+        ]
+      },
+      "expected": {
+        "speed": 40,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-1-none",
+      "input": {
+        "className": "Monk",
+        "level": 1,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": []
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-2-none",
+      "input": {
+        "className": "Monk",
+        "level": 2,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 10,
+        "equipment": []
+      },
+      "expected": {
+        "speed": 40,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-6-none",
+      "input": {
+        "className": "Monk",
+        "level": 6,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 15,
+        "equipment": []
+      },
+      "expected": {
+        "speed": 45,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-10-none",
+      "input": {
+        "className": "Monk",
+        "level": 10,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 20,
+        "equipment": []
+      },
+      "expected": {
+        "speed": 50,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-14-none",
+      "input": {
+        "className": "Monk",
+        "level": 14,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 25,
+        "equipment": []
+      },
+      "expected": {
+        "speed": 55,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-18-none",
+      "input": {
+        "className": "Monk",
+        "level": 18,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 30,
+        "equipment": []
+      },
+      "expected": {
+        "speed": 60,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-20-none",
+      "input": {
+        "className": "Monk",
+        "level": 20,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 30,
+        "equipment": []
+      },
+      "expected": {
+        "speed": 60,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-1-plate",
+      "input": {
+        "className": "Monk",
+        "level": 1,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-2-plate",
+      "input": {
+        "className": "Monk",
+        "level": 2,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 10,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-6-plate",
+      "input": {
+        "className": "Monk",
+        "level": 6,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 15,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-10-plate",
+      "input": {
+        "className": "Monk",
+        "level": 10,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 20,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-14-plate",
+      "input": {
+        "className": "Monk",
+        "level": 14,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 25,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-18-plate",
+      "input": {
+        "className": "Monk",
+        "level": 18,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 30,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-20-plate",
+      "input": {
+        "className": "Monk",
+        "level": 20,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 30,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-1-shield",
+      "input": {
+        "className": "Monk",
+        "level": 1,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": [
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-2-shield",
+      "input": {
+        "className": "Monk",
+        "level": 2,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 10,
+        "equipment": [
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-6-shield",
+      "input": {
+        "className": "Monk",
+        "level": 6,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 15,
+        "equipment": [
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-10-shield",
+      "input": {
+        "className": "Monk",
+        "level": 10,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 20,
+        "equipment": [
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-14-shield",
+      "input": {
+        "className": "Monk",
+        "level": 14,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 25,
+        "equipment": [
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-18-shield",
+      "input": {
+        "className": "Monk",
+        "level": 18,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 30,
+        "equipment": [
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-20-shield",
+      "input": {
+        "className": "Monk",
+        "level": 20,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 30,
+        "equipment": [
+          {
+            "id": "Shield",
+            "name": "Shield",
+            "equipped": true
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-1-carried",
+      "input": {
+        "className": "Monk",
+        "level": 1,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 0,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": false
+          }
+        ]
+      },
+      "expected": {
+        "speed": 30,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-2-carried",
+      "input": {
+        "className": "Monk",
+        "level": 2,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 10,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": false
+          }
+        ]
+      },
+      "expected": {
+        "speed": 40,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-6-carried",
+      "input": {
+        "className": "Monk",
+        "level": 6,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 15,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": false
+          }
+        ]
+      },
+      "expected": {
+        "speed": 45,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-10-carried",
+      "input": {
+        "className": "Monk",
+        "level": 10,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 20,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": false
+          }
+        ]
+      },
+      "expected": {
+        "speed": 50,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-14-carried",
+      "input": {
+        "className": "Monk",
+        "level": 14,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 25,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": false
+          }
+        ]
+      },
+      "expected": {
+        "speed": 55,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-18-carried",
+      "input": {
+        "className": "Monk",
+        "level": 18,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 30,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": false
+          }
+        ]
+      },
+      "expected": {
+        "speed": 60,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "Monk-20-carried",
+      "input": {
+        "className": "Monk",
+        "level": 20,
+        "baseSpeed": 30,
+        "unarmoredMovementBonus": 30,
+        "equipment": [
+          {
+            "id": "Plate",
+            "name": "Plate",
+            "equipped": false
+          }
+        ]
+      },
+      "expected": {
+        "speed": 60,
+        "climbSpeed": null,
+        "swimSpeed": null
+      }
+    },
+    {
+      "id": "deduped-feat-speed",
+      "input": {
+        "className": "Ranger",
+        "level": 6,
+        "feats": [
+          "Speedy",
+          "Speedy",
+          "Boon of Speed"
+        ]
+      },
+      "expected": {
+        "speed": 80,
+        "climbSpeed": 80,
+        "swimSpeed": 80
+      }
+    }
+  ]
+}

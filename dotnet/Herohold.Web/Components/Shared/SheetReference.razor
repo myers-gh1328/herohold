@@ -1,0 +1,13 @@
+<section class="sheet-reference" aria-label="Ability scores and character reference">
+    <AbilityScores Character="Character" Busy="Busy" OnCheck="OnCheck" OnSave="OnSave" />
+    <div class="sheet-basics"><span data-testid="sheet-proficiency">Proficiency <CalculationValue Value="Proficiency" Label="Proficiency bonus" /></span><span>Size <strong>@Size</strong></span><span>Initiative <CalculationValue Value="CharacterCalculations.Initiative(Character)" Label="Initiative" /><button type="button" class="text-link" disabled="@Busy" @onclick="()=>OnInitiative.InvokeAsync()">Roll</button></span></div>
+</section>
+@code {
+    [Parameter,EditorRequired]public CharacterState Character {get;set;}=default!;
+    [Parameter]public bool Busy {get;set;}
+    [Parameter]public EventCallback<Ability> OnCheck {get;set;}
+    [Parameter]public EventCallback<Ability> OnSave {get;set;}
+    [Parameter]public EventCallback OnInitiative {get;set;}
+    private Calculation Proficiency=>new(CharacterCalculations.ProficiencyBonus(Character.Level),[new($"Character level {Character.Level}",CharacterCalculations.ProficiencyBonus(Character.Level))]);
+    private string Size=>SheetRules.Profile(Character).Size is {Length:>0} size?size:"Not recorded";
+}

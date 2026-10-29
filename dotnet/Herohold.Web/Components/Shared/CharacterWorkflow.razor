@@ -1,0 +1,81 @@
+<div class="luf-shell" data-testid="character-workflow">
+    <div class="luf-heading"><div><div class="section-kicker">@Kind / character draft</div><h1>@Title</h1><p>Your saved character stays unchanged until you review and confirm.</p></div><button class="button" disabled="@Session.IsBusy" @onclick="Cancel">Discard draft</button></div>
+    <ol class="luf-steps" aria-label="Character workflow steps">@for(var i=0;i<Steps.Count;i++) { var index=i;<li aria-current="@(i==Step?"step":null)" class="@(i<Step?"luf-done":"")"><button disabled="@Session.IsBusy" @onclick="()=>GoToStep(index)">@(i+1). @Steps[i].Label</button></li> }</ol>
+    <div class="workflow-layout"><section class="luf-panel">
+        @if(CurrentStep.Key=="gains")
+        {
+            <h2>The next chapter.</h2><p class="luf-help">@LevelUp.ClassName · character level @Session.Character?.Level → @TargetLevel</p><div class="workflow-gains">@foreach(var feature in LevelUp.AutomaticFeatures) { <div class="change-row"><span>@feature</span><span class="tag source">Automatic</span></div> }</div><p class="small muted">The next steps include only decisions introduced by this level. Existing choices are retained.</p>
+        }
+        else if(CurrentStep.Key=="health")
+        {
+            <h2>Add hit points.</h2><p class="luf-help">Record the fixed gain or your unmodified physical Hit Die. Constitution and earlier-level adjustments are calculated by the rules engine.</p><div class="luf-options"><label class="luf-option"><input disabled="@Session.IsBusy" type="radio" name="hp-method" value="fixed" checked='@(HpMode=="fixed")' @onchange='()=>HpMode="fixed"' /><span><strong>Fixed Hit Die gain</strong><small>Hit Die d@(LevelUp.HitDie) · base gain @LevelUp.HpBaseGain</small></span></label><label class="luf-option"><input disabled="@Session.IsBusy" type="radio" name="hp-method" value="rolled" checked='@(HpMode=="rolled")' @onchange='()=>HpMode="rolled"' /><span><strong>Use my own rolled die</strong><small>Enter the raw die result; Constitution is added once.</small></span></label></div>@if(HpMode=="rolled") { <label class="field">Unmodified Hit Die<input disabled="@Session.IsBusy" id="level-hp-roll" type="number" min="1" max="@HitDieMaximum" @bind="HpRoll" /></label> }<label class="inline-option"><input disabled="@Session.IsBusy" id="level-add-current-hp" type="checkbox" @bind="AddGainedHp" /> Also add gained HP to current HP</label><p class="small muted">Unchecked preserves current HP. Level-up does not complete a rest or refill spent resources.</p><button class="button section-gap" disabled="@(Session.IsBusy||!CanPreviewHp)" @onclick="PreviewHealth">Update HP preview</button>@if(!CanPreviewHp) { <p class="small muted">Complete the upcoming feature choices before the full HP preview. Your HP policy is retained.</p> }
+        }
+        else if(CurrentStep.Key=="review")
+        {
+            <h2>Review the whole change.</h2><p class="luf-help">@(Kind=="import"?"Adopt this reviewed upload as a separate character. Existing characters are retained.":"Confirm only when the preview and required choices are right.")</p><div class="change-row"><span>Name</span><strong>@Candidate.Name</strong></div><div class="change-row"><span>Character</span><strong>@Candidate.Species · @Candidate.ClassName @Candidate.Level</strong></div>@if(Candidate.ClassLevels is { } classLevels){<div class="change-row"><span>Class levels</span><strong>@string.Join(" / ",classLevels.Select(p=>p.Key+" "+p.Value))</strong></div>}<div class="change-row"><span>Subclass</span><strong>@Candidate.Subclass</strong></div><div class="change-row"><span>Maximum HP</span><strong>@Session.Character?.MaximumHp → @Candidate.MaximumHp</strong></div><div class="change-row"><span>Current HP</span><strong>@Candidate.CurrentHp</strong></div>
+            @if(Kind=="levelup") { <p class="small muted">HP policy: @(HpMode=="rolled"?$"physical die {HpRoll}":"fixed gain") · @(AddGainedHp?"add gained HP to current":"preserve current HP")</p> }
+            @foreach(var choice in Choices) { <div class="workflow-review-choice"><strong>@choice.Label</strong><span>@choice.Value.Display</span><span class="tag">@choice.Status</span></div> }
+            @if(Kind=="import" && Workflow.Review is { } review) { <ImportReviewSummary Review="review" /> }
+            @if(!Validation.Complete || Kind=="import" && Workflow.Review?.CanAdopt is false) { <div class="luf-banner"><strong>Some choices still need attention.</strong>@foreach(var missing in Validation.Missing) { <p>@missing</p> }</div> }
+            @foreach(var warning in Validation.Warnings) { <p class="reference-line">@warning</p> }
+            <p class="small muted">Required choices are checked again when you confirm.</p>
+        }
+        else
+        {
+            <h2>@CurrentStep.Label</h2><p class="luf-help">@(CurrentStep.Key=="origin" ? "Common is included. Choose two additional standard languages." : "Choose from the options available to your character.")</p>
+            @if(ShowAbilityGeneration) { <AbilityScoreBuilder Character="Candidate" Busy="Session.IsBusy" MethodChanged="ChangeAbilityMethod" GenerateRequested="Session.GenerateAbilityScoresAsync" AssignmentChanged="AssignAbilityScore" /> }
+            @foreach(var choice in Choices.Where(c=>c.Section==CurrentStep.Key && !(ShowAbilityGeneration && GeneratedAbilities && c.Type=="ability_scores"))) { <ChoiceEditor @key='choice.Id' Choice="choice" Busy="Session.IsBusy" ValueChanged='value=>SelectChoice(choice.Id,value)' /> }
+        }
+        @if(Session.Error is { } error) { <p class="dialog-save-error" role="alert">@error</p> }
+        <div class="form-footer"><button class="button" disabled="@(Step==0||Session.IsBusy)" @onclick="()=>Step--">Back</button>@if(CurrentStep.Key=="review") { <button class="button primary" data-testid="commit-workflow" disabled="@(Session.IsBusy || !CanCommit)" @onclick="Commit">@(Kind=="import"?"Adopt reviewed character":"Confirm and save")</button> } else { <button class="button primary" data-testid="workflow-next" disabled="@Session.IsBusy" @onclick="Next">Continue →</button> }</div>
+    </section><aside class="panel workflow-summary"><div class="section-kicker">Draft summary</div><h2>@Candidate.Name</h2><p>@Candidate.Species · @Candidate.ClassName @Candidate.Level</p><div class="change-row"><span>Maximum HP</span><strong>@Candidate.MaximumHp</strong></div><div class="change-row"><span>Required choices</span><strong>@Choices.Count(c=>c.Required && c.Status!="resolved") remaining</strong></div><p class="small muted">Leave or return to an earlier step without applying changes. Discard abandons this draft.</p></aside></div>
+</div>
+
+@code {
+    [Parameter,EditorRequired] public WorkspaceSession Session {get;set;}=default!;
+    [Parameter] public EventCallback OnFinished {get;set;}
+    private WorkflowView Workflow=>Session.Workflow??new();
+    private LevelUpSummary LevelUp=>Workflow.LevelUp??new();
+    private DraftSummary Candidate=>Workflow.Candidate;
+    private WorkflowValidation Validation=>Workflow.Validation;
+    private List<BuilderChoice> Choices=>Workflow.Choices;
+    private string Kind=>Workflow.Kind;
+    private string Title=>Kind switch{"create"=>"Create a character.","edit"=>"Make it your own.","levelup"=>"One level, one clear path.",_=>"Review your character."};
+    private int? TargetLevel=>LevelUp.TargetLevel??Candidate.Level;
+    private int HitDieMaximum=>LevelUp.HitDie??20;
+    private int Step;
+    private string HpMode="fixed";
+    private int? HpRoll;
+    private bool AddGainedHp;
+    private string WorkflowStamp="";
+    private List<(string Key,string Label)> Steps
+    {
+        get
+        {
+            List<(string,string)> items=[];
+            if(Kind=="levelup"){items.Add(("gains","Review gains"));items.Add(("health","Hit points"));}
+            foreach(var section in Choices.Select(c=>c.Section).Distinct())items.Add((section,Friendly(section)));
+            items.Add(("review","Review & confirm"));return items;
+        }
+    }
+    private (string Key,string Label) CurrentStep=>Steps[Math.Clamp(Step,0,Steps.Count-1)];
+    protected override void OnParametersSet()
+    {
+        if(WorkflowStamp!=Workflow.Stamp){WorkflowStamp=Workflow.Stamp;Step=0;HpMode="fixed";HpRoll=null;AddGainedHp=false;}
+        Step=Math.Clamp(Step,0,Steps.Count-1);
+    }
+    private static string Friendly(string text)=>System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text.Replace('_',' ').Replace('-',' '));
+    private Task SelectChoice(string id,ChoiceValue value)=>Session.ChooseWorkflowAsync(id,value);
+    private bool ShowAbilityGeneration=>CurrentStep.Key=="abilities" && Kind is "create" or "edit";
+    private bool GeneratedAbilities=>Candidate.AbilityMethod is "Standard array" or "Roll 4d6";
+    private Task ChangeAbilityMethod(string method)=>method=="Standard array"?Session.GenerateAbilityScoresAsync(method):Session.EditDraftAsync(["ability_score_method"],ChoiceValue.Of(method));
+    private Task AssignAbilityScore((Ability Ability,int Position) selection)=>Session.AssignAbilityScoreAsync(selection.Ability,selection.Position);
+    private bool CanCommit=>Session.Error is null && Validation.Complete && Workflow.PreviewValidation?.Complete is not false && CanPreviewHp && (Kind!="import" || Workflow.Review?.CanAdopt is not false);
+    private bool CanPreviewHp=>Choices.All(c=>c.Status=="resolved"||!c.Required);
+    private LevelUpHp HpOptions()=>new(){Mode=HpMode,Roll=HpRoll,AddGainedHp=AddGainedHp};
+    private Task PreviewHealth()=>Session.PreviewLevelUpHpAsync(HpOptions());
+    private async Task GoToStep(int index){if(index==Step)return;if(Kind=="levelup"&&Steps[index].Key=="review"&&CanPreviewHp)await PreviewHealth();Step=index;}
+    private async Task Next(){await GoToStep(Math.Min(Step+1,Steps.Count-1));}
+    private async Task Commit(){if(Kind=="import")await Session.AdoptImportAsync();else await Session.CommitWorkflowAsync(Kind=="levelup"?HpOptions():null);if(Session.Error is null && Session.Workflow is null)await OnFinished.InvokeAsync();}
+    private async Task Cancel(){Session.CancelWorkflow();await OnFinished.InvokeAsync();}
+}

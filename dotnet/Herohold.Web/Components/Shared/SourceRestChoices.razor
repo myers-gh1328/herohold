@@ -1,0 +1,39 @@
+@foreach(var source in Character.Play.SpellSources)
+{
+    <fieldset class="section-gap" @key="source.Id"><legend>@source.Name · @source.Ability</legend>
+    @if(source.Preparation.CanChangeOnLongRest)
+    {
+        <label class="inline-option"><input type="checkbox" data-testid="source-change-spells" checked="@Draft(source).ChangeSpells" @onchange="e=>SetChange(source,e.Value is true,false)" /> Change @source.Name prepared spells</label>
+        @if(Draft(source).ChangeSpells)
+        {
+            <div data-testid="source-spell-picker" class="spell-preparation-picker"><p class="small muted">Select up to @source.Preparation.PreparedLimit. Spell access: level @source.Preparation.MaximumSpellLevel. @(source.Preparation.ReplacementLimit is int n?$"Replace at most {n}.":"")</p>
+            @foreach(var id in RestRules.EligiblePreparations(Character,source.Id))
+            {<label class="spell-choice"><input type="checkbox" checked="@Draft(source).NewPreparedSpellIds.Contains(id)" @onchange="e=>Choose(source,id,e.Value is true,false)" /> @Name(id)</label>}
+            </div>
+        }
+    }
+    @if(source.Preparation.CanChangeCantripsOnLongRest)
+    {
+        <label class="inline-option"><input type="checkbox" data-testid="source-change-cantrips" checked="@Draft(source).ChangeCantrips" @onchange="e=>SetChange(source,e.Value is true,true)" /> Replace a @source.Name cantrip</label>
+        @if(Draft(source).ChangeCantrips)
+        {
+            <div class="spell-preparation-picker"><p class="small muted">Keep @source.Preparation.OwnedCantripSpellIds.Count cantrips; replace at most @source.Preparation.CantripReplacementLimit.</p>
+            @foreach(var id in RestRules.EligibleCantrips(Character,source.Id))
+            {<label class="spell-choice"><input type="checkbox" checked="@Draft(source).NewClassCantripSpellIds.Contains(id)" @onchange="e=>Choose(source,id,e.Value is true,true)" /> @Name(id)</label>}
+            </div>
+        }
+    }
+    @if(source.GrantedSpellIds.Count>0){<p class="small muted">Always prepared: @string.Join(", ",source.GrantedSpellIds.Select(Name))</p>}
+    @if(!source.Preparation.CanChangeOnLongRest&&!source.Preparation.CanChangeCantripsOnLongRest){<p class="small muted">This source does not change spells during a rest.</p>}
+    </fieldset>
+}
+@code {
+    [Parameter,EditorRequired]public CharacterState Character {get;set;}=default!;
+    [Parameter]public EventCallback<List<SourcePreparationChange>> Changed {get;set;}
+    private readonly Dictionary<string,SourcePreparationChange> drafts=new();
+    private SourcePreparationChange Draft(SpellSourceState s){if(!drafts.TryGetValue(s.Id,out var d)){d=new(){SpellSourceId=s.Id,NewPreparedSpellIds=[..s.PreparedSpellIds],NewClassCantripSpellIds=[..s.Preparation.OwnedCantripSpellIds]};drafts.Add(s.Id,d);}return d;}
+    private string Name(string id)=>Character.Play.Spells.FirstOrDefault(s=>s.Id==id)?.Name??id;
+    private Task Send()=>Changed.InvokeAsync(drafts.Values.Where(d=>d.ChangeSpells||d.ChangeCantrips).ToList());
+    private Task SetChange(SpellSourceState s,bool value,bool cantrip){var d=Draft(s);drafts[s.Id]=cantrip?d with{ChangeCantrips=value,NewClassCantripSpellIds=[..s.Preparation.OwnedCantripSpellIds]}:d with{ChangeSpells=value,NewPreparedSpellIds=[..s.PreparedSpellIds]};return Send();}
+    private Task Choose(SpellSourceState s,string id,bool value,bool cantrip){var d=Draft(s);var ids=cantrip?d.NewClassCantripSpellIds:d.NewPreparedSpellIds;if(value){if(!ids.Contains(id))ids.Add(id);}else ids.Remove(id);return Send();}
+}

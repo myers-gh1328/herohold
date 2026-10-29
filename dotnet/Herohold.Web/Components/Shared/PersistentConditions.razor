@@ -1,0 +1,11 @@
+@if(Character.Effects.Count>0||Character.Exhaustion>0)
+{
+    <aside class="persistent-conditions" data-testid="persistent-conditions" aria-label="Active conditions and effects" role="status" aria-live="polite">
+        <div class="condition-copy"><strong>Active conditions &amp; effects</strong><ul>@foreach(var effect in Character.Effects){<li title="@effect.Source">@effect.Name@if(effect.Concentration){<span> (concentration)</span>}</li>}@if(Character.Exhaustion>0){<li>Exhaustion @Character.Exhaustion</li>}</ul></div>
+        <button type="button" class="condition-manage" data-testid="manage-persistent-conditions" @onclick="()=>OnManage.InvokeAsync()">Manage</button>
+    </aside>
+}
+@code {
+    [Parameter,EditorRequired]public CharacterState Character {get;set;}=default!;
+    [Parameter]public EventCallback OnManage {get;set;}
+}

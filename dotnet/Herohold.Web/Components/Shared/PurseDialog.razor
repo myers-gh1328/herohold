@@ -1,0 +1,33 @@
+@inject IJSRuntime JS
+<dialog id="purse-dialog" class="dialog sheet-purse-dialog" aria-labelledby="purse-title"><div class="dialog-inner">
+    <div class="dialog-heading"><h2 id="purse-title">Coin purse</h2><button type="button" class="icon-button" aria-label="Close purse" @onclick="Close">×</button></div>
+    @if(Opened&&Session.Character is { } c)
+    {
+        var purse=SheetRules.Purse(c);
+        <p class="small muted">Track copper, silver, electrum, gold, and platinum independently. No automatic coin conversion.</p>
+        @if(SheetRules.ImportWarnings(c) is {Count:>0} warnings){<aside class="sheet-import-warning" data-testid="purse-import-warnings"><strong>Imported values to review</strong><ul>@foreach(var warning in warnings){<li>@warning</li>}</ul><p>Unrepresentable imported balances are preserved until you explicitly set the purse.</p></aside>}
+        <label class="field purse-kind">Transaction<select id="coin-change-kind" value="@Kind" @onchange="ChangeKind"><option value="@CoinChangeKind.Receive">Receive</option><option value="@CoinChangeKind.Spend">Spend</option><option value="@CoinChangeKind.Set">Set balances</option></select></label>
+        <div class="purse-coins">@foreach(var denomination in Denominations){<label class="field"><span>@denomination.Name <strong data-testid='@("coin-balance-"+denomination.Key)'>@Balance(purse,denomination.Key)</strong></span><input id='@("coin-"+denomination.Key)' type="number" min="0" max="1000000000" inputmode="numeric" value="@Amounts[denomination.Key]" @oninput="e=>SetAmount(denomination.Key,e)" /><small class="muted">@(Kind==CoinChangeKind.Set?"New balance":"Amount")</small></label>}</div>
+        <p class="small muted">@(Kind==CoinChangeKind.Set?"Set replaces all five balances with these amounts, including zeros.":"All five amounts apply together. An invalid or unaffordable transaction changes nothing.")</p>
+        @if(Session.Error is { } error){<p role="alert" class="dialog-save-error">@error</p>}
+        <div class="form-footer"><button type="button" class="button" @onclick="Close">Done</button><button type="button" class="button primary" data-testid="apply-coins" disabled="@(Saving||Session.IsBusy||Amounts.Values.Any(v=>v is <0 or >1000000000)||Kind!=CoinChangeKind.Set&&Amounts.Values.All(v=>v==0))" @onclick="Apply">@(Kind==CoinChangeKind.Set?"Set balances":Kind==CoinChangeKind.Spend?"Spend coins":"Receive coins")</button></div>
+    }
+</div></dialog>
+@code {
+    [Parameter,EditorRequired]public WorkspaceSession Session {get;set;}=default!;
+    private static readonly (string Key,string Name)[] Denominations=[("cp","Copper"),("sp","Silver"),("ep","Electrum"),("gp","Gold"),("pp","Platinum")];
+    private Dictionary<string,int> Amounts=Denominations.ToDictionary(x=>x.Key,_=>0);
+    private CoinChangeKind Kind;
+    private string SourceId="";
+    private bool Opened,Saving;
+    public async Task OpenAsync(){SourceId=Session.Character!.Id;Kind=CoinChangeKind.Receive;Amounts=Denominations.ToDictionary(x=>x.Key,_=>0);Opened=true;await InvokeAsync(StateHasChanged);await JS.InvokeVoidAsync("heroholdUi.openDialog","purse-dialog");}
+    private static int Balance(CoinPurse p,string key)=>key switch{"cp"=>p.Cp,"sp"=>p.Sp,"ep"=>p.Ep,"gp"=>p.Gp,_=>p.Pp};
+    private void SetAmount(string key,ChangeEventArgs e)=>Amounts[key]=int.TryParse(e.Value?.ToString(),out var n)?n:-1;
+    private void ChangeKind(ChangeEventArgs e){if(!Enum.TryParse<CoinChangeKind>(e.Value?.ToString(),out var kind)||!Enum.IsDefined(kind))return;Kind=kind;var purse=SheetRules.Purse(Session.Character!);Amounts=Denominations.ToDictionary(x=>x.Key,x=>kind==CoinChangeKind.Set?Balance(purse,x.Key):0);}
+    private Task Close()=>JS.InvokeVoidAsync("heroholdUi.closeDialog","purse-dialog").AsTask();
+    private async Task Apply()
+    {
+        if(Saving||Session.IsBusy||Amounts.Values.Any(v=>v is <0 or >1000000000)||Kind!=CoinChangeKind.Set&&Amounts.Values.All(v=>v==0))return;Saving=true;
+        try{await Session.ChangeCoinsAsync(Kind,new(){Cp=Amounts["cp"],Sp=Amounts["sp"],Ep=Amounts["ep"],Gp=Amounts["gp"],Pp=Amounts["pp"]},SourceId);if(Session.Error is null){var purse=SheetRules.Purse(Session.Character!);Amounts=Denominations.ToDictionary(x=>x.Key,x=>Kind==CoinChangeKind.Set?Balance(purse,x.Key):0);}}finally{Saving=false;}
+    }
+}

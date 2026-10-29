@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net10.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
+  <ItemGroup><PackageReference Include="Aspose.PDF.FOSS" Version="26.10.0"/><ProjectReference Include="../Herohold.Core/Herohold.Core.csproj"/></ItemGroup>
+  <ItemGroup>
+    <!-- The official sheet is local-only (git-ignored); PDF export reports it missing instead of failing the build. -->
+    <EmbeddedResource Include="../../templates/pdf/5E_CharacterSheet_Fillable.pdf" LogicalName="Herohold.Documents.CharacterSheet.pdf" Condition="Exists('../../templates/pdf/5E_CharacterSheet_Fillable.pdf')"/>
+    <EmbeddedResource Include="Assets/NotoSans-Regular.ttf" LogicalName="Herohold.Documents.NotoSans-Regular.ttf"/>
+    <None Update="Assets/OFL.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" TargetPath="licenses/NotoSans-OFL.txt"/>
+    <None Update="Assets/Aspose-MIT.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" TargetPath="licenses/Aspose-PDF-FOSS-MIT.txt"/>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,1 @@
+<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><TargetFramework>net10.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup><ItemGroup><ProjectReference Include="../Herohold.Core/Herohold.Core.csproj"/></ItemGroup><ItemGroup><EmbeddedResource Include="Assets/character-defaults.json" /></ItemGroup></Project>
