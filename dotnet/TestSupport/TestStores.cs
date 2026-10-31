@@ -49,7 +49,7 @@ public static class TestStores
         };
         raw["folio_sheet"] = new System.Text.Json.Nodes.JsonObject
         {
-            ["feature_details"] = new System.Text.Json.Nodes.JsonArray([.. calculation.FeatureDetails.Select(d => (System.Text.Json.Nodes.JsonNode?)new System.Text.Json.Nodes.JsonObject { ["name"] = d.Name, ["description"] = d.Description, ["source"] = d.Source, ["related_features"] = new System.Text.Json.Nodes.JsonArray([.. d.RelatedFeatures.Select(r => (System.Text.Json.Nodes.JsonNode?)r.Name)]) })]),
+            ["feature_details"] = new System.Text.Json.Nodes.JsonArray([.. calculation.FeatureDetails.Select(d => (System.Text.Json.Nodes.JsonNode?)new System.Text.Json.Nodes.JsonObject { ["name"] = d.Name, ["description"] = d.Description, ["source"] = d.Source, ["related_features"] = new System.Text.Json.Nodes.JsonArray([.. d.RelatedFeatures.Select(r => (System.Text.Json.Nodes.JsonNode?)new System.Text.Json.Nodes.JsonObject { ["name"] = r.Name, ["cost"] = r.Cost, ["description"] = r.Description })]) })]),
             ["spells"] = new System.Text.Json.Nodes.JsonObject { ["spellbook"] = new System.Text.Json.Nodes.JsonArray([.. calculation.Spellbook.Select(n => (System.Text.Json.Nodes.JsonNode?)n)]) }
         };
         foreach (var key in WorkspaceProjection.Sidecars) raw.Remove(key);

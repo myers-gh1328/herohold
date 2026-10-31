@@ -33,6 +33,16 @@ namespace Herohold.Integration.Tests;
         Assert.AreEqual(6,c.Play.Preparation.PreparedLimit);
         Assert.AreEqual(3,WorkspaceProjection.ToCanonical(c)["hit_points"]!["maximum"]!.GetValue<int>());
     }
+    [TestMethod] public void ClassFeatureDetailsListTheirCatalogOptionsThroughToTheSheetPdf()
+    {
+        var raw=Wizard(5);raw["character_id"]="native-rogue";raw["name"]="Native rogue";raw["class"]="Rogue";
+        var rogue=TestStores.Calculated(raw);
+        var cunning=rogue.Derived.FeatureDetails.Single(d=>d.Name=="Cunning Strike");
+        CollectionAssert.AreEqual(new[]{"Poison 1d6","Trip 1d6","Withdraw 1d6"},cunning.RelatedFeatures.Select(r=>r.Name+" "+r.Cost).ToArray());
+        Assert.IsTrue(cunning.RelatedFeatures.All(r=>r.Description.Length>0),"Each option carries its catalog description.");
+        Assert.IsFalse(rogue.Derived.FeatureDetails.Any(d=>d.Name=="Devious Strikes"),"A level 14 feature and its options are not listed at level 5.");
+        StringAssert.Contains(Herohold.Documents.PdfFieldMapper.Create(rogue)["Features and Traits"]!.GetValue<string>().Replace("\n"," "),"Poison - Cost: 1d6");
+    }
     [TestMethod] public void ConstitutionItemModifierAppliesOnceAndRecalculationNeverHeals()
     {
         var item=new EquipmentItem{Id="con-charm",Name="Con charm",Equipped=true,ModifierBonuses=new(){{Ability.Constitution,1}}};

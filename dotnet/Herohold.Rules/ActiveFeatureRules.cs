@@ -16,7 +16,12 @@ public sealed class ActiveFeatureRules(RulesCatalogSnapshot catalog,ClassProgres
         var descriptions=new Dictionary<string,string>(StringComparer.Ordinal);
         foreach(var pair in rules.FeatureDescriptions.Concat(species?.TraitDescriptions??new Dictionary<string,string>()).Concat(background?.FeatureDescriptions??new Dictionary<string,string>()).Concat(cls?.FeatureDescriptions??new Dictionary<string,string>()).Concat(subclass?.FeatureDescriptions??new Dictionary<string,string>()))descriptions[pair.Key]=pair.Value;
         foreach(var feat in catalog.FeatRecords)if(feat.Name.Length>0&&feat.Description.Length>0)descriptions[feat.Name]=feat.Description;
-        void Feature(string name,string source){if(name.Length>0&&!details.Any(d=>d.Name==name&&d.SourceId==source))details.Add(new(name,descriptions.GetValueOrDefault(name,""),source,[]));}
+        IReadOnlyList<CatalogRelatedFeature> Related(string name,string source)
+        {
+            var related=source.StartsWith("class:",StringComparison.Ordinal)?cls?.FeatureRelatedFeatures:source.StartsWith("subclass:",StringComparison.Ordinal)?subclass?.FeatureRelatedFeatures:null;
+            return related?.GetValueOrDefault(name) is {} list?[..list.Where(r=>r.Name.Length>0&&(r.Level??0)<=level)]:[];
+        }
+        void Feature(string name,string source){if(name.Length>0&&!details.Any(d=>d.Name==name&&d.SourceId==source))details.Add(new(name,descriptions.GetValueOrDefault(name,""),source,Related(name,source)));}
         void Defense(string type,string source,string kind="resistance")
         {
             var normalized=kind=="conditionImmunity"?type:DamageTypes.FirstOrDefault(t=>t.Equals(type,StringComparison.OrdinalIgnoreCase));
@@ -81,7 +86,7 @@ public sealed class ActiveFeatureRules(RulesCatalogSnapshot catalog,ClassProgres
         if(className=="Druid"&&shortName=="Land"&&level>=10)
         {
             Defense("Poisoned","Subclass: Nature's Ward","conditionImmunity");var terrain=configured.FirstOrDefault(c=>c.FeatureId=="structured_spell_choice")?.CurrentValue??"";
-            var type=terrain switch{"Arid"=>"Fire","Polar"=>"Cold","Temperate"=>"Lightning","Tropical"=>"Poison",_=>""};if(type.Length>0)Defense(type,"Subclass: Nature's Ward · "+terrain);
+            var type=terrain switch{"Arid Land"=>"Fire","Polar Land"=>"Cold","Temperate Land"=>"Lightning","Tropical Land"=>"Poison",_=>""};if(type.Length>0)Defense(type,"Subclass: Nature's Ward · "+terrain);
         }
         return new(){Features=details.Select(d=>d.Name).ToArray(),Details=details.AsReadOnly(),Defenses=defenses.AsReadOnly(),Senses=senses.AsReadOnly(),Proficiencies=build.ProficiencySources.Select(p=>p with{}).ToArray(),FeatureConfigurations=configured.AsReadOnly(),SpeciesTraits=(species?.Traits??[]).ToArray(),OriginFeats=origins.AsReadOnly(),Size=species?.Size??"",BackgroundFeature=background?.Feature??"",Issues=issues.AsReadOnly()};
     }
