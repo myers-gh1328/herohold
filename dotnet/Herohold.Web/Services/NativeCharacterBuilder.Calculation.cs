@@ -85,7 +85,7 @@ public sealed partial class NativeCharacterBuilder
             SkillBonuses=final.Standing.Skills.ToDictionary(p=>p.Key,p=>p.Value.Total,StringComparer.Ordinal),Initiative=final.Standing.Initiative.Total,AdjustmentBonuses=new(final.Scores.SourceBonuses),
             SaveProficiencies=[..final.Standing.SaveProficiencies],SkillProficiencies=[..final.Standing.SkillProficiencies],Expertise=[..final.Standing.Expertise],Languages=[..final.Languages.Languages],StandingTerms=Terms(final),
             Features=active.Features,SpeciesTraits=active.SpeciesTraits,OriginFeats=active.OriginFeats,Senses=active.Senses,Size=active.Size,
-            FeatureDetails=[..active.Details.Select(d=>new FeatureDetail{Name=d.Name,Description=d.Description,Source=d.SourceId,RelatedFeatures=[..d.RelatedFeatures.Where(r=>r.Length>0).Select(r=>new RelatedFeature{Name=r})]}).Where(d=>d.Name.Length>0)],
+            FeatureDetails=[..active.Details.Select(d=>new FeatureDetail{Name=d.Name,Description=d.Description,Source=d.SourceId,RelatedFeatures=[..d.RelatedFeatures.Select(r=>new RelatedFeature{Name=r.Name,Cost=r.Cost,Description=r.Description})]}).Where(d=>d.Name.Length>0)],
             Facts=owned.Values,DerivedFacts=owned.Derived,Issues=active.Issues,MaximumHp=hp.Maximum,CurrentHp=hp.Current,TemporaryHp=hp.Temporary,HitDie=hitDie,
             ArmorClass=defenses.ArmorClass,Armor=defenses.Detail,Speed=defenses.Movement.Speed,BaseSpeed=SpeciesSpeed(build.Species),SpeedTerms=defenses.Movement.Terms,DerivedResources=derived,
             Resources=Pools(pools.Metadata,dependent.Pools,finalCasting),Grants=spellGrants.Metadata,GrantSources=spellGrants.Sources,GrantedSpellNames=spellGrants.GrantedSpellNames,Spellbook=book,

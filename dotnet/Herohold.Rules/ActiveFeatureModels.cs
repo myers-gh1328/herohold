@@ -1,6 +1,7 @@
 using Herohold.Core;
 namespace Herohold.Rules;
-public sealed record ActiveFeatureDetail(string Name,string Description,string SourceId,IReadOnlyList<string> RelatedFeatures);
+/// <param name="RelatedFeatures">The catalog's options and sub-features listed under a class or subclass feature, up to the class level.</param>
+public sealed record ActiveFeatureDetail(string Name,string Description,string SourceId,IReadOnlyList<CatalogRelatedFeature> RelatedFeatures);
 /// <summary>A class feature whose chosen option can be changed later (for example Hunter's Prey after a rest).</summary>
 public sealed record FeatureConfiguration
 {

@@ -22,6 +22,20 @@ public sealed class NativeDefenseTests
         Assert.AreEqual(corrected.ArmorClass,WorkspaceProjection.ExportDocument(corrected)["armor_class"]!.GetValue<int>());
     }
     [TestMethod]
+    [DataRow("Arid Land","Fire")]
+    [DataRow("Polar Land","Cold")]
+    [DataRow("Temperate Land","Lightning")]
+    [DataRow("Tropical Land","Poison")]
+    public void NaturesWardResistsTheChosenLandsDamageType(string land,string type)
+    {
+        var original=SampleWorkspace.Create().Character;
+        var build=original.Build! with{ClassName="Druid",Subclass="Circle of the Land",Level=10,ClassLevels=new(){["Druid"]=10},ClassOptions=new(){["structured_spell_choice"]=ChoiceValue.Of(land)},HpHistory=null};
+        var source=original with{ClassName="Druid",Subclass="Circle of the Land",Level=10,Build=build};
+        var druid=TestStores.Workflow.Recalculate(CharacterDraft.Of(source),source);
+        Assert.IsTrue(druid.Defenses.Any(d=>d.Kind=="conditionImmunity"&&d.Type=="Poisoned"),"Nature's Ward makes the druid immune to Poisoned.");
+        CollectionAssert.AreEqual(new[]{type},druid.Defenses.Where(d=>d.Kind=="resistance").Select(d=>d.Type).ToArray(),"Nature's Ward resists the chosen land's damage type.");
+    }
+    [TestMethod]
     public void RovingSpeedAndModesUseActiveArmorAndSourceSpeciesBase()
     {
         var original=SampleWorkspace.Create().Character;
