@@ -61,7 +61,7 @@ public partial class Home
     private InventoryDefenseDialogs? InventoryDialogs;
     private Task OpenItem(EquipmentItem? item = null) => InventoryDialogs?.OpenItemAsync(item) ?? Task.CompletedTask;
     private Task OpenDefenses(bool target = false) => InventoryDialogs?.OpenDefensesAsync(target) ?? Task.CompletedTask;
-    private sealed record AttackAction(string Key,string Name,Ability Ability,bool Proficient,int Flat,string Summary,DiceFormula? Dice,int DamageModifier,string DamageType,int? FixedDamage=null,AttackKind Kind=AttackKind.Weapon)
+    private sealed record AttackAction(string Key,string Name,Ability Ability,bool Proficient,int Flat,string Summary,DiceFormula? Dice,int DamageModifier,string DamageType,int? FixedDamage=null,AttackKind Kind=AttackKind.Weapon,string Ammunition="")
     {
         public string Damage => Dice is { } dice?$"{dice.Count}d{dice.Sides}{Signed(DamageModifier)}":$"{FixedDamage??0}{Signed(DamageModifier)}";
     }
@@ -76,7 +76,7 @@ public partial class Home
                 {
                     if(entry.Kind!="unarmed"&&!Character.Equipment.Any(i=>i.Quantity>0&&i.Equipped&&i.Name.Equals(entry.Name,StringComparison.OrdinalIgnoreCase)))continue;
                     yield return new(entry.Id.Replace("weapon:","",StringComparison.Ordinal),entry.Name,entry.Ability,entry.Proficient,entry.FlatBonus,entry.Range+" · "+entry.Notes,entry.DamageDice,
-                        CharacterCalculations.Ability(Character,entry.Ability).Total+entry.DamageModifierAdjustment,entry.DamageType,entry.FixedDamage,entry.Kind switch{"weapon"=>AttackKind.Weapon,"unarmed"=>AttackKind.Unarmed,"spell"=>AttackKind.Spell,_=>AttackKind.Unknown});
+                        CharacterCalculations.Ability(Character,entry.Ability).Total+entry.DamageModifierAdjustment,entry.DamageType,entry.FixedDamage,entry.Kind switch{"weapon"=>AttackKind.Weapon,"unarmed"=>AttackKind.Unarmed,"spell"=>AttackKind.Spell,_=>AttackKind.Unknown},entry.Ammunition);
                 }
                 yield break;
             }
@@ -85,6 +85,9 @@ public partial class Home
             if(Character.Equipment.Any(i=>i.Name=="Shortsword"&&i.Quantity>0&&i.Equipped))yield return new("shortsword","Shortsword",Ability.Dexterity,true,0,"5 ft · Finesse · Vex mastery",new(1,6),CharacterCalculations.Ability(Character,Ability.Dexterity).Total,"Piercing");
         }
     }
+    /// <summary>Ammunition left for an attack while counting is on ("Arrows 18"), or null.</summary>
+    private string? AmmunitionLeft(AttackAction attack)=>Character is {Sheet.CountAmmunition:true} c&&attack.Ammunition.Length>0?$"{AmmunitionRules.Plural(attack.Ammunition)} {AmmunitionRules.Carried(c,attack.Ammunition)}":null;
+    private bool OutOfAmmunition(AttackAction attack)=>Character is {Sheet.CountAmmunition:true} c&&attack.Ammunition.Length>0&&AmmunitionRules.Carried(c,attack.Ammunition)==0;
     private IEnumerable<SpellDefinition> Spells => Character is null ? [] : Character.Play.Spells.Where(s => Character.Play.PreparedSpellIds.Concat(Character.Play.GrantedSpellIds).Concat(Character.Play.KnownSpellIds).Contains(s.Id) || Character.Play.Preparation.FromSpellbook && s.Ritual && Character.Play.SpellbookIds.Contains(s.Id));
     private GameplayDialogs? Gameplay;
     private CombatWorkspace? CombatPanel;

@@ -74,7 +74,7 @@ public sealed class CharacterRows
             ExperiencePoints = sheet.ExperiencePoints, HeroicInspiration = sheet.HeroicInspiration,
             HasCoins = sheet.Coins is not null, CoinsCp = sheet.Coins?.Cp ?? 0, CoinsSp = sheet.Coins?.Sp ?? 0, CoinsEp = sheet.Coins?.Ep ?? 0, CoinsGp = sheet.Coins?.Gp ?? 0, CoinsPp = sheet.Coins?.Pp ?? 0,
             DeathSaveSuccesses = sheet.DeathSaves.Successes, DeathSaveFailures = sheet.DeathSaves.Failures, Stable = sheet.DeathSaves.Stable, Dead = sheet.DeathSaves.Dead,
-            CapacityOverrideLb = sheet.Adventure.CapacityOverrideLb, CapacitySource = sheet.Adventure.CapacitySource, CarryCoins = sheet.Adventure.CarryCoins,
+            CapacityOverrideLb = sheet.Adventure.CapacityOverrideLb, CapacitySource = sheet.Adventure.CapacitySource, CarryCoins = sheet.Adventure.CarryCoins, CountAmmunition = sheet.CountAmmunition,
             ProfileBackground = profile.Background, ProfileSize = profile.Size, Appearance = profile.Appearance, Backstory = profile.Backstory, Personality = profile.Personality,
             Alignment = profile.Alignment, PlayerName = profile.PlayerName, Age = profile.Age, Height = profile.Height, Weight = profile.Weight, Eyes = profile.Eyes,
             Skin = profile.Skin, Hair = profile.Hair, Ideals = profile.Ideals, Bonds = profile.Bonds, Flaws = profile.Flaws, Allies = profile.Allies,
@@ -198,6 +198,7 @@ public sealed class CharacterRows
         rows.AddResources(id, 0, Self, f.Resources);
         rows.AddHitDiePools(id, 0, f.HitDiePools);
         rows.Pairs(0, Self, "spell_notes", f.SpellNotes.Select(p => ((string?)p.Key, (string?)p.Value, (int?)null)));
+        rows.Pairs(0, Self, "ammunition_fired", sheet.AmmunitionFired.Select(p => ((string?)p.Key, (string?)null, (int?)p.Value)));
         rows.Names(0, Self, "completed_operation_ids", f.CompletedOperationIds);
         rows.AddCombat(id, 0, f.Combat);
         rows.AddRoll(id, 0, f.LastRoll);
@@ -632,7 +633,8 @@ public sealed class CharacterRows
                 },
                 Coins = c.HasCoins ? new CoinPurse { Cp = c.CoinsCp, Sp = c.CoinsSp, Ep = c.CoinsEp, Gp = c.CoinsGp, Pp = c.CoinsPp } : null,
                 ExperiencePoints = c.ExperiencePoints, HeroicInspiration = c.HeroicInspiration,
-                DeathSaves = new DeathSaveState { Successes = c.DeathSaveSuccesses, Failures = c.DeathSaveFailures, Stable = c.Stable, Dead = c.Dead }
+                DeathSaves = new DeathSaveState { Successes = c.DeathSaveSuccesses, Failures = c.DeathSaveFailures, Stable = c.Stable, Dead = c.Dead },
+                CountAmmunition = c.CountAmmunition, AmmunitionFired = NumberMap(0, Self, "ammunition_fired") ?? []
             },
             KnownTarget = new KnownTargetState { Name = c.KnownTargetName, Knowledge = c.KnownTargetKnowledge, Defenses = DefensesOf("target") },
             Defenses = DefensesOf(Self),

@@ -22,6 +22,11 @@ by all of that owner's characters. A character's `character_items` rows keep onl
 state (quantity, equipped, attuned, carried, charges left, the spell on a scroll). An item typed or
 imported by name becomes the official item it names, unless it has bonuses or effects of its own.
 
+Ammunition is not counted unless a character turns on **Count ammunition** in Inventory. Then each
+attack with a bow, crossbow, sling or other Ammunition weapon spends one matching item (Arrow, Bolt,
+Sling Bullet), the attack is blocked when none are carried, and **Recover** returns half of what was
+fired, rounded down.
+
 Saves from before the database (one JSON file per character) are imported once with:
 
 ```sh

@@ -16,6 +16,8 @@ public sealed record AttackActionMetadata
     public string Notes { get; init; } = "";
     public string Kind { get; init; } = "weapon";
     public int AttackBonus { get; init; }
+    /// <summary>The ammunition each attack fires, or empty.</summary>
+    public string Ammunition { get; init; } = "";
 }
 public sealed record AttackActionSummary
 {

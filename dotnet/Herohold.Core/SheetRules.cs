@@ -144,6 +144,7 @@ public static class SheetRules
         foreach(var value in new[]{p.Appearance,p.Backstory,p.Personality,p.Ideals,p.Bonds,p.Flaws,p.Allies,p.Organizations,p.Treasure})if(value?.Length>20000)throw new ArgumentException("A profile note exceeds20000characters.");
         foreach(var list in new[]{p.Languages,p.ArmorTraining,p.WeaponProficiencies,p.ToolProficiencies})if(list is not null&&(list.Count>100||list.Any(v=>string.IsNullOrWhiteSpace(v)||v.Length>200)||list.Distinct(StringComparer.OrdinalIgnoreCase).Count()!=list.Count))throw new ArgumentException("A training or language list is invalid.");
         var d=sheet.DeathSaves;if(d.Successes is<0 or>3||d.Failures is<0 or>3||d.Stable&&d.Dead||d.Stable&&(d.Successes!=0||d.Failures!=0)||c.CurrentHp>0&&(d.Successes!=0||d.Failures!=0||d.Stable||d.Dead))throw new ArgumentException("Death saves conflict with the character's HP or survival state.");
+        if(sheet.AmmunitionFired is null||sheet.AmmunitionFired.Count>20||sheet.AmmunitionFired.Any(p=>string.IsNullOrWhiteSpace(p.Key)||p.Key.Length>200||p.Value is<1 or>100000))throw new ArgumentException("Fired ammunition counts are invalid.");
         foreach(var item in c.Equipment)
         {
             if(item.Defenses is null||item.PassiveEffects is null||item.UseEffects is null||item.Defenses.Count>30||item.PassiveEffects.Count>20||item.UseEffects.Count>20)throw new ArgumentException("Item effect lists are invalid.");

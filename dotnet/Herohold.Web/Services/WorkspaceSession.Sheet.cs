@@ -18,5 +18,7 @@ public sealed partial class WorkspaceSession
         if(sourceRevision is {} revision&&Snapshot?.Revision!=revision)throw new WorkspaceConflictException("This item confirmation is stale. Reopen it before spending anything.");
         return SheetRules.UseEquipment(c,itemId,confirmTableFacts);
     });
+    public Task SetAmmunitionCountingAsync(bool counting,string sourceCharacterId)=>MutateSheet(sourceCharacterId,c=>AmmunitionRules.SetCounting(c,counting));
+    public Task RecoverAmmunitionAsync(string ammunition,string sourceCharacterId)=>MutateSheet(sourceCharacterId,c=>AmmunitionRules.Recover(c,ammunition));
     public Task UseHeroicInspirationAsync(HeroicInspirationRequest request)=>MutatePlay(request,s=>PlayRules.UseHeroicInspiration(s,request));
 }

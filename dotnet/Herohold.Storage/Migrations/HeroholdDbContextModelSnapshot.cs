@@ -365,6 +365,9 @@ namespace Herohold.Storage.Migrations
                     b.Property<int>("CoinsSp")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("CountAmmunition")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("CurrentHp")
                         .HasColumnType("INTEGER");
 

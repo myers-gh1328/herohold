@@ -36,6 +36,14 @@ namespace Herohold.Rules.Tests;
         var bow=result.Attacks.Single(attack=>attack.Name=="Longbow");Assert.AreEqual(9,bow.AttackBonus);Assert.AreEqual(4,bow.DamageModifier);Assert.AreEqual(Ability.Dexterity,bow.Ability);
         Assert.AreEqual(Ability.Dexterity,result.Attacks.Single(attack=>attack.Name=="Rapier").Ability);
     }
+    [TestMethod] public void AmmunitionWeaponsNameTheAmmunitionTheyFire()
+    {
+        var result=Rules().Derive(new JsonObject{["class"]="Fighter",["level"]=5},Build("Fighter"),Features("Martial Weapons","Simple Weapons"),new(),
+            [new(){Id="bow",Name="Briarbloom Bow",BaseWeapon="Longbow",Equipped=true},new(){Id="crossbow",Name="Light Crossbow",Equipped=true},new(){Id="sling",Name="Sling",Equipped=true},new(){Id="musket",Name="Musket",Equipped=true},new(){Id="sword",Name="Shortsword",Equipped=true}]);
+        string Ammo(string name)=>result.Attacks.Single(a=>a.Name==name).Ammunition;
+        Assert.AreEqual("Arrow",Ammo("Briarbloom Bow"));Assert.AreEqual("Bolt",Ammo("Light Crossbow"));Assert.AreEqual("Sling Bullet",Ammo("Sling"));Assert.AreEqual("Firearm Bullet",Ammo("Musket"));
+        Assert.AreEqual("",Ammo("Shortsword"));Assert.AreEqual("",Ammo("Unarmed Strike"));
+    }
     [TestMethod] public void MonkMartialArtsUsesNativeDieAndStopsForArmorShieldOrNonMonkWeapons()
     {
         var raw=JsonNode.Parse("""{"class":"Monk","level":5}""")!.AsObject();var resources=new ClassResourceSummary{DerivedResources=new Dictionary<string,ChoiceValue>{["martial_arts_die"]=ChoiceValue.Of("1d8")}};
