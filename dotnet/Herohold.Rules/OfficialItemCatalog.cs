@@ -41,6 +41,8 @@ public sealed partial class OfficialItemCatalog:IItemCatalog
             var baseWeapon=baseName.Length>0&&baseKinds.TryGetValue(baseName,out var baseKind)&&baseKind=="weapon"?Title(baseName,records):"";
             if(baseWeapon.Length>0)kind="weapon";
             var weapon=Bonus(r["bonusWeapon"]);
+            var entries=r["entries"]?.ToJsonString(Unescaped)??"";
+            var thrown=Thrown().Match(entries);var thrownDamage=thrown.Success?ThrownDamage().Match(entries):System.Text.RegularExpressions.Match.Empty;
             var healing=kind=="potion"?Healing().Match(r["entries"]?.ToJsonString(Unescaped)??""):System.Text.RegularExpressions.Match.Empty;
             items.Add(new CatalogItem{Id=source+"|"+name,Source=source,Kind=kind,Definition=new EquipmentItem
             {
@@ -51,7 +53,10 @@ public sealed partial class OfficialItemCatalog:IItemCatalog
                 Consumable=kind is "potion" or "scroll" or "ammunition"||(r["miscTags"] as JsonArray??[]).Any(t=>Text(t)=="CNS"),
                 BaseWeapon=baseWeapon,AttackBonus=weapon+Bonus(r["bonusWeaponAttack"]),DamageBonus=weapon+Bonus(r["bonusWeaponDamage"]),
                 HealingDice=healing.Success?new(int.Parse(healing.Groups[1].Value,CultureInfo.InvariantCulture),int.Parse(healing.Groups[2].Value,CultureInfo.InvariantCulture)):null,
-                HealingBonus=healing.Success&&healing.Groups[3].Success?int.Parse(healing.Groups[3].Value,CultureInfo.InvariantCulture):0
+                HealingBonus=healing.Success&&healing.Groups[3].Success?int.Parse(healing.Groups[3].Value,CultureInfo.InvariantCulture):0,
+                ThrownRangeFt=thrown.Success?int.Parse(thrown.Groups[1].Value,CultureInfo.InvariantCulture):null,
+                ThrownDamage=thrownDamage.Success?new(int.Parse(thrownDamage.Groups[1].Value,CultureInfo.InvariantCulture),int.Parse(thrownDamage.Groups[2].Value,CultureInfo.InvariantCulture)):null,
+                ThrownDamageType=thrownDamage.Success?thrownDamage.Groups[3].Value:""
             }});
             if(r["packContents"] is JsonArray contents&&contents.Count==1&&contents[0] is JsonObject only&&Text(only["item"]).Length>0&&only["quantity"] is JsonValue q&&q.TryGetValue<int>(out var quantity)&&quantity>1)
                 packs[name]=(Text(only["item"]).Split('|')[0],quantity);
@@ -77,6 +82,10 @@ public sealed partial class OfficialItemCatalog:IItemCatalog
         return null;
     }
 
+    /// <summary>"replace one of your attacks with throwing a vial of Acid. Target one creature … within 20 feet".</summary>
+    [GeneratedRegex(@"replace one of your attacks with throwing [^.]*\.[^.]*?within (\d+) feet",RegexOptions.CultureInvariant)]private static partial Regex Thrown();
+    /// <summary>"or take {@damage 2d6} Acid damage".</summary>
+    [GeneratedRegex(@"or take \{@damage (\d+)d(\d+)\} ([A-Z][a-z]+) damage",RegexOptions.CultureInvariant)]private static partial Regex ThrownDamage();
     /// <summary>A potion's "regain {@dice 2d4 + 2} Hit Points".</summary>
     [GeneratedRegex(@"regains? \{@dice (\d+)d(\d+)(?: ?\+ ?(\d+))?\} \{@variantrule Hit Points",RegexOptions.CultureInvariant)]private static partial Regex Healing();
     [GeneratedRegex(@"^Scroll of (.+)$",RegexOptions.IgnoreCase|RegexOptions.CultureInvariant)]private static partial Regex ScrollOf();

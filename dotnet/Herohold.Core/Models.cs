@@ -30,6 +30,11 @@ public sealed record EquipmentItem
     /// <summary>Hit points regained when used, as dice plus a bonus (a Potion of Healing is 2d4 + 2); null when it does not heal.</summary>
     public DiceFormula? HealingDice { get; init; }
     public int HealingBonus { get; init; }
+    /// <summary>Thrown in place of one attack (Acid, Alchemist's Fire, Net): its range in feet; null when it is not thrown this way.</summary>
+    public int? ThrownRangeFt { get; init; }
+    /// <summary>Damage a target takes when it fails the Dexterity save against the thrown item; null when the item deals none.</summary>
+    public DiceFormula? ThrownDamage { get; init; }
+    public string ThrownDamageType { get; init; } = string.Empty;
     public int AttackBonus { get; init; }
     public int DamageBonus { get; init; }
     public Dictionary<Ability, int> ModifierBonuses { get; init; } = [];

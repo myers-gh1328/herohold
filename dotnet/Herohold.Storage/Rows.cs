@@ -274,6 +274,10 @@ public sealed class CatalogItemRow
     public int? HealingDiceCount { get; set; }
     public int? HealingDiceSides { get; set; }
     public int HealingBonus { get; set; }
+    public int? ThrownRangeFt { get; set; }
+    public int? ThrownDamageCount { get; set; }
+    public int? ThrownDamageSides { get; set; }
+    public string ThrownDamageType { get; set; } = "";
 }
 
 public sealed class ItemBonusRow

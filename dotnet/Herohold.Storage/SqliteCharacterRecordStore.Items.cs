@@ -150,6 +150,7 @@ public sealed partial class SqliteCharacterRecordStore
                 Charges = r.HasCharges ? new ItemCharges { UseCost = r.ChargeUseCost, Maximum = r.ChargeMaximum, RecoveryNote = r.ChargeRecoveryNote } : null,
                 UseAction = Enum.Parse<ItemUseAction>(r.UseAction), Consumable = r.Consumable, BaseWeapon = r.BaseWeapon, AttackBonus = r.AttackBonus, DamageBonus = r.DamageBonus,
                 HealingDice = r.HealingDiceCount is { } count && r.HealingDiceSides is { } sides ? new(count, sides) : null, HealingBonus = r.HealingBonus,
+                ThrownRangeFt = r.ThrownRangeFt, ThrownDamage = r.ThrownDamageCount is { } thrownCount && r.ThrownDamageSides is { } thrownSides ? new(thrownCount, thrownSides) : null, ThrownDamageType = r.ThrownDamageType,
                 ModifierBonuses = bonuses[r.Id].OrderBy(b => b.Position).ToDictionary(b => Enum.Parse<Ability>(b.Ability), b => b.Value),
                 Defenses = [.. defenses[r.Id].OrderBy(d => d.Position).Select(d => new DamageDefense { Kind = d.Kind, Type = d.Type, Source = d.Source, Note = d.Note })],
                 PassiveEffects = Effects(r.Id, "passive"), UseEffects = Effects(r.Id, "use")
@@ -165,6 +166,7 @@ public sealed partial class SqliteCharacterRecordStore
         row.ChargeUseCost = d.Charges?.UseCost ?? 0; row.ChargeMaximum = d.Charges?.Maximum ?? 0; row.ChargeRecoveryNote = d.Charges?.RecoveryNote ?? "";
         row.UseAction = d.UseAction.ToString(); row.Consumable = d.Consumable; row.BaseWeapon = d.BaseWeapon; row.AttackBonus = d.AttackBonus; row.DamageBonus = d.DamageBonus;
         row.HealingDiceCount = d.HealingDice?.Count; row.HealingDiceSides = d.HealingDice?.Sides; row.HealingBonus = d.HealingBonus;
+        row.ThrownRangeFt = d.ThrownRangeFt; row.ThrownDamageCount = d.ThrownDamage?.Count; row.ThrownDamageSides = d.ThrownDamage?.Sides; row.ThrownDamageType = d.ThrownDamageType;
     }
 
     private static void AddChildren(HeroholdDbContext db, string id, EquipmentItem d)

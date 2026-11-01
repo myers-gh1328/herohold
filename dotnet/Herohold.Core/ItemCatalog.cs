@@ -64,7 +64,23 @@ public static class ItemLinking
         => item.AttackBonus == 0 && item.DamageBonus == 0 && item.ModifierBonuses.Count == 0 && item.Defenses.Count == 0
            && item.PassiveEffects.Count == 0 && item.UseEffects.Count == 0 && item.Charges is null
            && (item.BaseWeapon.Length == 0 || string.Equals(item.BaseWeapon, official.Definition.Name, StringComparison.OrdinalIgnoreCase))
-           && (item.HealingDice is null || item.HealingDice == official.Definition.HealingDice && item.HealingBonus == official.Definition.HealingBonus);
+           && (item.HealingDice is null || item.HealingDice == official.Definition.HealingDice && item.HealingBonus == official.Definition.HealingBonus)
+           && (item.ThrownRangeFt is null || item.ThrownRangeFt == official.Definition.ThrownRangeFt && item.ThrownDamage == official.Definition.ThrownDamage
+               && string.Equals(item.ThrownDamageType, official.Definition.ThrownDamageType, StringComparison.OrdinalIgnoreCase));
+
+    /// <summary>A thrown item's damage as a player reads it ("1d4 Fire"), or empty.</summary>
+    public static string ThrownDamageText(EquipmentItem item)
+        => item.ThrownDamage is { } dice ? $"{dice.Count}d{dice.Sides} {item.ThrownDamageType}".Trim() : "";
+
+    /// <summary>Reads "2d6 Acid" or "1d4 Fire"; null when the text is not dice and a damage type.</summary>
+    public static (DiceFormula Dice, string Type)? ParseThrownDamage(string text)
+    {
+        var match = System.Text.RegularExpressions.Regex.Match(text.Trim(), @"^(\d{1,3})d(\d{1,3})\s+([A-Za-z]{1,30})$", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+        if (!match.Success) return null;
+        var dice = new DiceFormula(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value));
+        var type = match.Groups[3].Value;
+        return dice.Count is >= 1 and <= 100 && dice.Sides is >= 2 and <= 100 ? (dice, char.ToUpperInvariant(type[0]) + type[1..].ToLowerInvariant()) : null;
+    }
 
     /// <summary>The healing an item gives, as a player reads it ("2d4 + 2"), or empty.</summary>
     public static string HealingText(EquipmentItem item)

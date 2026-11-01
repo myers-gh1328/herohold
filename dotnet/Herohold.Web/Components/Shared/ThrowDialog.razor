@@ -1,0 +1,25 @@
+@using System.Security.Cryptography
+@inject IJSRuntime JS
+<dialog id="throw-dialog" class="dialog" aria-labelledby="throw-title"><div class="dialog-inner"><div class="dialog-heading"><h2 id="throw-title">Throw @Item?.Name</h2><button class="icon-button" aria-label="Close throw" @onclick="Close">×</button></div>
+@if(Item is {} item&&Session.Character is {} c){var dc=ThrownItemRules.SaveDc(c);
+<p class="reference-line" data-testid="throw-summary"><strong>DC @dc.Total Dexterity save</strong> · @item.ThrownRangeFt ft@(item.ThrownDamage is not null?" · "+ItemLinking.ThrownDamageText(item)+" on a failed save":"")</p>
+<ItemDescription Text="@item.Description" />
+@if(!Thrown){
+@if(c.Combat.EncounterActive){<p class="small muted">Replaces one attack of your Attack action.</p>}
+@if(ThrownItemRules.Reason(c,item) is {} reason){<p class="small rust">@reason</p>}
+@if(Session.Error is {} error){<p role="alert">@error</p>}
+<div class="form-footer"><button class="button" @onclick="Close">Cancel</button><button class="button primary" data-testid="confirm-throw" disabled="@(Session.IsBusy||ThrownItemRules.Reason(c,item) is not null)" @onclick="Throw">Throw · spends one</button></div>}
+else{<p role="status" data-testid="throw-result">Thrown. The target makes a DC @dc.Total Dexterity saving throw.</p>
+@if(item.ThrownDamage is {} damage){@if(Damage is {} rolled){<p data-testid="throw-damage">@rolled</p>}else if(PreferredDiceMode==DiceMode.Digital){<button class="button" data-testid="roll-throw-damage" @onclick="()=>RollDamage(damage)">It failed: roll @ItemLinking.ThrownDamageText(item)</button>}else{<p class="small muted">If it fails, roll @ItemLinking.ThrownDamageText(item) with your dice.</p>}}
+<div class="form-footer"><button class="button primary" data-testid="done-throw" @onclick="Close">Done</button></div>}}
+</div></dialog>
+@code{
+[Parameter,EditorRequired]public WorkspaceSession Session {get;set;}=default!;
+/// <summary>The app-wide dice choice: Digital rolls the damage, Physical leaves it to your dice.</summary>
+[Parameter]public DiceMode PreferredDiceMode {get;set;}
+private EquipmentItem? Item;private string SourceId="";private long Revision;private bool Thrown;private string? Damage;
+public async Task OpenAsync(EquipmentItem item){Item=item;SourceId=Session.Character!.Id;Revision=Session.Snapshot!.Revision;Thrown=false;Damage=null;await InvokeAsync(StateHasChanged);await JS.InvokeVoidAsync("heroholdUi.openDialog","throw-dialog");}
+private Task Close()=>JS.InvokeVoidAsync("heroholdUi.closeDialog","throw-dialog").AsTask();
+private async Task Throw(){if(Item is null)return;await Session.ThrowItemAsync(Item.Id,SourceId,Revision);Thrown=Session.Error is null;}
+private void RollDamage(DiceFormula dice){var values=Enumerable.Range(0,dice.Count).Select(_=>RandomNumberGenerator.GetInt32(1,dice.Sides+1)).ToList();Damage=$"{ItemLinking.ThrownDamageText(Item!)}: {string.Join(" + ",values)} = {values.Sum()} {Item!.ThrownDamageType} damage.";}
+}
