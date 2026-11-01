@@ -5,7 +5,11 @@ namespace Herohold.Rules;
 public enum WeaponProficiencyScope { Named, Simple, Martial, MartialLight, MartialFinesseOrLight }
 public sealed record WeaponProficiencyRule(WeaponProficiencyScope Scope,string WeaponName="");
 public sealed record WeaponCapabilityFact(string Name,string Category,bool Light,bool Finesse,bool Mastery,bool Melee,bool Ranged,bool TwoHanded,string Damage,string VersatileDamage,string DamageType,string Range)
-{public string MasteryName {get;init;}="";}
+{
+    public string MasteryName {get;init;}="";
+    /// <summary>The ammunition item an Ammunition-property weapon fires (Arrow, Bolt, Sling Bullet), or empty.</summary>
+    public string Ammunition {get;init;}="";
+}
 public sealed class WeaponCapabilityCatalog
 {
     private readonly IReadOnlyList<WeaponCapabilityFact> records;
@@ -32,9 +36,14 @@ public sealed class WeaponCapabilityCatalog
             var category=item?["weaponCategory"]?.GetValue<string>() switch{"simple"=>"Simple","martial"=>"Martial",_=>weapon.Category};
             var properties=(item?["property"] as JsonArray??new()).Select(node=>node is JsonObject property?property["uid"]?.GetValue<string>()??"":node?.GetValue<string>()??"").Select(value=>value.Split('|')[0]).ToHashSet(StringComparer.Ordinal);
             var psychic=name=="Psychic Blade";var type=item?["type"]?.GetValue<string>().Split('|')[0]??"";
-            records.Add(new(name,category,properties.Contains("L"),properties.Contains("F")||psychic,!string.IsNullOrWhiteSpace(weapon.Mastery),type=="M"||psychic,type=="R",properties.Contains("2H"),weapon.Damage,item?["dmg2"]?.GetValue<string>()??"",weapon.DamageType,type=="R"?"Ranged weapon":"Melee reach"){MasteryName=weapon.Mastery});
+            records.Add(new(name,category,properties.Contains("L"),properties.Contains("F")||psychic,!string.IsNullOrWhiteSpace(weapon.Mastery),type=="M"||psychic,type=="R",properties.Contains("2H"),weapon.Damage,item?["dmg2"]?.GetValue<string>()??"",weapon.DamageType,type=="R"?"Ranged weapon":"Melee reach"){MasteryName=weapon.Mastery,Ammunition=AmmunitionOf(item,lookup)});
         }
         return new(records.AsReadOnly());
+    }
+    private static string AmmunitionOf(JsonObject? item,Dictionary<string,JsonObject> lookup)
+    {
+        var ammo=item?["ammoType"] is JsonValue value&&value.TryGetValue<string>(out var text)?text.Split('|')[0]:"";
+        return ammo.Length>0&&lookup.TryGetValue(ammo,out var record)?record["name"]?.GetValue<string>()??"":"";
     }
     public IReadOnlyList<string> EligibleMasteries(IReadOnlyList<WeaponProficiencyRule> proficiencies)
     {

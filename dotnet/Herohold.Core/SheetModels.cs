@@ -30,6 +30,10 @@ public sealed record CharacterSheetState
     public int? ExperiencePoints {get;init;}
     public bool? HeroicInspiration {get;init;}
     public DeathSaveState DeathSaves {get;init;}=new();
+    /// <summary>Whether attacks spend ammunition. Off by default: basic ammunition is not tracked.</summary>
+    public bool CountAmmunition {get;init;}
+    /// <summary>Ammunition fired since it was last recovered, by item name (Arrow), while counting is on.</summary>
+    public Dictionary<string,int> AmmunitionFired {get;init;}=[];
 }
 public enum HeroicDieKind { D20, Damage, SpellEffect, BonusDie }
 public sealed record HeroicInspirationRequest:PlayRequest

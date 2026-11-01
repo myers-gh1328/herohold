@@ -9,6 +9,8 @@ public static partial class PlayRules
         if (r.Name is null || r.Name.Length > 200 || r.FlatBonus is < -100 or > 100 || r.StandingFlatBonus is < -100 or > 100)
             throw new ArgumentException("Roll labels or adjustments are outside their limits.");
         var c = CombatRules.PrepareRoll(w.Character,r);
+        if (r.Kind == RollKind.Attack && r.AttackKind == AttackKind.Weapon && r.CombatContext?.ActionId is { } action && action.StartsWith("attack:", StringComparison.Ordinal))
+            c = AmmunitionRules.Spend(c, "weapon:" + action[7..]);
         var standing = r.Kind switch
         {
             RollKind.Attack => CharacterCalculations.Attack(c, r.Ability, r.Proficient, r.StandingFlatBonus),

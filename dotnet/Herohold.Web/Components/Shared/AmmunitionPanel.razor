@@ -1,0 +1,13 @@
+<section class="panel ammunition-panel" data-testid="ammunition-panel"><div class="panel-heading"><h2>Ammunition</h2><label class="inline-option"><input type="checkbox" data-testid="count-ammunition" checked="@Character.Sheet.CountAmmunition" disabled="@Session.IsBusy" @onchange="Toggle" /> Count ammunition</label></div>
+@if(!Character.Sheet.CountAmmunition){<p class="small muted">Not counted. Turn this on to spend one arrow, bolt or bullet with each attack.</p>}
+else{@foreach(var ammunition in Types){var fired=Character.Sheet.AmmunitionFired.GetValueOrDefault(ammunition);<p class="ammunition-line" data-testid='@("ammunition-"+Key(ammunition))'><span><strong>@AmmunitionRules.Plural(ammunition)</strong> @AmmunitionRules.Carried(Character,ammunition) carried @if(fired>0){<span>· @fired fired</span>}</span>@if(fired>0){<button class="button" data-testid='@("recover-"+Key(ammunition))' disabled="@Session.IsBusy" @onclick="()=>Session.RecoverAmmunitionAsync(ammunition,Character.Id)">Recover @(fired/2)</button>}</p>}
+@if(Types.Count==0){<p class="small muted">Equip a bow, crossbow, sling or other Ammunition weapon to count its ammunition.</p>}else{<p class="small muted">After a fight, spend a minute searching to recover half the ammunition you fired, rounded down.</p>}}
+</section>
+@code{
+[Parameter,EditorRequired]public CharacterState Character {get;set;}=default!;[Parameter,EditorRequired]public WorkspaceSession Session {get;set;}=default!;
+/// <summary>The ammunition the equipped weapons fire, and any still waiting to be recovered.</summary>
+private List<string> Types=>Character.Derived.Attacks.Where(a=>a.Ammunition.Length>0&&Character.Equipment.Any(i=>i.Quantity>0&&i.Equipped&&i.Name.Equals(a.Name,StringComparison.OrdinalIgnoreCase))).Select(a=>a.Ammunition)
+    .Concat(Character.Sheet.AmmunitionFired.Keys).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+private static string Key(string ammunition)=>ammunition.ToLowerInvariant().Replace(' ','-');
+private Task Toggle(ChangeEventArgs e)=>Session.SetAmmunitionCountingAsync(e.Value is true,Character.Id);
+}

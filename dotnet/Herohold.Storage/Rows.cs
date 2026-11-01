@@ -79,6 +79,7 @@ public sealed class CharacterRow
     public decimal? CapacityOverrideLb { get; set; }
     public string CapacitySource { get; set; } = "";
     public bool CarryCoins { get; set; }
+    public bool CountAmmunition { get; set; }
     public string? ProfileBackground { get; set; }
     public string? ProfileSize { get; set; }
     public string? Appearance { get; set; }

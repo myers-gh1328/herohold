@@ -219,7 +219,7 @@ public sealed partial class NativeCharacterBuilder
     {
         var damage=attack.DamageModifier+change;
         return new(){Id=attack.Id,Name=attack.Name,Kind=attack.Kind,Ability=ability,AbilityCandidates=[..attack.AbilityCandidates],Proficient=attack.Proficient,FlatBonus=attack.FlatBonus,AttackBonus=attack.AttackBonus+change,
-            DamageDice=attack.DamageDice,FixedDamage=attack.FixedDamage,DamageModifier=damage,DamageModifierAdjustment=damage-modifier,DamageType=attack.DamageType,Range=attack.Range,Notes=attack.Notes};
+            DamageDice=attack.DamageDice,FixedDamage=attack.FixedDamage,DamageModifier=damage,DamageModifierAdjustment=damage-modifier,DamageType=attack.DamageType,Range=attack.Range,Notes=attack.Notes,Ammunition=attack.Ammunition};
     }
 
     private sealed record HpResult(BuildFacts Build,int Maximum,int Current,int Temporary);

@@ -59,6 +59,8 @@ public sealed record WeaponAttack
     public string DamageType { get; init; } = "";
     public string Range { get; init; } = "";
     public string Notes { get; init; } = "";
+    /// <summary>The ammunition item each attack fires (Arrow, Bolt), or empty for a weapon without the Ammunition property.</summary>
+    public string Ammunition { get; init; } = "";
 }
 
 public sealed record FeatureDetail
