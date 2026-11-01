@@ -29,4 +29,16 @@ namespace Herohold.Components.Tests;
         home.Find("[data-testid='roll-throw-damage']").Click();
         StringAssert.Matches(home.Find("[data-testid='throw-damage']").TextContent,new System.Text.RegularExpressions.Regex(@"^1d4 Fire: [1-4] = [1-4] Fire damage\.$"));
     }
+
+    [TestMethod]public async Task AThrowTheRulesWouldRefuseIsDisabledWithItsReason()
+    {
+        var c=SampleWorkspace.Create().Character with{Id="fictional-paused-thrower",Equipment=[new(){Id="oil",Name="Oil",Quantity=2,Consumable=true,ThrownRangeFt=20}],
+            Combat=new(){Enabled=false,EncounterActive=true,EncounterId="paused",TurnId="turn",Phase=CombatPhase.OwnTurn}};
+        var repository=HandMadeStore.At(directory);await repository.SaveAsync(new(){Character=c},0);
+        var session=new WorkspaceSession(repository);await session.SwitchCharacterAsync(c.Id);
+        using var context=new BunitContext();context.JSInterop.Mode=JSRuntimeMode.Loose;context.Services.AddSingleton(session);
+        var home=context.Render<Home>();
+        Assert.IsTrue(home.Find("[data-testid='throw-oil']").HasAttribute("disabled"));
+        StringAssert.Contains(home.Find("[data-testid='throw-reason-oil']").TextContent,"Resume combat mode");
+    }
 }
