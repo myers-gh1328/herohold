@@ -15,6 +15,7 @@ public static class TestStores
     public static NativeCharacterBuilder Builder => Rules.Value.GetRequiredService<NativeCharacterBuilder>();
     public static CharacterHydrator Hydrator => new(Workflow);
     public static IItemCatalog Items => Rules.Value.GetRequiredService<IItemCatalog>();
+    public static IScrollSpells ScrollSpells => Rules.Value.GetRequiredService<IScrollSpells>();
 
     /// <summary>The character a rules character document calculates to, as a fixture; it need not be complete.</summary>
     public static CharacterState Calculated(System.Text.Json.Nodes.JsonObject raw, CharacterState? existing = null)

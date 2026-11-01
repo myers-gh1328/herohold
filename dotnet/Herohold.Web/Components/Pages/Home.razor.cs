@@ -20,6 +20,8 @@ public partial class Home
     private ItemUseDialog? ItemUse;
     private Task OpenItemUse(EquipmentItem item)=>ItemUse?.OpenAsync(item)??Task.CompletedTask;
     private ThrowDialog? ThrowItem;
+    private ScrollDialog? ReadScroll;
+    private Task OpenScroll(EquipmentItem item)=>ReadScroll?.OpenAsync(item)??Task.CompletedTask;
     private Task OpenThrow(EquipmentItem item)=>ThrowItem?.OpenAsync(item)??Task.CompletedTask;
     /// <summary>Carried items thrown in place of an attack (Acid, Alchemist's Fire, Net).</summary>
     private IEnumerable<EquipmentItem> ThrownItems=>Character?.Equipment.Where(i=>i.ThrownRangeFt is not null&&i.Carried&&i.Quantity>0)??[];

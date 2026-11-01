@@ -18,6 +18,11 @@ public sealed partial class WorkspaceSession
         if(sourceRevision is {} revision&&Snapshot?.Revision!=revision)throw new WorkspaceConflictException("This item confirmation is stale. Reopen it before spending anything.");
         return SheetRules.UseEquipment(c,itemId,confirmTableFacts,healed);
     });
+    public Task ReadScrollAsync(string itemId,ScrollSpell scroll,int? checkD20,bool confirmTableFacts,string sourceCharacterId,long sourceRevision)=>MutateSheet(sourceCharacterId,c=>
+    {
+        if(Snapshot?.Revision!=sourceRevision)throw new WorkspaceConflictException("This scroll is stale. Reopen it before reading.");
+        return ScrollRules.Read(c,itemId,scroll,checkD20,confirmTableFacts);
+    });
     public Task ThrowItemAsync(string itemId,string sourceCharacterId,long sourceRevision)=>MutateSheet(sourceCharacterId,c=>
     {
         if(Snapshot?.Revision!=sourceRevision)throw new WorkspaceConflictException("This throw is stale. Reopen it before spending anything.");

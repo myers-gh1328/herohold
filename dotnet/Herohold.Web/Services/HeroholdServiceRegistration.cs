@@ -31,6 +31,7 @@ public static class HeroholdServiceRegistration
         services.AddSingleton(classes);
         services.AddSingleton(CharacterBuildCatalog.Parse(classes, backgroundsJson, speciesJson));
         services.AddSingleton(snapshot);
+        services.AddSingleton<IScrollSpells>(new CatalogScrollSpells(snapshot));
         services.AddSingleton(choices);
         services.AddSingleton(tools);
         services.AddSingleton<IItemCatalog>(OfficialItemCatalog.Parse(ReadRaw("items-base.json"), ReadRaw("items.json"),

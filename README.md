@@ -37,6 +37,12 @@ attacks and show the save DC (8 + Dexterity modifier + Proficiency Bonus), range
 a throw uses one attack of the Attack action. Throwing spends one, and the damage follows the dice
 choice.
 
+A Spell Scroll is read from Inventory. Its spell must be on one of the character's class spell lists,
+or the scroll is unintelligible. A spell above the highest slot level the character has needs a
+spellcasting ability check (DC 10 + spell level, rolled or entered per the dice choice); on a failure
+the scroll is lost. The scroll's own save DC and attack bonus are shown, a Concentration spell starts
+Concentration, and in combat the scroll takes the spell's casting time.
+
 Saves from before the database (one JSON file per character) are imported once with:
 
 ```sh

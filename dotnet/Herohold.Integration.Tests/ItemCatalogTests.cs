@@ -49,6 +49,19 @@ public sealed class ItemCatalogTests
     }
 
     [TestMethod]
+    public void AScrollsSpellComesFromTheRulesWithTheClassesWhoseListItIsOn()
+    {
+        var speak = TestStores.ScrollSpells.Find("speak with dead")!;
+        Assert.AreEqual("Speak with Dead", speak.Spell.Name); Assert.AreEqual(3, speak.Spell.Level); Assert.AreEqual("XPHB", speak.Spell.Source);
+        CollectionAssert.Contains(speak.Classes.ToList(), "Cleric"); CollectionAssert.DoesNotContain(speak.Classes.ToList(), "Ranger");
+        Assert.IsTrue(TestStores.ScrollSpells.Find("Fog Cloud")!.Spell.Concentration);
+        Assert.IsNull(TestStores.ScrollSpells.Find("Not A Real Spell"));
+        var ranger = SampleWorkspace.Create().Character;
+        Assert.IsFalse(ScrollRules.OnYourList(ranger, speak), "A Ranger cannot read Speak with Dead.");
+        Assert.IsTrue(ScrollRules.OnYourList(ranger, TestStores.ScrollSpells.Find("Cure Wounds")!));
+    }
+
+    [TestMethod]
     public void ItemsThrownInPlaceOfAnAttackKnowTheirRangeAndDamage()
     {
         var thrown = TestStores.Items.Official.Where(i => i.Definition.ThrownRangeFt is not null).ToDictionary(i => i.Definition.Name, i => i.Definition);
