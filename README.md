@@ -30,7 +30,12 @@ fired, rounded down.
 A healing potion heals when used. With **Roll digitally** chosen at the top of the app, Herohold rolls
 its dice (2d4 + 2 for a Potion of Healing) and shows them; with physical dice you enter the total,
 which must be one the dice can give. Homebrew items can heal too: give them dice under
-*Weight, healing & charges*.
+*Weight, healing, throwing & charges*.
+
+Acid, Alchemist's Fire, Holy Water, Net and Oil are thrown in place of an attack. They sit with the
+attacks and show the save DC (8 + Dexterity modifier + Proficiency Bonus), range and damage; in combat
+a throw uses one attack of the Attack action. Throwing spends one, and the damage follows the dice
+choice.
 
 Saves from before the database (one JSON file per character) are imported once with:
 

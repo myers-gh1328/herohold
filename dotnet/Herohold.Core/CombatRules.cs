@@ -89,6 +89,11 @@ public static class CombatRules
             if(!x.TriggerConfirmed||!c.Combat.ReactionAvailable)throw new ArgumentException("Confirm an available reaction and its attack trigger.");
             return c with{Combat=c.Combat with{ReactionAvailable=false}};
         }
+        return SpendAttack(c);
+    }
+    /// <summary>One attack of the Attack action on your own turn, taking the action first when no attack is left from it.</summary>
+    public static CharacterState SpendAttack(CharacterState c)
+    {
         if(c.Combat.Phase!=CombatPhase.OwnTurn)throw new ArgumentException("An Attack action is available only on your own turn.");
         var after=c;
         if(after.Combat.AttacksRemaining==0)after=Spend(after,"attack");

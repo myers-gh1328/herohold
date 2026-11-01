@@ -49,6 +49,26 @@ public sealed class ItemCatalogTests
     }
 
     [TestMethod]
+    public void ItemsThrownInPlaceOfAnAttackKnowTheirRangeAndDamage()
+    {
+        var thrown = TestStores.Items.Official.Where(i => i.Definition.ThrownRangeFt is not null).ToDictionary(i => i.Definition.Name, i => i.Definition);
+        CollectionAssert.AreEquivalent(new[] { "Acid", "Alchemist's Fire", "Holy Water", "Net", "Oil" }, thrown.Keys.ToArray());
+        Assert.AreEqual("2d6 Acid", ItemLinking.ThrownDamageText(thrown["Acid"])); Assert.AreEqual("1d4 Fire", ItemLinking.ThrownDamageText(thrown["Alchemist's Fire"]));
+        Assert.AreEqual("2d8 Radiant", ItemLinking.ThrownDamageText(thrown["Holy Water"])); Assert.AreEqual(15, thrown["Net"].ThrownRangeFt); Assert.IsNull(thrown["Oil"].ThrownDamage);
+    }
+
+    [TestMethod]
+    public async Task ThrownItemFactsAreStoredForOfficialAndHomebrewItems()
+    {
+        var (_, saved) = await SavedAsync("thrower",
+            new EquipmentItem { Id = "fire", Name = "Alchemist's Fire", Quantity = 2 },
+            new EquipmentItem { Id = "bomb", Name = "Thunder Pot", Quantity = 1, Consumable = true, ThrownRangeFt = 30, ThrownDamage = new(2, 6), ThrownDamageType = "Thunder" });
+        var loaded = (await TestStores.Open(folder).LoadAsync("thrower"))!.Character.Equipment;
+        Assert.AreEqual("XPHB|Alchemist's Fire", loaded[0].CatalogItemId); Assert.AreEqual(20, loaded[0].ThrownRangeFt); Assert.AreEqual("1d4 Fire", ItemLinking.ThrownDamageText(loaded[0]));
+        Assert.AreEqual(saved.Equipment[1].CatalogItemId, loaded[1].CatalogItemId); Assert.AreEqual(30, loaded[1].ThrownRangeFt); Assert.AreEqual("2d6 Thunder", ItemLinking.ThrownDamageText(loaded[1]));
+    }
+
+    [TestMethod]
     public async Task PotionHealingIsStoredForOfficialAndHomebrewItems()
     {
         var (_, saved) = await SavedAsync("potion-drinker",

@@ -42,7 +42,7 @@
         if(known is null){CatalogItemId="";return;}
         var d=known.Definition;CatalogItemId=known.Id;Description=d.Description;Consumable=d.Consumable;RequiresAttunement=d.RequiresAttunement;Attuned&=d.RequiresAttunement;
         BaseWeapon=d.BaseWeapon;AttackBonus=d.AttackBonus;DamageBonus=d.DamageBonus;Bonuses=new(d.ModifierBonuses);ItemEditorVersion++;
-        Facts=Facts with{UnitWeightLb=d.UnitWeightLb,UseAction=d.UseAction,HealingDice=d.HealingDice,HealingBonus=d.HealingBonus,Charges=d.Charges is {} charges?charges with{Remaining=charges.Maximum}:null,Defenses=[..d.Defenses],PassiveEffects=[..d.PassiveEffects],UseEffects=[..d.UseEffects]};
+        Facts=Facts with{UnitWeightLb=d.UnitWeightLb,UseAction=d.UseAction,HealingDice=d.HealingDice,HealingBonus=d.HealingBonus,ThrownRangeFt=d.ThrownRangeFt,ThrownDamage=d.ThrownDamage,ThrownDamageType=d.ThrownDamageType,Charges=d.Charges is {} charges?charges with{Remaining=charges.Maximum}:null,Defenses=[..d.Defenses],PassiveEffects=[..d.PassiveEffects],UseEffects=[..d.UseEffects]};
     }
     private Task Close(string id)=>JS.InvokeVoidAsync("heroholdUi.closeDialog",id).AsTask();
     public async Task OpenItemAsync(EquipmentItem? item=null)

@@ -279,6 +279,19 @@ namespace Herohold.Storage.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("ThrownDamageCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ThrownDamageSides")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ThrownDamageType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ThrownRangeFt")
+                        .HasColumnType("INTEGER");
+
                     b.Property<decimal?>("UnitWeightLb")
                         .HasColumnType("TEXT");
 

@@ -82,6 +82,8 @@ public static class AdventureRules
         foreach(var item in c.Equipment)
             if(item.BaseWeapon is null||item.BaseWeapon.Length>200||item.AttackBonus is <-20 or >20||item.DamageBonus is <-20 or >20)throw new ArgumentException("An item's base weapon or weapon bonuses are outside their bounds.");
         foreach(var item in c.Equipment)
+            if(item.ThrownRangeFt is <5 or >1000||item.ThrownRangeFt is null&&(item.ThrownDamage is not null||item.ThrownDamageType.Length>0)||item.ThrownDamage is {} thrown&&(thrown.Count is <1 or >100||thrown.Sides is <2 or >100||item.ThrownDamageType.Length is 0 or >100)||item.ThrownDamage is null&&item.ThrownDamageType.Length>0)throw new ArgumentException("A thrown item needs a range from 5 to 1000 feet, and its damage needs 1–100 dice of 2–100 sides and a damage type.");
+        foreach(var item in c.Equipment)
             if(item.HealingDice is {} dice&&(dice.Count is <1 or >100||dice.Sides is <2 or >100)||item.HealingBonus is <0 or >1000||item.HealingDice is null&&item.HealingBonus!=0)throw new ArgumentException("An item's healing needs 1–100 dice of 2–100 sides and a bonus from 0 to 1000.");
     }
 
