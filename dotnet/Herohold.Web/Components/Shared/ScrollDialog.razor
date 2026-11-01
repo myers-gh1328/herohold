@@ -1,0 +1,40 @@
+@using System.Security.Cryptography
+@inject IJSRuntime JS
+@inject IServiceProvider Services
+<dialog id="scroll-dialog" class="dialog" aria-labelledby="scroll-title"><div class="dialog-inner"><div class="dialog-heading"><h2 id="scroll-title">Read @Item?.Name</h2><button class="icon-button" aria-label="Close scroll" @onclick="Close">×</button></div>
+@if(Item is {} item&&Session.Character is {} c){var reason=ScrollRules.Reason(c,item,Scroll);
+@if(Scroll is {} scroll){var spell=scroll.Spell;var (dc,attack)=ScrollRules.Numbers(spell.Level);
+<p class="reference-line" data-testid="scroll-summary"><strong>@spell.Name</strong> · @(spell.Level==0?"Cantrip":"Level "+spell.Level) · @SpellText.CastingTime(spell.CastingTime) · @spell.Range@(spell.Concentration?" · Concentration":"")</p>
+<p class="small" data-testid="scroll-numbers">Spell save DC @dc · attack bonus +@attack (the scroll's own)</p>
+<ItemDescription Text="@spell.Description" />
+@if(Result is {} result){<p role="status" data-testid="scroll-result">@result</p><div class="form-footer"><button class="button primary" data-testid="done-scroll" @onclick="Close">Done</button></div>}
+else{
+@if(reason is null&&ScrollRules.NeedsCheck(c,scroll)){var check=ScrollRules.Check(c);<p data-testid="scroll-check">@spell.Name is above the level you can cast. Make a DC @ScrollRules.CheckDc(spell.Level) @c.Play.SpellcastingAbility check (@(check.Total>=0?"+":"")@check.Total). On a failure the spell fades and the scroll is lost.</p>
+@if(PreferredDiceMode==DiceMode.Physical){<label class="field">Your d20<input id="scroll-check-d20" type="number" min="1" max="20" value="@PhysicalD20" @oninput="e=>PhysicalD20=int.TryParse(e.Value?.ToString(),out var n)?n:null" /></label>}}
+@if(reason is null&&c.Combat.EncounterActive){<label class="inline-option"><input data-testid="scroll-table-facts" type="checkbox" @bind="Confirmed" /> Its target, range and other requirements are met; for a Reaction, its trigger has occurred.</label>}
+@if(reason is not null){<p class="small rust" data-testid="scroll-unavailable">@reason</p>}
+@if(Session.Error is {} error){<p role="alert">@error</p>}
+<div class="form-footer"><button class="button" @onclick="Close">Cancel</button><button class="button primary" data-testid="confirm-scroll" disabled="@(Session.IsBusy||reason is not null||c.Combat.EncounterActive&&!Confirmed||ScrollRules.NeedsCheck(c,scroll)&&PreferredDiceMode==DiceMode.Physical&&PhysicalD20 is not (>=1 and <=20))" @onclick="Read">Read scroll · spends it</button></div>}}
+else{<p class="small rust" data-testid="scroll-unavailable">@reason</p><div class="form-footer"><button class="button" @onclick="Close">Close</button></div>}}
+</div></dialog>
+@code{
+[Parameter,EditorRequired]public WorkspaceSession Session {get;set;}=default!;
+/// <summary>The app-wide dice choice: Digital rolls the ability check, Physical asks for the d20.</summary>
+[Parameter]public DiceMode PreferredDiceMode {get;set;}
+private IScrollSpells? Spells=>Services.GetService(typeof(IScrollSpells)) as IScrollSpells;
+private EquipmentItem? Item;private ScrollSpell? Scroll;private string SourceId="";private long Revision;private bool Confirmed;private int? PhysicalD20;private string? Result;
+public async Task OpenAsync(EquipmentItem item){Item=item;Scroll=item.ScrollSpell.Length>0?Spells?.Find(item.ScrollSpell):null;SourceId=Session.Character!.Id;Revision=Session.Snapshot!.Revision;Confirmed=false;PhysicalD20=null;Result=null;await InvokeAsync(StateHasChanged);await JS.InvokeVoidAsync("heroholdUi.openDialog","scroll-dialog");}
+private Task Close()=>JS.InvokeVoidAsync("heroholdUi.closeDialog","scroll-dialog").AsTask();
+private async Task Read()
+{
+    if(Item is null||Scroll is null||Session.Character is not {} c)return;
+    int? d20=ScrollRules.NeedsCheck(c,Scroll)?PreferredDiceMode==DiceMode.Physical?PhysicalD20:RandomNumberGenerator.GetInt32(1,21):null;
+    var check=ScrollRules.Check(c).Total;var success=d20 is not {} die||ScrollRules.CheckSucceeds(c,Scroll,die);
+    await Session.ReadScrollAsync(Item.Id,Scroll,d20,Confirmed,SourceId,Revision);
+    if(Session.Error is not null)return;
+    var (dc,attack)=ScrollRules.Numbers(Scroll.Spell.Level);
+    var rolled=d20 is {} value?$"Check: {value} + {check} = {value+check} against DC {ScrollRules.CheckDc(Scroll.Spell.Level)}. ":"";
+    Result=rolled+(success?$"You cast {Scroll.Spell.Name} and the scroll crumbles. Spell save DC {dc}, attack +{attack}; resolve its effects at the table."+(Scroll.Spell.Concentration?" You are concentrating on it.":"")
+        :$"The check fails: {Scroll.Spell.Name} fades from the scroll, and the scroll is lost.");
+}
+}
