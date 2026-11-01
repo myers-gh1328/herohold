@@ -13,10 +13,10 @@ public sealed partial class WorkspaceSession
     public Task SetDeathSavesAsync(DeathSaveState state,string sourceCharacterId)=>MutateSheet(sourceCharacterId,c=>SheetRules.SetDeathSaves(c,state));
     public Task RecordDeathSaveAsync(int unmodifiedD20,string sourceCharacterId)=>MutateSheet(sourceCharacterId,c=>SheetRules.RecordDeathSave(c,unmodifiedD20));
     public Task StabilizeAsync(string sourceCharacterId)=>MutateSheet(sourceCharacterId,SheetRules.Stabilize);
-    public Task UseEquipmentAsync(string itemId,string sourceCharacterId,long? sourceRevision=null,bool confirmTableFacts=false)=>MutateSheet(sourceCharacterId,c=>
+    public Task UseEquipmentAsync(string itemId,string sourceCharacterId,long? sourceRevision=null,bool confirmTableFacts=false,int? healed=null)=>MutateSheet(sourceCharacterId,c=>
     {
         if(sourceRevision is {} revision&&Snapshot?.Revision!=revision)throw new WorkspaceConflictException("This item confirmation is stale. Reopen it before spending anything.");
-        return SheetRules.UseEquipment(c,itemId,confirmTableFacts);
+        return SheetRules.UseEquipment(c,itemId,confirmTableFacts,healed);
     });
     public Task SetAmmunitionCountingAsync(bool counting,string sourceCharacterId)=>MutateSheet(sourceCharacterId,c=>AmmunitionRules.SetCounting(c,counting));
     public Task RecoverAmmunitionAsync(string ammunition,string sourceCharacterId)=>MutateSheet(sourceCharacterId,c=>AmmunitionRules.Recover(c,ammunition));

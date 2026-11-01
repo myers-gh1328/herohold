@@ -27,6 +27,11 @@ attack with a bow, crossbow, sling or other Ammunition weapon spends one matchin
 Sling Bullet), the attack is blocked when none are carried, and **Recover** returns half of what was
 fired, rounded down.
 
+A healing potion heals when used. With **Roll digitally** chosen at the top of the app, Herohold rolls
+its dice (2d4 + 2 for a Potion of Healing) and shows them; with physical dice you enter the total,
+which must be one the dice can give. Homebrew items can heal too: give them dice under
+*Weight, healing & charges*.
+
 Saves from before the database (one JSON file per character) are imported once with:
 
 ```sh

@@ -252,6 +252,15 @@ namespace Herohold.Storage.Migrations
                     b.Property<bool>("HasCharges")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("HealingBonus")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("HealingDiceCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("HealingDiceSides")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Kind")
                         .IsRequired()
                         .HasColumnType("TEXT");

@@ -81,6 +81,8 @@ public static class AdventureRules
             if(!Enum.IsDefined(item.UseAction)||item.UnitWeightLb is <0 or >1000000||item.Charges is {} charges&&(charges.UseCost<1||charges.UseCost>charges.Maximum||charges.Maximum is <1 or >100000||charges.Remaining<0||charges.Remaining>charges.Maximum||charges.RecoveryNote is null||charges.RecoveryNote.Length>2000))throw new ArgumentException("Item weight or charges are invalid.");
         foreach(var item in c.Equipment)
             if(item.BaseWeapon is null||item.BaseWeapon.Length>200||item.AttackBonus is <-20 or >20||item.DamageBonus is <-20 or >20)throw new ArgumentException("An item's base weapon or weapon bonuses are outside their bounds.");
+        foreach(var item in c.Equipment)
+            if(item.HealingDice is {} dice&&(dice.Count is <1 or >100||dice.Sides is <2 or >100)||item.HealingBonus is <0 or >1000||item.HealingDice is null&&item.HealingBonus!=0)throw new ArgumentException("An item's healing needs 1–100 dice of 2–100 sides and a bonus from 0 to 1000.");
     }
 
     public static string? ItemUseReason(CharacterState c,EquipmentItem item)

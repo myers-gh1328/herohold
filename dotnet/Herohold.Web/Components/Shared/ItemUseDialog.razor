@@ -1,16 +1,41 @@
+@using System.Security.Cryptography
 @inject IJSRuntime JS
 <dialog id="item-use-dialog" class="dialog" aria-labelledby="item-use-title"><div class="dialog-inner"><div class="dialog-heading"><h2 id="item-use-title">Use @Item?.Name</h2><button class="icon-button" aria-label="Close item use" @onclick="Close">×</button></div>
 @if(Item is {} item){<p>@item.Description</p><p class="reference-line">@(item.Consumable?"Spends one item. ":"")@(item.Charges is {} charges?$"Spends {charges.UseCost} charges ({charges.Remaining} remaining).":"")</p>@foreach(var effect in item.UseEffects){<details open><summary>@effect.Name</summary><p>@effect.Note</p><small>@(effect.Concentration?"Requires your Concentration. ":"")@(effect.RemainingRounds is {} rounds?$"{rounds} rounds":"Duration tracked at the table")</small></details>}
+@if(item.HealingDice is not null){var (least,most)=ItemLinking.HealingRange(item);<p class="reference-line" data-testid="item-use-healing"><strong>Heals @ItemLinking.HealingText(item)</strong> · you have @Session.Character?.CurrentHp / @Session.Character?.MaximumHp HP</p>
+@if(Result is {} result){<p class="item-use-result" data-testid="item-use-result" role="status">@result</p>}
+else if(PreferredDiceMode==DiceMode.Physical){<label class="field">Healing total from your dice (@least–@most)<input id="item-use-healing-total" type="number" min="@least" max="@most" value="@PhysicalTotal" @oninput="e=>PhysicalTotal=int.TryParse(e.Value?.ToString(),out var n)?n:null" /></label>}
+else{<p class="small muted">The app rolls @ItemLinking.HealingText(item) when you confirm.</p>}}
+@if(Result is null){
 @if(Session.Character?.Combat.EncounterActive==true){<p>Action cost: <strong>@ActionName(item.UseAction)</strong></p>@if(item.UseAction==ItemUseAction.TableManaged){<p class="rust">Record the action cost from this item's rules in Edit item before using it in combat.</p>}<label class="inline-option"><input data-testid="item-use-table-facts" type="checkbox" @bind="Confirmed" /> Its target, range and other requirements are met; for a Reaction, its trigger has occurred.</label>}
 @if(Unavailable is {} reason){<p class="small rust">@reason</p>}
-@if(Session.Error is {} error){<p role="alert">@error</p>}<div class="form-footer"><button class="button" data-testid="cancel-item-use" @onclick="Close">Cancel</button><button class="button primary" data-testid="confirm-item-use" disabled="@(Session.IsBusy||Unavailable is not null||Session.Character?.Combat.EncounterActive==true&&(!Confirmed||item.UseAction==ItemUseAction.TableManaged))" @onclick="Use">Confirm use</button></div>}
+@if(Session.Error is {} error){<p role="alert">@error</p>}<div class="form-footer"><button class="button" data-testid="cancel-item-use" @onclick="Close">Cancel</button><button class="button primary" data-testid="confirm-item-use" disabled="@(Session.IsBusy||Unavailable is not null||Session.Character?.Combat.EncounterActive==true&&(!Confirmed||item.UseAction==ItemUseAction.TableManaged)||NeedsTotal)" @onclick="Use">Confirm use</button></div>}
+else{<div class="form-footer"><button class="button primary" data-testid="done-item-use" @onclick="Close">Done</button></div>}}
 </div></dialog>
 @code{
 [Parameter,EditorRequired]public WorkspaceSession Session {get;set;}=default!;
+/// <summary>The app-wide dice choice: Digital rolls a potion's healing, Physical asks for the total.</summary>
+[Parameter]public DiceMode PreferredDiceMode {get;set;}
 private string? Unavailable=>Item is {} item&&Session.Character is {} c?AdventureRules.ItemUseReason(c,item):null;
-private EquipmentItem? Item;private string SourceId="";private long Revision;private bool Confirmed;
-public async Task OpenAsync(EquipmentItem item){Item=item;SourceId=Session.Character!.Id;Revision=Session.Snapshot!.Revision;Confirmed=false;await InvokeAsync(StateHasChanged);await JS.InvokeVoidAsync("heroholdUi.openDialog","item-use-dialog");}
+private EquipmentItem? Item;private string SourceId="";private long Revision;private bool Confirmed;private int? PhysicalTotal;private string? Result;
+private bool NeedsTotal=>Item is {HealingDice:not null} item&&PreferredDiceMode==DiceMode.Physical&&(PhysicalTotal is not {} total||total<ItemLinking.HealingRange(item).Minimum||total>ItemLinking.HealingRange(item).Maximum);
+public async Task OpenAsync(EquipmentItem item){Item=item;SourceId=Session.Character!.Id;Revision=Session.Snapshot!.Revision;Confirmed=false;PhysicalTotal=null;Result=null;await InvokeAsync(StateHasChanged);await JS.InvokeVoidAsync("heroholdUi.openDialog","item-use-dialog");}
 private static string ActionName(ItemUseAction cost)=>cost switch{ItemUseAction.BonusAction=>"Bonus Action",ItemUseAction.TableManaged=>"Not recorded",ItemUseAction.None=>"No action",_=>cost.ToString()};
 private Task Close()=>JS.InvokeVoidAsync("heroholdUi.closeDialog","item-use-dialog").AsTask();
-private async Task Use(){if(Item is null)return;await Session.UseEquipmentAsync(Item.Id,SourceId,Revision,Confirmed);if(Session.Error is null)await Close();}
+private async Task Use()
+{
+    if(Item is null||NeedsTotal)return;
+    int? healed=null;string rolled="";
+    if(Item.HealingDice is {} dice)
+    {
+        if(PreferredDiceMode==DiceMode.Physical)healed=PhysicalTotal;
+        else{var dieValues=Enumerable.Range(0,dice.Count).Select(_=>RandomNumberGenerator.GetInt32(1,dice.Sides+1)).ToList();healed=dieValues.Sum()+Item.HealingBonus;rolled=$"Rolled {ItemLinking.HealingText(Item)}: {string.Join(" + ",dieValues)}{(Item.HealingBonus!=0?" + "+Item.HealingBonus:"")} = {healed}. ";}
+    }
+    var before=Session.Character!.CurrentHp;
+    await Session.UseEquipmentAsync(Item.Id,SourceId,Revision,Confirmed,healed);
+    if(Session.Error is not null)return;
+    if(healed is null){await Close();return;}
+    var gained=Session.Character!.CurrentHp-before;
+    Result=rolled+$"You regain {gained} HP"+(gained<healed?" (you are at full HP)":"")+$" and have {Session.Character.CurrentHp} / {Session.Character.MaximumHp}.";
+}
 }
