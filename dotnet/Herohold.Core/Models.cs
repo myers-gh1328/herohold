@@ -27,6 +27,9 @@ public sealed record EquipmentItem
     public string CatalogItemId { get; init; } = string.Empty;
     /// <summary>The spell written on a spell scroll.</summary>
     public string ScrollSpell { get; init; } = string.Empty;
+    /// <summary>Hit points regained when used, as dice plus a bonus (a Potion of Healing is 2d4 + 2); null when it does not heal.</summary>
+    public DiceFormula? HealingDice { get; init; }
+    public int HealingBonus { get; init; }
     public int AttackBonus { get; init; }
     public int DamageBonus { get; init; }
     public Dictionary<Ability, int> ModifierBonuses { get; init; } = [];

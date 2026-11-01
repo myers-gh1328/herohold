@@ -128,10 +128,15 @@ public static class SheetRules
         if(!EffectiveEffects(c).Any(e=>WorkspaceRules.IsIncapacitatingCondition(e.Name)))return c;
         return c with{Effects=c.Effects.Where(e=>!e.Concentration).ToList(),Play=c.Play with{HunterTarget=string.Empty}};
     }
-    public static CharacterState UseEquipment(CharacterState c,string itemId,bool confirmTableFacts=false)
+    /// <param name="healed">For an item that heals (a potion), the hit points its dice gave: rolled by the app or entered from physical dice.</param>
+    public static CharacterState UseEquipment(CharacterState c,string itemId,bool confirmTableFacts=false,int? healed=null)
     {
-        var item=c.Equipment.FirstOrDefault(i=>i.Id==itemId)??throw new ArgumentException("This item no longer exists.");if(!item.Carried||item.Quantity<1||!item.Consumable&&item.Charges is null&&item.UseEffects.Count==0)throw new ArgumentException("This item has no available use.");if(item.RequiresAttunement&&!item.Attuned)throw new ArgumentException("Attune to this item before using it.");
+        var item=c.Equipment.FirstOrDefault(i=>i.Id==itemId)??throw new ArgumentException("This item no longer exists.");if(!item.Carried||item.Quantity<1||!item.Consumable&&item.Charges is null&&item.UseEffects.Count==0&&item.HealingDice is null)throw new ArgumentException("This item has no available use.");if(item.RequiresAttunement&&!item.Attuned)throw new ArgumentException("Attune to this item before using it.");
+        var (least,most)=ItemLinking.HealingRange(item);
+        if(item.HealingDice is null&&healed is not null)throw new ArgumentException("This item does not heal.");
+        if(item.HealingDice is not null&&(healed is null||healed<least||healed>most))throw new ArgumentException($"Enter the healing from {ItemLinking.HealingText(item)}: {least} to {most}.");
         var result=AdventureRules.PrepareItemUse(c,item,confirmTableFacts);
+        if(healed is {} amount)result=WorkspaceRules.AdjustHp(result,Math.Min(amount,result.MaximumHp-result.CurrentHp));
         if(item.Charges is {} charges)result=AdventureRules.AdjustCharges(result,itemId,-charges.UseCost);
         if(item.Consumable)result=WorkspaceRules.AdjustQuantity(result,itemId,-1);
         foreach(var effect in item.UseEffects)result=WorkspaceRules.AddEffect(result,effect with{Id=Guid.NewGuid().ToString("N"),Source="item:"+item.Id+" · "+item.Name});WorkspaceValidation.Character(result);return CloseInspirationWindows(result);

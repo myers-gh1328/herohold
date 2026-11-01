@@ -38,6 +38,29 @@ public sealed class ItemCatalogTests
     }
 
     [TestMethod]
+    public void HealingPotionsKnowTheirDice()
+    {
+        foreach (var (name, count, bonus) in new[] { ("Potion of Healing", 2, 2), ("Potion of Greater Healing", 4, 4), ("Potion of Superior Healing", 8, 8), ("Potion of Supreme Healing", 10, 20) })
+        {
+            var potion = Official("XDMG|" + name).Definition;
+            Assert.AreEqual(new DiceFormula(count, 4), potion.HealingDice, name); Assert.AreEqual(bonus, potion.HealingBonus, name);
+        }
+        Assert.AreEqual(4, TestStores.Items.Official.Count(i => i.Definition.HealingDice is not null), "Only the healing potions heal.");
+    }
+
+    [TestMethod]
+    public async Task PotionHealingIsStoredForOfficialAndHomebrewItems()
+    {
+        var (_, saved) = await SavedAsync("potion-drinker",
+            new EquipmentItem { Id = "potion", Name = "Potion of Healing", Quantity = 2 },
+            new EquipmentItem { Id = "tonic", Name = "Grandmother's Tonic", Quantity = 1, Consumable = true, HealingDice = new(1, 6), HealingBonus = 1 });
+        var loaded = (await TestStores.Open(folder).LoadAsync("potion-drinker"))!.Character.Equipment;
+        Assert.AreEqual("XDMG|Potion of Healing", loaded[0].CatalogItemId); Assert.AreEqual(new DiceFormula(2, 4), loaded[0].HealingDice); Assert.AreEqual(2, loaded[0].HealingBonus);
+        StringAssert.StartsWith(loaded[1].CatalogItemId, "homebrew:"); Assert.AreEqual(new DiceFormula(1, 6), loaded[1].HealingDice); Assert.AreEqual(1, loaded[1].HealingBonus);
+        Assert.AreEqual(saved.Equipment[1].CatalogItemId, loaded[1].CatalogItemId);
+    }
+
+    [TestMethod]
     [DataRow("Rope", "XPHB|Rope", "", 1)]
     [DataRow("arrows", "XPHB|Arrow", "", 1)]
     [DataRow("Arrows (20)", "XPHB|Arrow", "", 20)]

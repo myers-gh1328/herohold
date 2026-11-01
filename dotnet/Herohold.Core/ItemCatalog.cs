@@ -63,5 +63,24 @@ public static class ItemLinking
     public static bool FitsOfficial(EquipmentItem item, CatalogItem official)
         => item.AttackBonus == 0 && item.DamageBonus == 0 && item.ModifierBonuses.Count == 0 && item.Defenses.Count == 0
            && item.PassiveEffects.Count == 0 && item.UseEffects.Count == 0 && item.Charges is null
-           && (item.BaseWeapon.Length == 0 || string.Equals(item.BaseWeapon, official.Definition.Name, StringComparison.OrdinalIgnoreCase));
+           && (item.BaseWeapon.Length == 0 || string.Equals(item.BaseWeapon, official.Definition.Name, StringComparison.OrdinalIgnoreCase))
+           && (item.HealingDice is null || item.HealingDice == official.Definition.HealingDice && item.HealingBonus == official.Definition.HealingBonus);
+
+    /// <summary>The healing an item gives, as a player reads it ("2d4 + 2"), or empty.</summary>
+    public static string HealingText(EquipmentItem item)
+        => item.HealingDice is { } dice ? $"{dice.Count}d{dice.Sides}" + (item.HealingBonus != 0 ? $" + {item.HealingBonus}" : "") : "";
+
+    /// <summary>The lowest and highest healing the item's dice can give.</summary>
+    public static (int Minimum, int Maximum) HealingRange(EquipmentItem item)
+        => item.HealingDice is { } dice ? (dice.Count + item.HealingBonus, dice.Count * dice.Sides + item.HealingBonus) : (0, 0);
+
+    /// <summary>Reads "2d4+2", "2d4 + 2" or "1d8"; null when the text is not one of those.</summary>
+    public static (DiceFormula Dice, int Bonus)? ParseHealing(string text)
+    {
+        var match = System.Text.RegularExpressions.Regex.Match(text.Trim(), @"^(\d{1,3})d(\d{1,3})(?:\s*\+\s*(\d{1,4}))?$", System.Text.RegularExpressions.RegexOptions.IgnoreCase | System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+        if (!match.Success) return null;
+        var dice = new DiceFormula(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value));
+        var bonus = match.Groups[3].Success ? int.Parse(match.Groups[3].Value) : 0;
+        return dice.Count is >= 1 and <= 100 && dice.Sides is >= 2 and <= 100 && bonus <= 1000 ? (dice, bonus) : null;
+    }
 }

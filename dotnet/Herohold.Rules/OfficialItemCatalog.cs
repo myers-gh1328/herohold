@@ -41,6 +41,7 @@ public sealed partial class OfficialItemCatalog:IItemCatalog
             var baseWeapon=baseName.Length>0&&baseKinds.TryGetValue(baseName,out var baseKind)&&baseKind=="weapon"?Title(baseName,records):"";
             if(baseWeapon.Length>0)kind="weapon";
             var weapon=Bonus(r["bonusWeapon"]);
+            var healing=kind=="potion"?Healing().Match(r["entries"]?.ToJsonString(Unescaped)??""):System.Text.RegularExpressions.Match.Empty;
             items.Add(new CatalogItem{Id=source+"|"+name,Source=source,Kind=kind,Definition=new EquipmentItem
             {
                 Name=name,Description=Description(r,kind),RequiresAttunement=r["reqAttune"] is not null&&r["reqAttune"]!.GetValueKind()!=JsonValueKind.False,
@@ -48,7 +49,9 @@ public sealed partial class OfficialItemCatalog:IItemCatalog
                 Charges=r["charges"] is JsonValue c&&c.TryGetValue<int>(out var charges)&&charges>0?new ItemCharges{Maximum=charges,Remaining=0,RecoveryNote=Recharge(r)}:null,
                 UseAction=kind=="potion"?ItemUseAction.BonusAction:ItemUseAction.TableManaged,
                 Consumable=kind is "potion" or "scroll" or "ammunition"||(r["miscTags"] as JsonArray??[]).Any(t=>Text(t)=="CNS"),
-                BaseWeapon=baseWeapon,AttackBonus=weapon+Bonus(r["bonusWeaponAttack"]),DamageBonus=weapon+Bonus(r["bonusWeaponDamage"])
+                BaseWeapon=baseWeapon,AttackBonus=weapon+Bonus(r["bonusWeaponAttack"]),DamageBonus=weapon+Bonus(r["bonusWeaponDamage"]),
+                HealingDice=healing.Success?new(int.Parse(healing.Groups[1].Value,CultureInfo.InvariantCulture),int.Parse(healing.Groups[2].Value,CultureInfo.InvariantCulture)):null,
+                HealingBonus=healing.Success&&healing.Groups[3].Success?int.Parse(healing.Groups[3].Value,CultureInfo.InvariantCulture):0
             }});
             if(r["packContents"] is JsonArray contents&&contents.Count==1&&contents[0] is JsonObject only&&Text(only["item"]).Length>0&&only["quantity"] is JsonValue q&&q.TryGetValue<int>(out var quantity)&&quantity>1)
                 packs[name]=(Text(only["item"]).Split('|')[0],quantity);
@@ -74,9 +77,12 @@ public sealed partial class OfficialItemCatalog:IItemCatalog
         return null;
     }
 
+    /// <summary>A potion's "regain {@dice 2d4 + 2} Hit Points".</summary>
+    [GeneratedRegex(@"regains? \{@dice (\d+)d(\d+)(?: ?\+ ?(\d+))?\} \{@variantrule Hit Points",RegexOptions.CultureInvariant)]private static partial Regex Healing();
     [GeneratedRegex(@"^Scroll of (.+)$",RegexOptions.IgnoreCase|RegexOptions.CultureInvariant)]private static partial Regex ScrollOf();
     [GeneratedRegex(@"^[^()]+\(([^()]+)\)$",RegexOptions.CultureInvariant)]private static partial Regex Bracketed();
 
+    private static readonly JsonSerializerOptions Unescaped=new(){Encoder=System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping};
     private static IEnumerable<JsonObject> Records(string json,string key)
     {
         if(string.IsNullOrWhiteSpace(json)||Encoding.UTF8.GetByteCount(json)>32*1024*1024)throw new ArgumentException("An item catalog is empty or exceeds its supported size.");

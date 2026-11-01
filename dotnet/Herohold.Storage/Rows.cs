@@ -271,6 +271,9 @@ public sealed class CatalogItemRow
     public string BaseWeapon { get; set; } = "";
     public int AttackBonus { get; set; }
     public int DamageBonus { get; set; }
+    public int? HealingDiceCount { get; set; }
+    public int? HealingDiceSides { get; set; }
+    public int HealingBonus { get; set; }
 }
 
 public sealed class ItemBonusRow
