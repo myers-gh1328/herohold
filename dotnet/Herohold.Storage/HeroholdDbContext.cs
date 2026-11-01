@@ -34,6 +34,10 @@ public sealed class HeroholdDbContext(DbContextOptions<HeroholdDbContext> option
     public DbSet<CastRow> Casts => Set<CastRow>();
     public DbSet<PlaySnapshotRow> PlaySnapshots => Set<PlaySnapshotRow>();
     public DbSet<UndoEntryRow> UndoEntries => Set<UndoEntryRow>();
+    public DbSet<CatalogItemRow> CatalogItems => Set<CatalogItemRow>();
+    public DbSet<ItemBonusRow> ItemBonuses => Set<ItemBonusRow>();
+    public DbSet<ItemDefenseRow> ItemDefenses => Set<ItemDefenseRow>();
+    public DbSet<ItemEffectRow> ItemEffects => Set<ItemEffectRow>();
 
     protected override void OnModelCreating(ModelBuilder model)
     {
@@ -57,7 +61,23 @@ public sealed class HeroholdDbContext(DbContextOptions<HeroholdDbContext> option
         Child<LevelUpRow>(model, "character_level_ups");
         Child<ResolvedChoiceRow>(model, "character_level_up_choices");
         Child<ClassTrackRow>(model, "character_class_tracks");
-        Child<ItemRow>(model, "character_items");
+        model.Entity<CatalogItemRow>(e =>
+        {
+            e.ToTable("items");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasMaxLength(200);
+            e.HasOne<UserRow>().WithMany().HasForeignKey(x => x.OwnerId).OnDelete(DeleteBehavior.Restrict);
+            e.HasIndex(x => x.OwnerId);
+        });
+        ItemChild<ItemBonusRow>(model, "item_modifier_bonuses");
+        ItemChild<ItemDefenseRow>(model, "item_defenses");
+        ItemChild<ItemEffectRow>(model, "item_effects");
+        Child<ItemRow>(model, "character_items", e =>
+        {
+            e.HasIndex("CharacterId");
+            e.HasOne<CatalogItemRow>().WithMany().HasForeignKey(x => x.CatalogItemId).OnDelete(DeleteBehavior.Restrict);
+            e.HasIndex(x => x.CatalogItemId);
+        });
         Child<DefenseRow>(model, "character_defenses");
         Child<EffectRow>(model, "character_effects");
         Child<JournalNoteRow>(model, "character_journal_notes");
@@ -75,6 +95,17 @@ public sealed class HeroholdDbContext(DbContextOptions<HeroholdDbContext> option
         Child<CastRow>(model, "character_casts", e => e.HasIndex(x => new { x.CharacterId, x.Slot }).IsUnique());
         Child<PlaySnapshotRow>(model, "character_play_snapshots", e => e.HasIndex(x => new { x.CharacterId, x.Slot }).IsUnique());
         Child<UndoEntryRow>(model, "character_undo_entries");
+    }
+
+    private static void ItemChild<T>(ModelBuilder model, string table) where T : class
+    {
+        model.Entity<T>(e =>
+        {
+            e.ToTable(table);
+            e.HasKey("Id");
+            e.HasOne<CatalogItemRow>().WithMany().HasForeignKey("ItemId").OnDelete(DeleteBehavior.Cascade);
+            e.HasIndex("ItemId");
+        });
     }
 
     private static void Child<T>(ModelBuilder model, string table, Action<Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<T>>? configure = null) where T : class

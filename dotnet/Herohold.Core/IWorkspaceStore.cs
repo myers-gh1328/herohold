@@ -13,4 +13,6 @@ public interface IWorkspaceStore
     Task<WorkspaceSnapshot> SaveAsync(WorkspaceSnapshot snapshot, long expectedRevision, CancellationToken ct = default);
     /// <summary>Rejects a workspace this store could not save, without saving anything.</summary>
     void Validate(WorkspaceSnapshot snapshot);
+    /// <summary>The owner's homebrew items, shared by all of their characters. A store without a catalog has none.</summary>
+    Task<IReadOnlyList<CatalogItem>> HomebrewItemsAsync(CancellationToken ct = default) => Task.FromResult<IReadOnlyList<CatalogItem>>([]);
 }

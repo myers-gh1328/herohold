@@ -1,3 +1,5 @@
+using Herohold.Core;
+
 namespace Herohold.Storage;
 
 // Table rows. Child rows belong to one character and are replaced together on each save.
@@ -14,6 +16,7 @@ public sealed class CharacterRow
 {
     public string Id { get; set; } = "";
     public string OwnerId { get; set; } = "";
+    public string RulesSource { get; set; } = CharacterRecord.DefaultRulesSource;
     public long Revision { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
 
@@ -231,30 +234,77 @@ public sealed class ClassTrackRow
     public string? Subclass { get; set; }
 }
 
+/// <summary>One item a character owns: which catalog item, and this character's own state.</summary>
 public sealed class ItemRow
 {
     public long Id { get; set; }
     public string CharacterId { get; set; } = "";
     public int Position { get; set; }
     public string ItemId { get; set; } = "";
-    public string Name { get; set; } = "";
-    public string Description { get; set; } = "";
+    public string CatalogItemId { get; set; } = "";
     public int Quantity { get; set; }
     public bool Equipped { get; set; }
-    public bool RequiresAttunement { get; set; }
     public bool Attuned { get; set; }
     public bool Carried { get; set; }
+    public int ChargeRemaining { get; set; }
+    public string ScrollSpell { get; set; } = "";
+}
+
+/// <summary>One item definition: official (from the rules data, OwnerId null) or homebrew (OwnerId set).</summary>
+public sealed class CatalogItemRow
+{
+    public string Id { get; set; } = "";
+    public string Source { get; set; } = "";
+    public string Kind { get; set; } = "";
+    public string? OwnerId { get; set; }
+    public string Name { get; set; } = "";
+    public string Description { get; set; } = "";
+    public bool RequiresAttunement { get; set; }
     public decimal? UnitWeightLb { get; set; }
     public bool HasCharges { get; set; }
     public int ChargeUseCost { get; set; }
     public int ChargeMaximum { get; set; }
-    public int ChargeRemaining { get; set; }
     public string ChargeRecoveryNote { get; set; } = "";
     public string UseAction { get; set; } = "";
     public bool Consumable { get; set; }
     public string BaseWeapon { get; set; } = "";
     public int AttackBonus { get; set; }
     public int DamageBonus { get; set; }
+}
+
+public sealed class ItemBonusRow
+{
+    public long Id { get; set; }
+    public string ItemId { get; set; } = "";
+    public int Position { get; set; }
+    public string Ability { get; set; } = "";
+    public int Value { get; set; }
+}
+
+public sealed class ItemDefenseRow
+{
+    public long Id { get; set; }
+    public string ItemId { get; set; } = "";
+    public int Position { get; set; }
+    public string Kind { get; set; } = "";
+    public string Type { get; set; } = "";
+    public string Source { get; set; } = "";
+    public string Note { get; set; } = "";
+}
+
+/// <summary>An effect a homebrew item gives while active ("passive") or when used ("use").</summary>
+public sealed class ItemEffectRow
+{
+    public long Id { get; set; }
+    public string ItemId { get; set; } = "";
+    public string Owner { get; set; } = "";
+    public int Position { get; set; }
+    public string EffectId { get; set; } = "";
+    public string Name { get; set; } = "";
+    public string Source { get; set; } = "";
+    public string Note { get; set; } = "";
+    public int? RemainingRounds { get; set; }
+    public bool Concentration { get; set; }
 }
 
 public sealed class DefenseRow

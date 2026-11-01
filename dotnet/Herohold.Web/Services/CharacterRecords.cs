@@ -69,6 +69,8 @@ public sealed class RecordWorkspaceStore(ICharacterRecordStore records, Characte
 {
     public Task<IReadOnlyList<WorkspaceSummary>> ListAsync(CancellationToken ct = default) => records.ListAsync(ct);
 
+    public Task<IReadOnlyList<CatalogItem>> HomebrewItemsAsync(CancellationToken ct = default) => records.HomebrewItemsAsync(CharacterRecord.DefaultOwnerId, ct);
+
     public async Task<WorkspaceSnapshot?> LoadAsync(string id, CancellationToken ct = default)
         => await records.LoadAsync(id, ct) is { } record ? await HydrateAsync(record, ct) : null;
 

@@ -33,6 +33,8 @@ public static class HeroholdServiceRegistration
         services.AddSingleton(snapshot);
         services.AddSingleton(choices);
         services.AddSingleton(tools);
+        services.AddSingleton<IItemCatalog>(OfficialItemCatalog.Parse(ReadRaw("items-base.json"), ReadRaw("items.json"),
+            snapshot.SpellRecords.GroupBy(s => s.Name, StringComparer.OrdinalIgnoreCase).ToDictionary(g => g.Key, g => g.First().Level, StringComparer.OrdinalIgnoreCase)));
         services.AddSingleton(new CreationChoiceRules(snapshot, classes, choices, ruleData, speciesSources, tools));
         services.AddSingleton(new ActiveFeatureRules(snapshot, classes, choices, ruleData, speciesSources));
         services.AddSingleton(new SpellGrantRules(classes, snapshot, RawSpeciesSpellCatalog.From(speciesSources, snapshot)));
@@ -53,7 +55,7 @@ public static class HeroholdServiceRegistration
     /// <summary>Characters in the SQLite database at <paramref name="databasePath"/>, recalculated by the rules on load.</summary>
     public static IServiceCollection AddHeroholdStorage(this IServiceCollection services, string databasePath)
     {
-        services.AddSingleton<ICharacterRecordStore>(new SqliteCharacterRecordStore(databasePath));
+        services.AddSingleton<ICharacterRecordStore>(provider => new SqliteCharacterRecordStore(databasePath, provider.GetService<IItemCatalog>()));
         services.AddSingleton<CharacterHydrator>();
         services.AddSingleton<IWorkspaceStore, RecordWorkspaceStore>();
         return services;

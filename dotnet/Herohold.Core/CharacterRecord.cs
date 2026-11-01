@@ -12,8 +12,12 @@ namespace Herohold.Core;
 public sealed record CharacterRecord
 {
     public const string DefaultOwnerId = "owner";
+    /// <summary>The 2024 rules: the only rule set with data so far.</summary>
+    public const string DefaultRulesSource = "XPHB";
     public string Id { get; init; } = string.Empty;
     public string OwnerId { get; init; } = DefaultOwnerId;
+    /// <summary>The rule set the character is built with; it decides which official items it draws from.</summary>
+    public string RulesSource { get; init; } = DefaultRulesSource;
     public long Revision { get; init; }
     public BuildFacts Build { get; init; } = new();
     public CharacterFacts Facts { get; init; } = new();

@@ -23,6 +23,10 @@ public sealed record EquipmentItem
     public bool Consumable { get; init; }
     /// <summary>The catalog weapon this item attacks as, when its own name is not one (a named or magic weapon).</summary>
     public string BaseWeapon { get; init; } = string.Empty;
+    /// <summary>The catalog item this is a copy of: an official item or one of the owner's homebrew items. Empty until the store links it.</summary>
+    public string CatalogItemId { get; init; } = string.Empty;
+    /// <summary>The spell written on a spell scroll.</summary>
+    public string ScrollSpell { get; init; } = string.Empty;
     public int AttackBonus { get; init; }
     public int DamageBonus { get; init; }
     public Dictionary<Ability, int> ModifierBonuses { get; init; } = [];

@@ -33,7 +33,7 @@ internal static partial class WorkspaceValidation
         Unique(c.Equipment.Select(x => x?.Id)); Unique(c.Resources.Select(x => x?.Id)); Unique(c.Notes.Select(x => x?.Id)); Unique(c.Effects.Select(x => x?.Id));
         foreach (var item in c.Equipment)
         {
-            Text(item.Name, 200, true); Text(item.Description, 2000);
+            Text(item.Name, 200, true); Text(item.Description, 10000); Text(item.CatalogItemId, 200); Text(item.ScrollSpell, 200);
             if (item.Quantity is < 0 or > 100000 || !item.Carried&&(item.Equipped||item.Attuned) || item.Quantity == 0 && (item.Equipped || item.Attuned)
                 || item.Attuned && !item.RequiresAttunement || item.ModifierBonuses is null
                 || item.ModifierBonuses.Any(x => !Enum.IsDefined(x.Key) || x.Value is < -30 or > 30))
