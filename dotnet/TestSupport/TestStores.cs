@@ -14,6 +14,7 @@ public static class TestStores
     public static ICharacterRules Workflow => Rules.Value.GetRequiredService<ICharacterRules>();
     public static NativeCharacterBuilder Builder => Rules.Value.GetRequiredService<NativeCharacterBuilder>();
     public static CharacterHydrator Hydrator => new(Workflow);
+    public static IItemCatalog Items => Rules.Value.GetRequiredService<IItemCatalog>();
 
     /// <summary>The character a rules character document calculates to, as a fixture; it need not be complete.</summary>
     public static CharacterState Calculated(System.Text.Json.Nodes.JsonObject raw, CharacterState? existing = null)
@@ -57,7 +58,8 @@ public static class TestStores
     }
 
     public static IWorkspaceStore Open(string folder) => new RecordWorkspaceStore(Records(folder), Hydrator);
-    public static SqliteCharacterRecordStore Records(string folder) => new(Path.Combine(folder, "herohold.db"));
+    /// <summary>The store in a test folder, with the official items of the rules data.</summary>
+    public static SqliteCharacterRecordStore Records(string folder) => new(Path.Combine(folder, "herohold.db"), Items);
 
     private static string Root()
     {

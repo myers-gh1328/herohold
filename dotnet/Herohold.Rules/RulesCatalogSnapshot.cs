@@ -145,17 +145,19 @@ public sealed class RulesCatalogSnapshot
         }
         if(node is JsonArray array)return new JsonArray(array.Select(Clean).ToArray());
         if(node is JsonValue value&&value.TryGetValue<string>(out var text)&&text.Contains("{@",StringComparison.Ordinal))
-            return JsonValue.Create(Tags.Replace(text,match=>
-            {
-                var content=match.Groups[1].Value;var space=content.IndexOf(' ');
-                var tag=(space<0?content:content[..space]).ToLowerInvariant();var body=space<0?"":content[(space+1)..];
-                var parts=body.Split('|').Where(part=>part.Length>0).ToArray();
-                if(parts.Length>0&&tag=="dc")return "DC "+parts[0];
-                if(parts.Length>0&&tag=="filter")return parts[0];
-                return parts.Length>=3?parts[2]:parts.Length>0?parts[0]:body;
-            }).Trim(PythonWhitespace));
+            return JsonValue.Create(CleanTags(text));
         return node?.DeepClone();
     }
+    /// <summary>Catalog text with its {@tag ...} markup replaced by what it displays.</summary>
+    public static string CleanTags(string text)=>!text.Contains("{@",StringComparison.Ordinal)?text:Tags.Replace(text,match=>
+    {
+        var content=match.Groups[1].Value;var space=content.IndexOf(' ');
+        var tag=(space<0?content:content[..space]).ToLowerInvariant();var body=space<0?"":content[(space+1)..];
+        var parts=body.Split('|').Where(part=>part.Length>0).ToArray();
+        if(parts.Length>0&&tag=="dc")return "DC "+parts[0];
+        if(parts.Length>0&&tag=="filter")return parts[0];
+        return parts.Length>=3?parts[2]:parts.Length>0?parts[0]:body;
+    }).Trim(PythonWhitespace);
     private static string Text(JsonNode? node)=>node is null?"":node is JsonValue value&&value.TryGetValue<string>(out var text)?text:throw new ArgumentException("Catalog spell identities must be text.");
     private static bool Truthy(JsonNode? node)=>node switch
     {

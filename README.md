@@ -16,6 +16,12 @@ and undo state. Everything the rules can work out (scores, proficiencies, AC, at
 descriptions) is recalculated when a character is loaded. The schema is managed by EF Core migrations
 in `dotnet/Herohold.Storage/Migrations` and applied automatically on start.
 
+Items are one shared catalog (`items`). Official items are copied in on start from the 2024 books in
+`data/raw/5etools/items*.json` and cannot be edited; homebrew items belong to their owner and are shared
+by all of that owner's characters. A character's `character_items` rows keep only which item and its own
+state (quantity, equipped, attuned, carried, charges left, the spell on a scroll). An item typed or
+imported by name becomes the official item it names, unless it has bonuses or effects of its own.
+
 Saves from before the database (one JSON file per character) are imported once with:
 
 ```sh

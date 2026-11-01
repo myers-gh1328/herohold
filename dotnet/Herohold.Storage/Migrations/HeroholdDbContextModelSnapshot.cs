@@ -216,6 +216,74 @@ namespace Herohold.Storage.Migrations
                     b.ToTable("character_casts", (string)null);
                 });
 
+            modelBuilder.Entity("Herohold.Storage.CatalogItemRow", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("AttackBonus")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("BaseWeapon")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ChargeMaximum")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ChargeRecoveryNote")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ChargeUseCost")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Consumable")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("DamageBonus")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("HasCharges")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Kind")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("RequiresAttunement")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Source")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal?>("UnitWeightLb")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UseAction")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("items", (string)null);
+                });
+
             modelBuilder.Entity("Herohold.Storage.CharacterRow", b =>
                 {
                     b.Property<string>("Id")
@@ -433,6 +501,10 @@ namespace Herohold.Storage.Migrations
                     b.Property<long>("Revision")
                         .IsConcurrencyToken()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("RulesSource")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Skin")
                         .HasColumnType("TEXT");
@@ -1181,57 +1253,81 @@ namespace Herohold.Storage.Migrations
                     b.ToTable("character_hp_rolls", (string)null);
                 });
 
-            modelBuilder.Entity("Herohold.Storage.ItemRow", b =>
+            modelBuilder.Entity("Herohold.Storage.ItemBonusRow", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("AttackBonus")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("Attuned")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("BaseWeapon")
+                    b.Property<string>("Ability")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("Carried")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("CharacterId")
+                    b.Property<string>("ItemId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ChargeMaximum")
+                    b.Property<int>("Position")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("ChargeRecoveryNote")
+                    b.Property<int>("Value")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("item_modifier_bonuses", (string)null);
+                });
+
+            modelBuilder.Entity("Herohold.Storage.ItemDefenseRow", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ItemId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ChargeRemaining")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ChargeUseCost")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("Consumable")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("DamageBonus")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Description")
+                    b.Property<string>("Kind")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("Equipped")
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Position")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("HasCharges")
+                    b.Property<string>("Source")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("item_defenses", (string)null);
+                });
+
+            modelBuilder.Entity("Herohold.Storage.ItemEffectRow", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Concentration")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EffectId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ItemId")
                         .IsRequired()
@@ -1241,23 +1337,74 @@ namespace Herohold.Storage.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Owner")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("RemainingRounds")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Source")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("item_effects", (string)null);
+                });
+
+            modelBuilder.Entity("Herohold.Storage.ItemRow", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Attuned")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Carried")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CatalogItemId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CharacterId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ChargeRemaining")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Equipped")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ItemId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("Position")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("RequiresAttunement")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<decimal?>("UnitWeightLb")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UseAction")
+                    b.Property<string>("ScrollSpell")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CatalogItemId");
 
                     b.HasIndex("CharacterId");
 
@@ -1772,6 +1919,14 @@ namespace Herohold.Storage.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Herohold.Storage.CatalogItemRow", b =>
+                {
+                    b.HasOne("Herohold.Storage.UserRow", null)
+                        .WithMany()
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("Herohold.Storage.CharacterRow", b =>
                 {
                     b.HasOne("Herohold.Storage.UserRow", null)
@@ -1916,8 +2071,41 @@ namespace Herohold.Storage.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Herohold.Storage.ItemBonusRow", b =>
+                {
+                    b.HasOne("Herohold.Storage.CatalogItemRow", null)
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Herohold.Storage.ItemDefenseRow", b =>
+                {
+                    b.HasOne("Herohold.Storage.CatalogItemRow", null)
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Herohold.Storage.ItemEffectRow", b =>
+                {
+                    b.HasOne("Herohold.Storage.CatalogItemRow", null)
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Herohold.Storage.ItemRow", b =>
                 {
+                    b.HasOne("Herohold.Storage.CatalogItemRow", null)
+                        .WithMany()
+                        .HasForeignKey("CatalogItemId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Herohold.Storage.CharacterRow", null)
                         .WithMany()
                         .HasForeignKey("CharacterId")

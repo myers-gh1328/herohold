@@ -28,6 +28,8 @@ public sealed partial class WorkspaceSession
  public Task SetExhaustionAsync(int level)=>Mutate(c=>WorkspaceRules.SetExhaustion(c,level));
  public Task SetDefensesAsync(List<DamageDefense> defenses)=>Mutate(c=>WorkspaceRules.SetDefenses(c,defenses));
  public Task SetKnownTargetAsync(KnownTargetState target)=>Mutate(c=>WorkspaceRules.SetKnownTarget(c,target));
+ /// <summary>The owner's homebrew items, for the item picker.</summary>
+ public Task<IReadOnlyList<CatalogItem>> HomebrewItemsAsync()=>repository.HomebrewItemsAsync();
  public Task AddEquipmentAsync(EquipmentItem item)=>MutateEquipment(c=>WorkspaceRules.AddEquipment(c,item));
  public Task UpdateEquipmentAsync(EquipmentItem item)=>MutateEquipment(c=>WorkspaceRules.UpdateEquipment(c,item));
  public Task RemoveEquipmentAsync(string id)=>MutateEquipment(c=>WorkspaceRules.RemoveEquipment(c,id));

@@ -17,6 +17,8 @@ public sealed class CharacterRows
     public List<ResolvedChoiceRow> ResolvedChoices { get; } = [];
     public List<ClassTrackRow> ClassTracks { get; } = [];
     public List<ItemRow> Items { get; } = [];
+    /// <summary>The definitions of the catalog items <see cref="Items"/> point at, by catalog item id.</summary>
+    public Dictionary<string, CatalogItem> Catalog { get; } = new(StringComparer.Ordinal);
     public List<DefenseRow> Defenses { get; } = [];
     public List<EffectRow> Effects { get; } = [];
     public List<JournalNoteRow> JournalNotes { get; } = [];
@@ -52,7 +54,7 @@ public sealed class CharacterRows
         var scores = b.BaseAbilityScores;
         rows.Character = new CharacterRow
         {
-            Id = id, OwnerId = record.OwnerId, Revision = record.Revision, UpdatedAt = updatedAt,
+            Id = id, OwnerId = record.OwnerId, RulesSource = record.RulesSource, Revision = record.Revision, UpdatedAt = updatedAt,
             Name = b.Name, ClassName = b.ClassName, Subclass = b.Subclass, Level = b.Level, Species = b.Species, Background = b.Background,
             AbilityScoreMethod = b.AbilityScoreMethod,
             BaseStrength = Score(scores, Ability.Strength), BaseDexterity = Score(scores, Ability.Dexterity), BaseConstitution = Score(scores, Ability.Constitution),
@@ -168,15 +170,10 @@ public sealed class CharacterRows
         // Play facts
         foreach (var (item, i) in f.Equipment.Select((x, i) => (x, i)))
         {
-            rows.Items.Add(new() { CharacterId = id, Position = i, ItemId = item.Id, Name = item.Name, Description = item.Description, Quantity = item.Quantity, Equipped = item.Equipped,
-                RequiresAttunement = item.RequiresAttunement, Attuned = item.Attuned, Carried = item.Carried, UnitWeightLb = item.UnitWeightLb, HasCharges = item.Charges is not null,
-                ChargeUseCost = item.Charges?.UseCost ?? 0, ChargeMaximum = item.Charges?.Maximum ?? 0, ChargeRemaining = item.Charges?.Remaining ?? 0,
-                ChargeRecoveryNote = item.Charges?.RecoveryNote ?? "", UseAction = item.UseAction.ToString(), Consumable = item.Consumable,
-                BaseWeapon = item.BaseWeapon, AttackBonus = item.AttackBonus, DamageBonus = item.DamageBonus });
-            rows.Pairs(0, "item:" + i, "modifier_bonuses", item.ModifierBonuses.Select(p => ((string?)p.Key.ToString(), (string?)null, (int?)p.Value)));
-            rows.AddDefenses(id, "item:" + i, item.Defenses);
-            rows.AddEffects(id, 0, "item:" + i + ":passive", item.PassiveEffects);
-            rows.AddEffects(id, 0, "item:" + i + ":use", item.UseEffects);
+            if (item.CatalogItemId.Length == 0) throw new ArgumentException("An item must be linked to the item catalog before it is stored.");
+            rows.Items.Add(new() { CharacterId = id, Position = i, ItemId = item.Id, CatalogItemId = item.CatalogItemId, Quantity = item.Quantity, Equipped = item.Equipped,
+                Attuned = item.Attuned, Carried = item.Carried, ChargeRemaining = item.Charges?.Remaining ?? 0, ScrollSpell = item.ScrollSpell });
+            rows.Catalog.TryAdd(item.CatalogItemId, new CatalogItem { Id = item.CatalogItemId, Definition = CatalogItem.DefinitionOf(item) });
         }
         foreach (var (note, i) in f.Notes.Select((x, i) => (x, i)))
             rows.JournalNotes.Add(new() { CharacterId = id, Position = i, NoteId = note.Id, Title = note.Title, Text = note.Text, CreatedAt = note.CreatedAt });
@@ -605,15 +602,9 @@ public sealed class CharacterRows
         var facts = new CharacterFacts
         {
             CurrentHp = c.CurrentHp, TemporaryHp = c.TemporaryHp, Turn = c.Turn, Exhaustion = c.Exhaustion,
-            Equipment = [.. Items.OrderBy(i => i.Position).Select(i => new EquipmentItem
-            {
-                Id = i.ItemId, Name = i.Name, Description = i.Description, Quantity = i.Quantity, Equipped = i.Equipped, RequiresAttunement = i.RequiresAttunement, Attuned = i.Attuned,
-                Carried = i.Carried, UnitWeightLb = i.UnitWeightLb,
-                Charges = i.HasCharges ? new ItemCharges { UseCost = i.ChargeUseCost, Maximum = i.ChargeMaximum, Remaining = i.ChargeRemaining, RecoveryNote = i.ChargeRecoveryNote } : null,
-                UseAction = Enum.Parse<ItemUseAction>(i.UseAction), Consumable = i.Consumable,
-                BaseWeapon = i.BaseWeapon, AttackBonus = i.AttackBonus, DamageBonus = i.DamageBonus, ModifierBonuses = AbilityMap(0, "item:" + i.Position, "modifier_bonuses") ?? [],
-                Defenses = DefensesOf("item:" + i.Position), PassiveEffects = EffectsOf(0, "item:" + i.Position + ":passive"), UseEffects = EffectsOf(0, "item:" + i.Position + ":use")
-            })],
+            Equipment = [.. Items.OrderBy(i => i.Position).Select(i => (Catalog.GetValueOrDefault(i.CatalogItemId) ?? throw new InvalidDataException("A stored item's catalog item is missing."))
+                .Owned(new EquipmentItem { Id = i.ItemId, Quantity = i.Quantity, Equipped = i.Equipped, Attuned = i.Attuned, Carried = i.Carried,
+                    Charges = new ItemCharges { Remaining = i.ChargeRemaining }, ScrollSpell = i.ScrollSpell }))],
             Notes = [.. JournalNotes.OrderBy(n => n.Position).Select(n => new JournalNote { Id = n.NoteId, Title = n.Title, Text = n.Text, CreatedAt = n.CreatedAt })],
             Effects = EffectsOf(0, Self),
             Combat = CombatOf(0) ?? new(),
@@ -654,7 +645,7 @@ public sealed class CharacterRows
             UndoHistory = [.. UndoEntries.OrderBy(u => u.Position).Select(u => new PlayUndoEntry
                 { OperationId = u.OperationId, Description = u.Description, Before = TrackedOf(BeforeSlot(u.Position)), After = u.HasAfter ? TrackedOf(AfterSlot(u.Position)) : null })]
         };
-        return new CharacterRecord { Id = c.Id, OwnerId = c.OwnerId, Revision = c.Revision, Build = build, Facts = facts };
+        return new CharacterRecord { Id = c.Id, OwnerId = c.OwnerId, RulesSource = c.RulesSource, Revision = c.Revision, Build = build, Facts = facts };
     }
 
     private static ChoiceValue ReadChoice(IEnumerable<ChoiceRow> rows)

@@ -4,6 +4,7 @@ using Bunit;
 using Herohold.Core;
 using Herohold.Web.Components.Shared;
 using Herohold.Web.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Herohold.Components.Tests;
@@ -122,13 +123,30 @@ public sealed class CharacterWorkflowTests
     }
     [TestCategory("RulesData")]
     [TestMethod]
-    public async Task InventorySuggestsCatalogNamesWhileAllowingACustomItemName()
+    public async Task InventorySuggestsOfficialItemsLocksTheirDetailsAndAllowsACustomItemName()
     {
-        var result=new JsonObject{["catalogs"]=new JsonObject{["equipment"]=new JsonArray("Longsword","Dice Set","Flute")}};
-        using var fixture=new Fixture(result);await fixture.Session.InitializeAsync();using var context=new BunitContext();context.JSInterop.Mode=JSRuntimeMode.Loose;
+        using var fixture=new Fixture(new JsonObject());await fixture.Session.InitializeAsync();using var context=new BunitContext();context.JSInterop.Mode=JSRuntimeMode.Loose;
+        context.Services.AddSingleton<IItemCatalog>(new Items(
+            new CatalogItem{Id="XPHB|Rope",Source="XPHB",Definition=new EquipmentItem{Name="Rope",Description="Fifty feet of hempen rope.",UnitWeightLb=5}},
+            new CatalogItem{Id="XPHB|Longsword",Source="XPHB",Kind="weapon",Definition=new EquipmentItem{Name="Longsword",Description="A blade."}}));
         var cut=context.Render<InventoryDefenseDialogs>(p=>p.Add(c=>c.Session,fixture.Session));await cut.InvokeAsync(()=>cut.Instance.OpenItemAsync());
-        var input=cut.Find("#item-name");var list=input.GetAttribute("list");Assert.IsFalse(string.IsNullOrWhiteSpace(list));
-        CollectionAssert.AreEquivalent(new[]{"Longsword","Dice Set","Flute"},cut.FindAll("datalist option").Select(e=>e.GetAttribute("value")).ToArray());
-        input.Input("Fictional Moonrope");Assert.AreEqual("Fictional Moonrope",cut.Find("#item-name").GetAttribute("value"));Assert.IsFalse(cut.Find("#equipment-dialog .button.primary").HasAttribute("disabled"));
+        var input=cut.Find("#item-name");Assert.IsFalse(string.IsNullOrWhiteSpace(input.GetAttribute("list")));
+        var homebrew=(await fixture.Session.HomebrewItemsAsync()).Select(h=>h.Definition.Name).ToArray();Assert.IsNotEmpty(homebrew,"The sample's own items are homebrew.");
+        CollectionAssert.AreEquivalent(new[]{"Longsword","Rope"}.Concat(homebrew).ToArray(),cut.FindAll("datalist option").Select(e=>e.GetAttribute("value")).ToArray(),"Official items and the owner's homebrew items.");
+        input.Input("Rope");
+        StringAssert.Contains(cut.Find("[data-testid=item-catalog-note]").TextContent,"Official item (XPHB)");
+        Assert.IsTrue(cut.Find("#equipment-dialog textarea").HasAttribute("disabled"),"An official item's text comes from the rules.");
+        Assert.AreEqual("Fifty feet of hempen rope.",cut.Find("#equipment-dialog textarea").GetAttribute("value")??cut.Find("#equipment-dialog textarea").TextContent);
+        Assert.IsTrue(cut.Find("#item-unit-weight").HasAttribute("disabled"));
+        cut.Find("#item-name").Input("Fictional Moonrope");Assert.AreEqual("Fictional Moonrope",cut.Find("#item-name").GetAttribute("value"));
+        StringAssert.Contains(cut.Find("[data-testid=item-catalog-note]").TextContent,"enter a custom item");
+        Assert.IsFalse(cut.Find("#equipment-dialog textarea").HasAttribute("disabled"),"A custom item's text is the player's.");
+        Assert.IsFalse(cut.Find("#equipment-dialog .button.primary").HasAttribute("disabled"));
+    }
+
+    private sealed class Items(params CatalogItem[] official) : IItemCatalog
+    {
+        public IReadOnlyList<CatalogItem> Official => official;
+        public ItemMatch? Match(string name) => official.FirstOrDefault(i => i.Definition.Name == name) is { } item ? new(item, "", 1) : null;
     }
 }
