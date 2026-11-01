@@ -15,7 +15,7 @@ Steps:
 3. Storage column + fired counts, migration AmmunitionCounting. Done.
 4. Inventory panel and attack-row counts. Done.
 5. Tests (Core, Rules, Integration, Components). Done.
-6. Gate: build 0 warnings, full suite 3x, CI subset, trial import. Running.
+6. Gate: first run failed (frozen attack references lack ammunition); test now checks ammunition against rules data ammoType. Rerunning.
 
 Next action: run the gate, then push, PR, squash-merge; then start part 3 on a new branch.
 Waiting on: nothing.
