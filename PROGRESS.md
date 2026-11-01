@@ -14,8 +14,8 @@ Steps:
 3. Storage columns + migration PotionHealing; homebrew healing field. Done.
 4. Item use dialog: digital roll with dice shown, physical total; inventory "Heals" line. Done.
 5. Tests (Core, Integration, Components). Done.
-6. Gate. Waiting for part 2 to merge, then rebase onto main and run it.
+6. Gate. Part 2 merged (#3, f494658); rebased onto main. Running.
 
-Next action: after part 2 merges, rebase this branch onto main, run the gate, push, PR, squash-merge.
-Waiting on: part 2 merge.
+Next action: gate, then push, PR, squash-merge.
+Waiting on: gate.
 Updated: 2026-11-01
